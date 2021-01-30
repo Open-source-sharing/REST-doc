@@ -11,5 +11,5 @@ import java.lang.annotation.*;
 @Documented
 public @interface SPI {
 
-    String name();
+  String name();
 }

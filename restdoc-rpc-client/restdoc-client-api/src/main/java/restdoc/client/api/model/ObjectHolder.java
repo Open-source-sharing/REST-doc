@@ -1,6 +1,5 @@
 package restdoc.client.api.model;
 
-
 /**
  * ObjectHolder
  *
@@ -9,15 +8,14 @@ package restdoc.client.api.model;
  */
 public class ObjectHolder<T> {
 
-    public String className;
+  public String className;
 
-    public T value;
+  public T value;
 
-    public ObjectHolder() {
-    }
+  public ObjectHolder() {}
 
-    public ObjectHolder(String className, T value) {
-        this.className = className;
-        this.value = value;
-    }
+  public ObjectHolder(String className, T value) {
+    this.className = className;
+    this.value = value;
+  }
 }

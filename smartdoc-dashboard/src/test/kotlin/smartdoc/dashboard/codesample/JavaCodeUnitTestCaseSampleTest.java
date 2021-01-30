@@ -1,5 +1,10 @@
 package smartdoc.dashboard.codesample;
 
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.Date;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -15,61 +20,53 @@ import org.springframework.test.context.junit4.SpringRunner;
 import smartdoc.dashboard.model.doc.http.HttpDocument;
 import smartdoc.dashboard.model.doc.http.URIVarDescriptor;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.Date;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-/**
- * @author Overman
- */
+/** @author Overman */
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class JavaCodeUnitTestCaseSampleTest {
 
-    private static final VelocityEngine VE = new VelocityEngine();
+  private static final VelocityEngine VE = new VelocityEngine();
 
-    static {
-        VE.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
-        VE.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
-        VE.init();
+  static {
+    VE.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
+    VE.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+    VE.init();
+  }
+
+  @Autowired MongoTemplate mongoTemplate;
+
+  @Test
+  public void gen() {
+
+    HttpDocument document = mongoTemplate.findById("756136650580430848", HttpDocument.class);
+
+    Template configTemplate = VE.getTemplate("codesample/JavaCodeUnitTestCaseSample.java.vm");
+    VelocityContext ctx = new VelocityContext();
+    ctx.put("requestHeaders", document.getRequestHeaderDescriptor());
+
+    Map<String, Object> uriVars =
+        document.getUriVarDescriptors().stream()
+            .collect(
+                Collectors.toMap(
+                    URIVarDescriptor::getField, URIVarDescriptor::getValue, (d1, d2) -> d2));
+
+    ctx.put("uriVars", uriVars);
+    ctx.put("url", document.getUrl());
+    ctx.put("method", document.getMethod());
+    ctx.put("since", DateFormatUtils.format(new Date(), "yyyy/MM/dd"));
+
+    StringWriter writer = new StringWriter();
+    configTemplate.merge(ctx, writer);
+
+    try {
+      writer.flush();
+      writer.close();
+
+      String res = writer.getBuffer().toString();
+      System.err.println(res);
+    } catch (IOException e) {
+      e.printStackTrace();
+      throw new RuntimeException(e.getMessage());
     }
-
-    @Autowired
-    MongoTemplate mongoTemplate;
-
-    @Test
-    public void gen() {
-
-        HttpDocument document = mongoTemplate.findById("756136650580430848", HttpDocument.class);
-
-        Template configTemplate = VE.getTemplate("codesample/JavaCodeUnitTestCaseSample.java.vm");
-        VelocityContext ctx = new VelocityContext();
-        ctx.put("requestHeaders", document.getRequestHeaderDescriptor());
-
-        Map<String, Object> uriVars = document.getUriVarDescriptors()
-                .stream()
-                .collect(Collectors.toMap(URIVarDescriptor::getField, URIVarDescriptor::getValue, (d1, d2) -> d2));
-
-        ctx.put("uriVars", uriVars);
-        ctx.put("url", document.getUrl());
-        ctx.put("method", document.getMethod());
-        ctx.put("since", DateFormatUtils.format(new Date(), "yyyy/MM/dd"));
-
-
-        StringWriter writer = new StringWriter();
-        configTemplate.merge(ctx, writer);
-
-        try {
-            writer.flush();
-            writer.close();
-
-            String res = writer.getBuffer().toString();
-            System.err.println(res);
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e.getMessage());
-        }
-    }
+  }
 }

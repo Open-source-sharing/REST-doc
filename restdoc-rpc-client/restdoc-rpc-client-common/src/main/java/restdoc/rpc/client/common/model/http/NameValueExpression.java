@@ -2,10 +2,9 @@ package restdoc.rpc.client.common.model.http;
 
 public interface NameValueExpression<T> {
 
-    String getName();
+  String getName();
 
-    T getValue();
+  T getValue();
 
-    boolean isNegated();
-
+  boolean isNegated();
 }

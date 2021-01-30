@@ -1,38 +1,35 @@
 package restdoc.rpc.client.common.model;
 
-import restdoc.remoting.protocol.RemotingSerializable;
-
 import java.util.List;
+import restdoc.remoting.protocol.RemotingSerializable;
 
 public abstract class AbstractApiPayload extends RemotingSerializable {
 
-    public ApplicationType applicationType;
+  public ApplicationType applicationType;
 
-    public AbstractApiPayload(ApplicationType applicationType) {
-        this.applicationType = applicationType;
-    }
+  public AbstractApiPayload(ApplicationType applicationType) {
+    this.applicationType = applicationType;
+  }
 
-    /**
-     * @return api list
-     */
-    public abstract List<? extends ApiDescriptor> getApiList();
+  /** @return api list */
+  public abstract List<? extends ApiDescriptor> getApiList();
 
-    /**
-     * Application service name
-     */
-    public String service;
+  /** Application service name */
+  public String service;
 
-    public String getService() {
-        return service;
-    }
+  public String getService() {
+    return service;
+  }
 
-    public void setService(String service) {
-        this.service = service;
-    }
+  public void setService(String service) {
+    this.service = service;
+  }
 
-    public  ApplicationType getApplicationType(){return this.applicationType;}
+  public ApplicationType getApplicationType() {
+    return this.applicationType;
+  }
 
-    public void setApplicationType(ApplicationType applicationType) {
-        this.applicationType = applicationType;
-    }
+  public void setApplicationType(ApplicationType applicationType) {
+    this.applicationType = applicationType;
+  }
 }

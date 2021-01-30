@@ -1,6 +1,5 @@
 package restdoc.client.api.exception;
 
-
 import restdoc.client.api.ClientAgentVersion;
 
 /**
@@ -12,12 +11,14 @@ import restdoc.client.api.ClientAgentVersion;
  */
 public class DiffVersionException extends ClientException {
 
-    public DiffVersionException() {
-        super("Console and client version not consistent,Acknowledge version matching,client current maven sdk version: "
-                + ClientAgentVersion.getCurrentVersion());
-    }
+  public DiffVersionException() {
+    super(
+        "Console and client version not consistent,Acknowledge version matching,client current"
+            + " maven sdk version: "
+            + ClientAgentVersion.getCurrentVersion());
+  }
 
-    public DiffVersionException(String message) {
-        super(message);
-    }
+  public DiffVersionException(String message) {
+    super(message);
+  }
 }

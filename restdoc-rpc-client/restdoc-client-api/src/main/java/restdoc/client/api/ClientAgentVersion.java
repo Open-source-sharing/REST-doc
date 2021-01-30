@@ -7,24 +7,20 @@ package restdoc.client.api;
  */
 public class ClientAgentVersion {
 
-    private ClientAgentVersion(){}
+  private ClientAgentVersion() {}
 
-    /**
-     * @since 2.0
-     */
-    private final static String VERSION_2_0_RELEASE = "2.0.RELEASE";
+  /** @since 2.0 */
+  private static final String VERSION_2_0_RELEASE = "2.0.RELEASE";
 
-    /**
-     * @since 1.0
-     */
-    private final static String VERSION_1_0_RELEASE = "1.0.RELEASE";
+  /** @since 1.0 */
+  private static final String VERSION_1_0_RELEASE = "1.0.RELEASE";
 
-    /**
-     * getCurrentVersion
-     *
-     * @return current sdk version
-     */
-    public static String getCurrentVersion() {
-        return VERSION_2_0_RELEASE;
-    }
+  /**
+   * getCurrentVersion
+   *
+   * @return current sdk version
+   */
+  public static String getCurrentVersion() {
+    return VERSION_2_0_RELEASE;
+  }
 }

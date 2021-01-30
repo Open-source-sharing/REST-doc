@@ -7,11 +7,10 @@ import org.springframework.web.util.UrlPathHelper;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
-    @Override
-    public void configurePathMatch(PathMatchConfigurer configurer) {
-        UrlPathHelper urlPathHelper=new UrlPathHelper();
-        urlPathHelper.setRemoveSemicolonContent(false);
-        configurer.setUrlPathHelper(urlPathHelper);
-
-    }
+  @Override
+  public void configurePathMatch(PathMatchConfigurer configurer) {
+    UrlPathHelper urlPathHelper = new UrlPathHelper();
+    urlPathHelper.setRemoveSemicolonContent(false);
+    configurer.setUrlPathHelper(urlPathHelper);
+  }
 }

@@ -10,21 +10,24 @@ import restdoc.client.api.ServerProperties;
 @Configuration
 public class EnvConfiguration {
 
-    @Bean(name = "dubboAgentImpl")
-    AgentImpl agentImpl(AgentConfigurationProperties properties) {
-        return new AgentImpl(new ServerProperties() {
-            @Override
-            public String host() {
-                return properties.getHost();
-            }
-            @Override
-            public int port() {
-                return properties.getPort();
-            }
-            @Override
-            public String service() {
-                return properties.getService();
-            }
+  @Bean(name = "dubboAgentImpl")
+  AgentImpl agentImpl(AgentConfigurationProperties properties) {
+    return new AgentImpl(
+        new ServerProperties() {
+          @Override
+          public String host() {
+            return properties.getHost();
+          }
+
+          @Override
+          public int port() {
+            return properties.getPort();
+          }
+
+          @Override
+          public String service() {
+            return properties.getService();
+          }
         });
-    }
+  }
 }

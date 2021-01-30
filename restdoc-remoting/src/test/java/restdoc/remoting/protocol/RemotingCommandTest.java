@@ -1,5 +1,3 @@
 package restdoc.remoting.protocol;
 
-public class RemotingCommandTest {
-
-}
+public class RemotingCommandTest {}

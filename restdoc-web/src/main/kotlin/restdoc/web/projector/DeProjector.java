@@ -1,16 +1,11 @@
 package restdoc.web.projector;
 
+import java.util.List;
 import restdoc.web.model.doc.http.BodyFieldDescriptor;
 
-import java.util.List;
-
-/**
- * DeProjector
- */
+/** DeProjector */
 public interface DeProjector {
 
-    /**
-     * @return The flatten java pojo
-     */
-    List<BodyFieldDescriptor> deProject();
+  /** @return The flatten java pojo */
+  List<BodyFieldDescriptor> deProject();
 }

@@ -4,10 +4,9 @@ import restdoc.remoting.exception.RemotingException;
 
 public interface RemotingService {
 
-    void start() throws InterruptedException, RemotingException;
+  void start() throws InterruptedException, RemotingException;
 
-    void shutdown();
+  void shutdown();
 
-    void registerRPCHook(RPCHook rpcHook);
-
+  void registerRPCHook(RPCHook rpcHook);
 }

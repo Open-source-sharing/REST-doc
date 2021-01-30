@@ -19,24 +19,27 @@ import restdoc.remoting.protocol.RemotingSysResponseCode;
 @Component
 public class InvokeApiHandler implements NettyRequestProcessor {
 
-    private final DubboInvokerImpl invoker;
+  private final DubboInvokerImpl invoker;
 
-    @Autowired
-    public InvokeApiHandler(DubboInvokerImpl invoker) {
-        this.invoker = invoker;
-    }
+  @Autowired
+  public InvokeApiHandler(DubboInvokerImpl invoker) {
+    this.invoker = invoker;
+  }
 
-    @Override
-    public RemotingCommand processRequest(ChannelHandlerContext ctx, RemotingCommand request) throws Exception {
-        DubboInvocation invocation = RemotingSerializable.decode(request.getBody(), DubboInvocation.class);
-        InvocationResult invocationResult = invoker.rpcInvoke(invocation);
-        RemotingCommand response = RemotingCommand.createResponseCommand(RemotingSysResponseCode.SUCCESS, null);
-        response.setBody(invocationResult.encode());
-        return response;
-    }
+  @Override
+  public RemotingCommand processRequest(ChannelHandlerContext ctx, RemotingCommand request)
+      throws Exception {
+    DubboInvocation invocation =
+        RemotingSerializable.decode(request.getBody(), DubboInvocation.class);
+    InvocationResult invocationResult = invoker.rpcInvoke(invocation);
+    RemotingCommand response =
+        RemotingCommand.createResponseCommand(RemotingSysResponseCode.SUCCESS, null);
+    response.setBody(invocationResult.encode());
+    return response;
+  }
 
-    @Override
-    public boolean rejectRequest() {
-        return false;
-    }
+  @Override
+  public boolean rejectRequest() {
+    return false;
+  }
 }

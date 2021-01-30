@@ -13,38 +13,43 @@ import restdoc.rpc.client.common.model.http.HttpApiPayload;
 
 public class ExportApiHandler implements NettyRequestProcessor {
 
-    private final AgentConfigurationProperties configurationProperties;
+  private final AgentConfigurationProperties configurationProperties;
 
-    private final EndpointsListener endpointsListener;
+  private final EndpointsListener endpointsListener;
 
-    private final Environment environment;
+  private final Environment environment;
 
-    @Autowired
-    public ExportApiHandler(AgentConfigurationProperties configurationProperties,
-                            EndpointsListener endpointsListener,
-                            Environment environment) {
-        this.configurationProperties = configurationProperties;
-        this.endpointsListener = endpointsListener;
-        this.environment = environment;
-    }
+  @Autowired
+  public ExportApiHandler(
+      AgentConfigurationProperties configurationProperties,
+      EndpointsListener endpointsListener,
+      Environment environment) {
+    this.configurationProperties = configurationProperties;
+    this.endpointsListener = endpointsListener;
+    this.environment = environment;
+  }
 
-    @Override
-    public RemotingCommand processRequest(ChannelHandlerContext ctx, RemotingCommand request) throws Exception {
-        HttpApiPayload apiBody = new HttpApiPayload();
-        apiBody.setApiList(endpointsListener.getHttpApiList());
-        String service = environment.getProperty("server.servlet.context-path", configurationProperties.getService());
-        if (service.isEmpty()) service = "Unnamed service";
-        apiBody.setService(service);
-        apiBody.setApplicationType(ApplicationType.REST_WEB);
+  @Override
+  public RemotingCommand processRequest(ChannelHandlerContext ctx, RemotingCommand request)
+      throws Exception {
+    HttpApiPayload apiBody = new HttpApiPayload();
+    apiBody.setApiList(endpointsListener.getHttpApiList());
+    String service =
+        environment.getProperty(
+            "server.servlet.context-path", configurationProperties.getService());
+    if (service.isEmpty()) service = "Unnamed service";
+    apiBody.setService(service);
+    apiBody.setApplicationType(ApplicationType.REST_WEB);
 
-        RemotingCommand response = RemotingCommand.createResponseCommand(RemotingSysResponseCode.SUCCESS, null);
-        response.setBody(apiBody.encode());
+    RemotingCommand response =
+        RemotingCommand.createResponseCommand(RemotingSysResponseCode.SUCCESS, null);
+    response.setBody(apiBody.encode());
 
-        return response;
-    }
+    return response;
+  }
 
-    @Override
-    public boolean rejectRequest() {
-        return false;
-    }
+  @Override
+  public boolean rejectRequest() {
+    return false;
+  }
 }

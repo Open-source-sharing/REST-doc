@@ -22,60 +22,61 @@ import restdoc.remoting.netty.NettyRequestProcessor;
 @Configuration
 @Import(value = {EnvConfiguration.class})
 @AutoConfigureBefore(value = {EnvConfiguration.class})
-public class RestWebAgentClientConfiguration implements AgentClientConfiguration,
-        PriorityOrdered, CommandLineRunner {
+public class RestWebAgentClientConfiguration
+    implements AgentClientConfiguration, PriorityOrdered, CommandLineRunner {
 
-    private final AgentImpl agentImpl;
+  private final AgentImpl agentImpl;
 
-    private final ReportClientInfoHandler reportClientInfoHandler;
+  private final ReportClientInfoHandler reportClientInfoHandler;
 
-    private final ExportApiHandler exportApiHandler;
+  private final ExportApiHandler exportApiHandler;
 
-    private final InvokerApiHandler invokerApiHandler;
+  private final InvokerApiHandler invokerApiHandler;
 
-    @Autowired
-    public RestWebAgentClientConfiguration(AgentImpl agentImpl,
-                                           ReportClientInfoHandler reportClientInfoHandler,
-                                           ExportApiHandler exportApiHandler,
-                                           InvokerApiHandler invokerApiHandler) {
-        this.agentImpl = agentImpl;
-        this.reportClientInfoHandler = reportClientInfoHandler;
-        this.exportApiHandler = exportApiHandler;
-        this.invokerApiHandler = invokerApiHandler;
-    }
+  @Autowired
+  public RestWebAgentClientConfiguration(
+      AgentImpl agentImpl,
+      ReportClientInfoHandler reportClientInfoHandler,
+      ExportApiHandler exportApiHandler,
+      InvokerApiHandler invokerApiHandler) {
+    this.agentImpl = agentImpl;
+    this.reportClientInfoHandler = reportClientInfoHandler;
+    this.exportApiHandler = exportApiHandler;
+    this.invokerApiHandler = invokerApiHandler;
+  }
 
-    @Override
-    public void run(String... args) throws Exception {
-        start();
-    }
+  @Override
+  public void run(String... args) throws Exception {
+    start();
+  }
 
-    @Override
-    public int getOrder() {
-        return 0;
-    }
+  @Override
+  public int getOrder() {
+    return 0;
+  }
 
-    @Override
-    public NettyRequestProcessor getInvokeAPIHandler() {
-        return this.invokerApiHandler;
-    }
+  @Override
+  public NettyRequestProcessor getInvokeAPIHandler() {
+    return this.invokerApiHandler;
+  }
 
-    @Override
-    public NettyRequestProcessor getReportClientInfoHandler() {
-        return this.reportClientInfoHandler;
-    }
+  @Override
+  public NettyRequestProcessor getReportClientInfoHandler() {
+    return this.reportClientInfoHandler;
+  }
 
-    @Override
-    public NettyRequestProcessor getExportAPIHandler() {
-        return this.exportApiHandler;
-    }
+  @Override
+  public NettyRequestProcessor getExportAPIHandler() {
+    return this.exportApiHandler;
+  }
 
-    @Override
-    public Agent getAgent() {
-        return this.agentImpl;
-    }
+  @Override
+  public Agent getAgent() {
+    return this.agentImpl;
+  }
 
-    @Override
-    public String module() {
-        return "SpringMVC-module";
-    }
+  @Override
+  public String module() {
+    return "SpringMVC-module";
+  }
 }

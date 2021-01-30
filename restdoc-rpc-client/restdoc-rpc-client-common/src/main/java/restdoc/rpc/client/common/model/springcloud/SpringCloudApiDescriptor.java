@@ -2,13 +2,11 @@ package restdoc.rpc.client.common.model.springcloud;
 
 import restdoc.rpc.client.common.model.ApiDescriptor;
 
-/**
- * SSL context
- */
+/** SSL context */
 public class SpringCloudApiDescriptor implements ApiDescriptor {
 
-    @Override
-    public String id() {
-        return null;
-    }
+  @Override
+  public String id() {
+    return null;
+  }
 }

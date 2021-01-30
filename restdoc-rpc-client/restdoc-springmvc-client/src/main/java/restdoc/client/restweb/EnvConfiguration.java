@@ -23,63 +23,64 @@ import restdoc.client.restweb.handler.ReportClientInfoHandler;
 @Configuration
 public class EnvConfiguration {
 
-    @Bean(name = "restWebAgentImpl")
-    public AgentImpl agent(AgentConfigurationProperties configurationProperties) {
-        return new AgentImpl(new ServerProperties() {
-            @Override
-            public String host() {
-                return configurationProperties.getHost();
-            }
+  @Bean(name = "restWebAgentImpl")
+  public AgentImpl agent(AgentConfigurationProperties configurationProperties) {
+    return new AgentImpl(
+        new ServerProperties() {
+          @Override
+          public String host() {
+            return configurationProperties.getHost();
+          }
 
-            @Override
-            public int port() {
-                return configurationProperties.getPort();
-            }
+          @Override
+          public int port() {
+            return configurationProperties.getPort();
+          }
 
-            @Override
-            public String service() {
-                return configurationProperties.getService();
-            }
+          @Override
+          public String service() {
+            return configurationProperties.getService();
+          }
         });
-    }
+  }
 
-    @Bean
-    @ConditionalOnMissingBean
-    public ExportApiHandler exportApiHandler(AgentConfigurationProperties configurationProperties,
-                                             EndpointsListener endpointsListener,
-                                             Environment environment) {
-        return new ExportApiHandler(configurationProperties, endpointsListener, environment);
-    }
+  @Bean
+  @ConditionalOnMissingBean
+  public ExportApiHandler exportApiHandler(
+      AgentConfigurationProperties configurationProperties,
+      EndpointsListener endpointsListener,
+      Environment environment) {
+    return new ExportApiHandler(configurationProperties, endpointsListener, environment);
+  }
 
-    @Bean
-    @ConditionalOnMissingBean
-    public EndpointsListener endpointsListener(Environment environment) {
-        return new EndpointsListener(environment);
-    }
+  @Bean
+  @ConditionalOnMissingBean
+  public EndpointsListener endpointsListener(Environment environment) {
+    return new EndpointsListener(environment);
+  }
 
-    @Bean
-    @ConditionalOnMissingBean
-    public InvokerApiHandler invokerApiHandler(RestWebInvokerImpl invoker) {
-        return new InvokerApiHandler(invoker);
-    }
+  @Bean
+  @ConditionalOnMissingBean
+  public InvokerApiHandler invokerApiHandler(RestWebInvokerImpl invoker) {
+    return new InvokerApiHandler(invoker);
+  }
 
-    @Bean
-    @ConditionalOnMissingBean
-    public RestWebInvokerImpl restWebInvoker(Environment environment, RestTemplate restTemplate) {
-        return new RestWebInvokerImpl(environment, restTemplate);
-    }
+  @Bean
+  @ConditionalOnMissingBean
+  public RestWebInvokerImpl restWebInvoker(Environment environment, RestTemplate restTemplate) {
+    return new RestWebInvokerImpl(environment, restTemplate);
+  }
 
-    @Bean
-    @ConditionalOnMissingBean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
+  @Bean
+  @ConditionalOnMissingBean
+  public RestTemplate restTemplate() {
+    return new RestTemplate();
+  }
 
-
-    @Bean
-    @ConditionalOnMissingBean
-    public ReportClientInfoHandler reportClientInfoHandler(AgentConfigurationProperties configurationProperties,
-                                                           Environment environment) {
-        return new ReportClientInfoHandler(configurationProperties, environment);
-    }
+  @Bean
+  @ConditionalOnMissingBean
+  public ReportClientInfoHandler reportClientInfoHandler(
+      AgentConfigurationProperties configurationProperties, Environment environment) {
+    return new ReportClientInfoHandler(configurationProperties, environment);
+  }
 }

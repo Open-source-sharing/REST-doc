@@ -6,14 +6,13 @@ import restdoc.remoting.netty.NettyServerConfig;
 
 public class NettyRemotingServerTest {
 
-    @Test
-    public void testStartServer() {
+  @Test
+  public void testStartServer() {
 
-        NettyServerConfig config = new NettyServerConfig();
-        config.setListenPort(4321);
+    NettyServerConfig config = new NettyServerConfig();
+    config.setListenPort(4321);
 
-        NettyRemotingServer server = new NettyRemotingServer(config);
-        server.start();
-    }
-
+    NettyRemotingServer server = new NettyRemotingServer(config);
+    server.start();
+  }
 }

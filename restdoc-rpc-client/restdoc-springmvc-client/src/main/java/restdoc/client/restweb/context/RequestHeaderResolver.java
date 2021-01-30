@@ -1,13 +1,11 @@
 package restdoc.client.restweb.context;
 
+import java.lang.annotation.Annotation;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import restdoc.rpc.client.common.model.http.HttpApiDescriptor;
-
-import java.lang.annotation.Annotation;
-
 
 /**
  * @see org.springframework.web.bind.annotation.RequestHeader
@@ -15,31 +13,29 @@ import java.lang.annotation.Annotation;
  */
 final class RequestHeaderResolver implements Resolver {
 
-    @Override
-    public void resolve(HttpApiDescriptor emptyTemplate,
-                        HandlerMethod handlerMethod,
-                        RequestMappingInfo requestMappingInfo,
-                        MethodParameter parameter, Annotation annotation) {
+  @Override
+  public void resolve(
+      HttpApiDescriptor emptyTemplate,
+      HandlerMethod handlerMethod,
+      RequestMappingInfo requestMappingInfo,
+      MethodParameter parameter,
+      Annotation annotation) {
 
-        RequestHeader requestHeader = (RequestHeader) annotation;
+    RequestHeader requestHeader = (RequestHeader) annotation;
 
-        String name = requestHeader.name();
-        if (name.isEmpty()) name = parameter.getParameterName();
+    String name = requestHeader.name();
+    if (name.isEmpty()) name = parameter.getParameterName();
 
-        String finalName = name;
+    String finalName = name;
 
+    if (emptyTemplate.getRequestHeaders().stream().noneMatch(t -> t.getName().equals(finalName))) {
 
-        if (emptyTemplate.getRequestHeaders()
-                .stream()
-                .noneMatch(t -> t.getName().equals(finalName))) {
+      HttpApiDescriptor.KeyValuePair pair = new HttpApiDescriptor.KeyValuePair();
+      pair.setName(name);
+      pair.setDefaultValue(requestHeader.defaultValue());
+      pair.setRequire(requestHeader.required());
 
-            HttpApiDescriptor.KeyValuePair pair = new HttpApiDescriptor.KeyValuePair();
-            pair.setName(name);
-            pair.setDefaultValue(requestHeader.defaultValue());
-            pair.setRequire(requestHeader.required());
-
-            emptyTemplate.addRequestHeader(pair);
-        }
-
+      emptyTemplate.addRequestHeader(pair);
     }
+  }
 }

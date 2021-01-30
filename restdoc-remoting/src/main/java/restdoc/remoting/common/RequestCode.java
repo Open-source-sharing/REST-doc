@@ -1,27 +1,17 @@
 package restdoc.remoting.common;
 
-/**
- * The RequestCode is constant
- */
+/** The RequestCode is constant */
 public interface RequestCode {
 
-    /**
-     * acknowledge version
-     */
-    int AcknowledgeVersion = 1;
+  /** acknowledge version */
+  int AcknowledgeVersion = 1;
 
-    /**
-     *
-     */
-    int CollectClientInfo = 2;
+  /** */
+  int CollectClientInfo = 2;
 
-    /**
-     *
-     */
-    int CollectApi = 4;
+  /** */
+  int CollectApi = 4;
 
-    /**
-     *
-     */
-    int InvokeApi = 5;
+  /** */
+  int InvokeApi = 5;
 }
