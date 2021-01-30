@@ -1,26 +1,22 @@
 package restdoc.rpc.client.common.model;
 
-
-/**
- * FieldType
- */
+/** FieldType */
 public enum FieldType {
+  OBJECT,
 
-    OBJECT,
+  ARRAY,
 
-    ARRAY,
+  FILE,
 
-    FILE,
+  STRING,
 
-    STRING,
+  NUMBER,
 
-    NUMBER,
+  BOOLEAN,
 
-    BOOLEAN,
+  DATE,
 
-    DATE,
+  CHAR,
 
-    CHAR,
-
-    MISSING,
+  MISSING,
 }

@@ -6,24 +6,15 @@ package restdoc.remoting;
  */
 public enum Status {
 
-    /**
-     * Started
-     */
-    STARTED,
+  /** Started */
+  STARTED,
 
-    /**
-     * Stopped
-     */
-    STOPPED,
+  /** Stopped */
+  STOPPED,
 
-    /**
-     * Stopping
-     */
-    STOPPING,
+  /** Stopping */
+  STOPPING,
 
-    /**
-     * Starting
-     */
-    STARTING
-
+  /** Starting */
+  STARTING
 }

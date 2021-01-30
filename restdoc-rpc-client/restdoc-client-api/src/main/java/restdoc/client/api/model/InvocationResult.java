@@ -2,7 +2,6 @@ package restdoc.client.api.model;
 
 import restdoc.remoting.protocol.RemotingSerializable;
 
-
 /**
  * InvocationResult
  *
@@ -10,43 +9,40 @@ import restdoc.remoting.protocol.RemotingSerializable;
  */
 public class InvocationResult extends RemotingSerializable {
 
-    private Boolean isSuccessful = true;
-    private String exceptionMsg;
+  private Boolean isSuccessful = true;
+  private String exceptionMsg;
 
-    private Invocation invocation;
+  private Invocation invocation;
 
+  public InvocationResult() {}
 
-    public InvocationResult() {
-    }
+  public InvocationResult(Boolean isSuccessful, String exceptionMsg, Invocation invocation) {
+    this.isSuccessful = isSuccessful;
+    this.exceptionMsg = exceptionMsg;
+    this.invocation = invocation;
+  }
 
+  public Boolean getSuccessful() {
+    return isSuccessful;
+  }
 
-    public InvocationResult(Boolean isSuccessful, String exceptionMsg, Invocation invocation) {
-        this.isSuccessful = isSuccessful;
-        this.exceptionMsg = exceptionMsg;
-        this.invocation = invocation;
-    }
+  public void setSuccessful(Boolean successful) {
+    isSuccessful = successful;
+  }
 
-    public Boolean getSuccessful() {
-        return isSuccessful;
-    }
+  public String getExceptionMsg() {
+    return exceptionMsg;
+  }
 
-    public void setSuccessful(Boolean successful) {
-        isSuccessful = successful;
-    }
+  public void setExceptionMsg(String exceptionMsg) {
+    this.exceptionMsg = exceptionMsg;
+  }
 
-    public String getExceptionMsg() {
-        return exceptionMsg;
-    }
+  public Invocation getInvocation() {
+    return invocation;
+  }
 
-    public void setExceptionMsg(String exceptionMsg) {
-        this.exceptionMsg = exceptionMsg;
-    }
-
-    public Invocation getInvocation() {
-        return invocation;
-    }
-
-    public void setInvocation(Invocation invocation) {
-        this.invocation = invocation;
-    }
+  public void setInvocation(Invocation invocation) {
+    this.invocation = invocation;
+  }
 }

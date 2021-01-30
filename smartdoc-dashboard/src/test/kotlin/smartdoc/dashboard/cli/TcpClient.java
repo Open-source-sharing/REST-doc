@@ -1,18 +1,18 @@
-//package restdoc.web.cli;
+// package restdoc.web.cli;
 //
-//import io.netty.bootstrap.Bootstrap;
-//import io.netty.buffer.ByteBuf;
-//import io.netty.channel.*;
-//import io.netty.channel.nio.NioEventLoopGroup;
-//import io.netty.channel.socket.SocketChannel;
-//import io.netty.channel.socket.nio.NioSocketChannel;
-//import io.netty.util.CharsetUtil;
-//import restdoc.core.schedule.HostInfoMessage;
+// import io.netty.bootstrap.Bootstrap;
+// import io.netty.buffer.ByteBuf;
+// import io.netty.channel.*;
+// import io.netty.channel.nio.NioEventLoopGroup;
+// import io.netty.channel.socket.SocketChannel;
+// import io.netty.channel.socket.nio.NioSocketChannel;
+// import io.netty.util.CharsetUtil;
+// import restdoc.core.schedule.HostInfoMessage;
 //
-//import java.net.InetAddress;
+// import java.net.InetAddress;
 // wxid_eq32udamp8yn22
 //
-//public class TcpClient {
+// public class TcpClient {
 //
 //    public static void main(String[] args) throws Exception {
 //        String host = "127.0.0.1";
@@ -62,7 +62,8 @@
 //                /*long currentTimeMillis = (m.readUnsignedInt() - 2208988800L) * 1000L;
 //                System.err.println(new Date(currentTimeMillis));*/
 //
-//                CharSequence charSequence = m.readCharSequence(m.readableBytes(), CharsetUtil.UTF_8);
+//                CharSequence charSequence = m.readCharSequence(m.readableBytes(),
+// CharsetUtil.UTF_8);
 //
 //                System.err.println(charSequence);
 //
@@ -79,4 +80,4 @@
 //        }
 //    }
 //
-//}
+// }

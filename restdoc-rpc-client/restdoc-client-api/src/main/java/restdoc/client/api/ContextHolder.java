@@ -7,8 +7,7 @@ package restdoc.client.api;
  */
 @Deprecated
 class ContextHolder {
-    private ContextHolder() {
-    }
+  private ContextHolder() {}
 
-    static Agent agent = null;
+  static Agent agent = null;
 }

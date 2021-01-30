@@ -8,18 +8,12 @@ package restdoc.client.api;
  */
 public interface ServerProperties {
 
-    /**
-     * @return Server host
-     */
-    String host();
+  /** @return Server host */
+  String host();
 
-    /**
-     * @return Server port
-     */
-    int port();
+  /** @return Server port */
+  int port();
 
-    /**
-     * @return Application service name
-     */
-    String service();
+  /** @return Application service name */
+  String service();
 }

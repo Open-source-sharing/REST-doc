@@ -7,12 +7,12 @@ package restdoc.client.api;
  */
 enum RemotingTaskType {
 
-    /*ONE_WAY*/
-    ONE_WAY,
+  /*ONE_WAY*/
+  ONE_WAY,
 
-    /*SYNC*/
-    SYNC,
+  /*SYNC*/
+  SYNC,
 
-    /*ASYNC*/
-    ASYNC
+  /*ASYNC*/
+  ASYNC
 }

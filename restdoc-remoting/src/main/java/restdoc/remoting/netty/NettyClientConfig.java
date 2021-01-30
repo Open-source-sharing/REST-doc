@@ -2,141 +2,140 @@ package restdoc.remoting.netty;
 
 public class NettyClientConfig {
 
-    private String host;
-    private int port;
+  private String host;
+  private int port;
 
-    /**
-     * Worker thread number
-     */
-    private int clientWorkerThreads = 4;
-    private int clientCallbackExecutorThreads = Runtime.getRuntime().availableProcessors();
-    private int clientOnewaySemaphoreValue = NettySystemConfig.CLIENT_ONEWAY_SEMAPHORE_VALUE;
-    private int clientAsyncSemaphoreValue = NettySystemConfig.CLIENT_ASYNC_SEMAPHORE_VALUE;
-    private int connectTimeoutMillis = 3000;
-    private long channelNotActiveInterval = 1000 * 60;
+  /** Worker thread number */
+  private int clientWorkerThreads = 4;
 
-    /**
-     * IdleStateEvent will be triggered when neither read nor write was performed for
-     * the specified period of this time. Specify {@code 0} to disable
-     */
-    private int clientChannelMaxIdleTimeSeconds = 1200;
+  private int clientCallbackExecutorThreads = Runtime.getRuntime().availableProcessors();
+  private int clientOnewaySemaphoreValue = NettySystemConfig.CLIENT_ONEWAY_SEMAPHORE_VALUE;
+  private int clientAsyncSemaphoreValue = NettySystemConfig.CLIENT_ASYNC_SEMAPHORE_VALUE;
+  private int connectTimeoutMillis = 3000;
+  private long channelNotActiveInterval = 1000 * 60;
 
-    private int clientSocketSndBufSize = NettySystemConfig.socketSndbufSize;
-    private int clientSocketRcvBufSize = NettySystemConfig.socketRcvbufSize;
-    private boolean clientPooledByteBufAllocatorEnable = false;
-    private boolean clientCloseSocketIfTimeout = false;
+  /**
+   * IdleStateEvent will be triggered when neither read nor write was performed for the specified
+   * period of this time. Specify {@code 0} to disable
+   */
+  private int clientChannelMaxIdleTimeSeconds = 1200;
 
-    private boolean useTLS;
+  private int clientSocketSndBufSize = NettySystemConfig.socketSndbufSize;
+  private int clientSocketRcvBufSize = NettySystemConfig.socketRcvbufSize;
+  private boolean clientPooledByteBufAllocatorEnable = false;
+  private boolean clientCloseSocketIfTimeout = false;
 
-    public boolean isClientCloseSocketIfTimeout() {
-        return clientCloseSocketIfTimeout;
-    }
+  private boolean useTLS;
 
-    public void setClientCloseSocketIfTimeout(final boolean clientCloseSocketIfTimeout) {
-        this.clientCloseSocketIfTimeout = clientCloseSocketIfTimeout;
-    }
+  public boolean isClientCloseSocketIfTimeout() {
+    return clientCloseSocketIfTimeout;
+  }
 
-    public int getClientWorkerThreads() {
-        return clientWorkerThreads;
-    }
+  public void setClientCloseSocketIfTimeout(final boolean clientCloseSocketIfTimeout) {
+    this.clientCloseSocketIfTimeout = clientCloseSocketIfTimeout;
+  }
 
-    public void setClientWorkerThreads(int clientWorkerThreads) {
-        this.clientWorkerThreads = clientWorkerThreads;
-    }
+  public int getClientWorkerThreads() {
+    return clientWorkerThreads;
+  }
 
-    public int getClientOnewaySemaphoreValue() {
-        return clientOnewaySemaphoreValue;
-    }
+  public void setClientWorkerThreads(int clientWorkerThreads) {
+    this.clientWorkerThreads = clientWorkerThreads;
+  }
 
-    public void setClientOnewaySemaphoreValue(int clientOnewaySemaphoreValue) {
-        this.clientOnewaySemaphoreValue = clientOnewaySemaphoreValue;
-    }
+  public int getClientOnewaySemaphoreValue() {
+    return clientOnewaySemaphoreValue;
+  }
 
-    public int getConnectTimeoutMillis() {
-        return connectTimeoutMillis;
-    }
+  public void setClientOnewaySemaphoreValue(int clientOnewaySemaphoreValue) {
+    this.clientOnewaySemaphoreValue = clientOnewaySemaphoreValue;
+  }
 
-    public void setConnectTimeoutMillis(int connectTimeoutMillis) {
-        this.connectTimeoutMillis = connectTimeoutMillis;
-    }
+  public int getConnectTimeoutMillis() {
+    return connectTimeoutMillis;
+  }
 
-    public int getClientCallbackExecutorThreads() {
-        return clientCallbackExecutorThreads;
-    }
+  public void setConnectTimeoutMillis(int connectTimeoutMillis) {
+    this.connectTimeoutMillis = connectTimeoutMillis;
+  }
 
-    public void setClientCallbackExecutorThreads(int clientCallbackExecutorThreads) {
-        this.clientCallbackExecutorThreads = clientCallbackExecutorThreads;
-    }
+  public int getClientCallbackExecutorThreads() {
+    return clientCallbackExecutorThreads;
+  }
 
-    public long getChannelNotActiveInterval() {
-        return channelNotActiveInterval;
-    }
+  public void setClientCallbackExecutorThreads(int clientCallbackExecutorThreads) {
+    this.clientCallbackExecutorThreads = clientCallbackExecutorThreads;
+  }
 
-    public void setChannelNotActiveInterval(long channelNotActiveInterval) {
-        this.channelNotActiveInterval = channelNotActiveInterval;
-    }
+  public long getChannelNotActiveInterval() {
+    return channelNotActiveInterval;
+  }
 
-    public int getClientAsyncSemaphoreValue() {
-        return clientAsyncSemaphoreValue;
-    }
+  public void setChannelNotActiveInterval(long channelNotActiveInterval) {
+    this.channelNotActiveInterval = channelNotActiveInterval;
+  }
 
-    public void setClientAsyncSemaphoreValue(int clientAsyncSemaphoreValue) {
-        this.clientAsyncSemaphoreValue = clientAsyncSemaphoreValue;
-    }
+  public int getClientAsyncSemaphoreValue() {
+    return clientAsyncSemaphoreValue;
+  }
 
-    public int getClientChannelMaxIdleTimeSeconds() {
-        return clientChannelMaxIdleTimeSeconds;
-    }
+  public void setClientAsyncSemaphoreValue(int clientAsyncSemaphoreValue) {
+    this.clientAsyncSemaphoreValue = clientAsyncSemaphoreValue;
+  }
 
-    public void setClientChannelMaxIdleTimeSeconds(int clientChannelMaxIdleTimeSeconds) {
-        this.clientChannelMaxIdleTimeSeconds = clientChannelMaxIdleTimeSeconds;
-    }
+  public int getClientChannelMaxIdleTimeSeconds() {
+    return clientChannelMaxIdleTimeSeconds;
+  }
 
-    public int getClientSocketSndBufSize() {
-        return clientSocketSndBufSize;
-    }
+  public void setClientChannelMaxIdleTimeSeconds(int clientChannelMaxIdleTimeSeconds) {
+    this.clientChannelMaxIdleTimeSeconds = clientChannelMaxIdleTimeSeconds;
+  }
 
-    public void setClientSocketSndBufSize(int clientSocketSndBufSize) {
-        this.clientSocketSndBufSize = clientSocketSndBufSize;
-    }
+  public int getClientSocketSndBufSize() {
+    return clientSocketSndBufSize;
+  }
 
-    public int getClientSocketRcvBufSize() {
-        return clientSocketRcvBufSize;
-    }
+  public void setClientSocketSndBufSize(int clientSocketSndBufSize) {
+    this.clientSocketSndBufSize = clientSocketSndBufSize;
+  }
 
-    public void setClientSocketRcvBufSize(int clientSocketRcvBufSize) {
-        this.clientSocketRcvBufSize = clientSocketRcvBufSize;
-    }
+  public int getClientSocketRcvBufSize() {
+    return clientSocketRcvBufSize;
+  }
 
-    public boolean isClientPooledByteBufAllocatorEnable() {
-        return clientPooledByteBufAllocatorEnable;
-    }
+  public void setClientSocketRcvBufSize(int clientSocketRcvBufSize) {
+    this.clientSocketRcvBufSize = clientSocketRcvBufSize;
+  }
 
-    public void setClientPooledByteBufAllocatorEnable(boolean clientPooledByteBufAllocatorEnable) {
-        this.clientPooledByteBufAllocatorEnable = clientPooledByteBufAllocatorEnable;
-    }
+  public boolean isClientPooledByteBufAllocatorEnable() {
+    return clientPooledByteBufAllocatorEnable;
+  }
 
-    public boolean isUseTLS() {
-        return useTLS;
-    }
+  public void setClientPooledByteBufAllocatorEnable(boolean clientPooledByteBufAllocatorEnable) {
+    this.clientPooledByteBufAllocatorEnable = clientPooledByteBufAllocatorEnable;
+  }
 
-    public void setUseTLS(boolean useTLS) {
-        this.useTLS = useTLS;
-    }
+  public boolean isUseTLS() {
+    return useTLS;
+  }
 
-    public String getHost() {
-        return host;
-    }
+  public void setUseTLS(boolean useTLS) {
+    this.useTLS = useTLS;
+  }
 
-    public void setHost(String host) {
-        this.host = host;
-    }
+  public String getHost() {
+    return host;
+  }
 
-    public int getPort() {
-        return port;
-    }
+  public void setHost(String host) {
+    this.host = host;
+  }
 
-    public void setPort(int port) {
-        this.port = port;
-    }
+  public int getPort() {
+    return port;
+  }
+
+  public void setPort(int port) {
+    this.port = port;
+  }
 }

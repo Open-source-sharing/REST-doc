@@ -12,61 +12,59 @@ import restdoc.client.dubbo.handler.ReportClientInfoHandler;
 import restdoc.remoting.netty.NettyRequestProcessor;
 
 /**
- * The class DubboAgentClientConfiguration
- * SPI interface
+ * The class DubboAgentClientConfiguration SPI interface
  *
  * @author Maple
  * @see java.util.ServiceLoader
  * @since 1.0.RELEASE
  */
 @Configuration
-@Import(value = {DubboInvokerImpl.class,
-        InvokeApiHandler.class,
-        ReportClientInfoHandler.class,
-        ExportApiHandler.class,
-        DubboRefBeanManager.class,
-        EnvConfiguration.class})
+@Import(
+    value = {
+      DubboInvokerImpl.class,
+      InvokeApiHandler.class,
+      ReportClientInfoHandler.class,
+      ExportApiHandler.class,
+      DubboRefBeanManager.class,
+      EnvConfiguration.class
+    })
 @EnableConfigurationProperties(value = {AgentConfigurationProperties.class})
 public class DubboAgentClientConfiguration implements AgentClientConfiguration {
 
-    @Autowired
-    private InvokeApiHandler invokeAPIHandler;
+  @Autowired private InvokeApiHandler invokeAPIHandler;
 
-    @Autowired
-    private ReportClientInfoHandler reportClientInfoHandler;
+  @Autowired private ReportClientInfoHandler reportClientInfoHandler;
 
-    @Autowired
-    private ExportApiHandler exportApiHandler;
+  @Autowired private ExportApiHandler exportApiHandler;
 
-    @Autowired
-    @Qualifier(value = "dubboAgentImpl")
-    private AgentImpl agentImpl;
+  @Autowired
+  @Qualifier(value = "dubboAgentImpl")
+  private AgentImpl agentImpl;
 
-    public DubboAgentClientConfiguration() {
-    }
+  public DubboAgentClientConfiguration() {}
 
-    @Override
-    public NettyRequestProcessor getInvokeAPIHandler() {
-        return this.invokeAPIHandler;
-    }
+  @Override
+  public NettyRequestProcessor getInvokeAPIHandler() {
+    return this.invokeAPIHandler;
+  }
 
-    @Override
-    public NettyRequestProcessor getReportClientInfoHandler() {
-        return this.reportClientInfoHandler;
-    }
+  @Override
+  public NettyRequestProcessor getReportClientInfoHandler() {
+    return this.reportClientInfoHandler;
+  }
 
-    @Override
-    public NettyRequestProcessor getExportAPIHandler() {
-        return this.exportApiHandler;
-    }
+  @Override
+  public NettyRequestProcessor getExportAPIHandler() {
+    return this.exportApiHandler;
+  }
 
-    @Override
-    public Agent getAgent() {
-        return this.agentImpl;
-    }
+  @Override
+  public Agent getAgent() {
+    return this.agentImpl;
+  }
 
-    @Override
-    public String module() {
-        return "Dubbo-client-module";
-    }
+  @Override
+  public String module() {
+    return "Dubbo-client-module";
+  }
 }

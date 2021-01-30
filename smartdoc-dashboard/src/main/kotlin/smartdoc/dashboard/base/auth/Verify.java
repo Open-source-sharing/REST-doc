@@ -12,22 +12,17 @@ import java.lang.annotation.*;
 @Documented
 public @interface Verify {
 
-    /**
-     * 默认任何角色都可以访问接口的角色
-     *
-     * @return  角色数组
-     */
-    String[] role() default {"*"};
+  /**
+   * 默认任何角色都可以访问接口的角色
+   *
+   * @return 角色数组
+   */
+  String[] role() default {"*"};
 
-    /**
-     * 默认的认证组
-     */
-    String group() default "Default";
+  /** 默认的认证组 */
+  String group() default "Default";
 
-    /**
-     * 必须要求token
-     * 如果为false  则如果用户携带token 则
-     */
-    @Deprecated
-    boolean require() default true;
+  /** 必须要求token 如果为false 则如果用户携带token 则 */
+  @Deprecated
+  boolean require() default true;
 }

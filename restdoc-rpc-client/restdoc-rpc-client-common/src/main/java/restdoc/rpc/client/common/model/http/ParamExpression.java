@@ -5,27 +5,25 @@ import java.util.Set;
 
 public class ParamExpression extends AbstractNameValueExpression<String> {
 
-    private static final String[] SUBMIT_IMAGE_SUFFIXES = {".x", ".y"};
+  private static final String[] SUBMIT_IMAGE_SUFFIXES = {".x", ".y"};
 
-    private final Set<String> namesToMatch = new HashSet<>(SUBMIT_IMAGE_SUFFIXES.length + 1);
+  private final Set<String> namesToMatch = new HashSet<>(SUBMIT_IMAGE_SUFFIXES.length + 1);
 
-    public ParamExpression(String expression) {
-        super(expression);
-        this.namesToMatch.add(getName());
-        for (String suffix : SUBMIT_IMAGE_SUFFIXES) {
-            this.namesToMatch.add(getName() + suffix);
-        }
+  public ParamExpression(String expression) {
+    super(expression);
+    this.namesToMatch.add(getName());
+    for (String suffix : SUBMIT_IMAGE_SUFFIXES) {
+      this.namesToMatch.add(getName() + suffix);
     }
+  }
 
-    @Override
-    protected boolean isCaseSensitiveName() {
-        return true;
-    }
+  @Override
+  protected boolean isCaseSensitiveName() {
+    return true;
+  }
 
-    @Override
-    protected String parseValue(String valueExpression) {
-        return valueExpression;
-    }
-
-
+  @Override
+  protected String parseValue(String valueExpression) {
+    return valueExpression;
+  }
 }

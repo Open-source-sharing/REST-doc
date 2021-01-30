@@ -1,6 +1,8 @@
 package restdoc.client.dubbo.handler;
 
 import io.netty.channel.ChannelHandlerContext;
+import java.util.Map;
+import java.util.NoSuchElementException;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ProtocolConfig;
 import org.apache.dubbo.config.context.ConfigManager;
@@ -17,9 +19,6 @@ import restdoc.remoting.protocol.RemotingCommand;
 import restdoc.remoting.protocol.RemotingSysResponseCode;
 import restdoc.rpc.client.common.model.ApplicationType;
 
-import java.util.Map;
-import java.util.NoSuchElementException;
-
 /**
  * The class ReportClientInfoHandler
  *
@@ -28,50 +27,57 @@ import java.util.NoSuchElementException;
 @Component
 public class ReportClientInfoHandler implements NettyRequestProcessor {
 
-    private final ConfigurableListableBeanFactory beanFactory;
+  private final ConfigurableListableBeanFactory beanFactory;
 
-    private final AgentConfigurationProperties configurationProperties;
+  private final AgentConfigurationProperties configurationProperties;
 
-    @Autowired
-    public ReportClientInfoHandler(ConfigurableListableBeanFactory beanFactory,
-                                   AgentConfigurationProperties configurationProperties) {
-        this.beanFactory = beanFactory;
-        this.configurationProperties = configurationProperties;
+  @Autowired
+  public ReportClientInfoHandler(
+      ConfigurableListableBeanFactory beanFactory,
+      AgentConfigurationProperties configurationProperties) {
+    this.beanFactory = beanFactory;
+    this.configurationProperties = configurationProperties;
+  }
+
+  @Override
+  public RemotingCommand processRequest(ChannelHandlerContext ctx, RemotingCommand request)
+      throws Exception {
+    RemotingCommand response =
+        RemotingCommand.createResponseCommand(RemotingSysResponseCode.SUCCESS, null);
+    String serializationProtocol = "dubbo";
+
+    try {
+      Map<String, ServiceBean> beansOfType = beanFactory.getBeansOfType(ServiceBean.class);
+      if (!CollectionUtils.isEmpty(beansOfType)) {
+        ProtocolConfig protocol =
+            beansOfType.entrySet().stream()
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException())
+                .getValue()
+                .getProtocol();
+
+        if (protocol != null) serializationProtocol = protocol.getName();
+      }
+    } catch (Throwable ignore) {
     }
 
-    @Override
-    public RemotingCommand processRequest(ChannelHandlerContext ctx, RemotingCommand request) throws Exception {
-        RemotingCommand response = RemotingCommand.createResponseCommand(RemotingSysResponseCode.SUCCESS, null);
-        String serializationProtocol = "dubbo";
+    ClientInfo body =
+        new ClientInfo(
+            System.getProperty("os.name", "Windows 10"),
+            RemotingUtil.getHostname(),
+            ApplicationType.DUBBO,
+            ConfigManager.getInstance()
+                .getApplication()
+                .map(ApplicationConfig::getName)
+                .orElse(configurationProperties.getService()),
+            serializationProtocol);
 
-        try {
-            Map<String, ServiceBean> beansOfType = beanFactory.getBeansOfType(ServiceBean.class);
-            if (!CollectionUtils.isEmpty(beansOfType)) {
-                ProtocolConfig protocol = beansOfType.entrySet()
-                        .stream()
-                        .findFirst()
-                        .orElseThrow(() -> new NoSuchElementException())
-                        .getValue()
-                        .getProtocol();
+    response.setBody(body.encode());
+    return response;
+  }
 
-                if (protocol != null) serializationProtocol = protocol.getName();
-            }
-        } catch (Throwable ignore) {
-        }
-
-        ClientInfo body = new ClientInfo(
-                System.getProperty("os.name", "Windows 10"),
-                RemotingUtil.getHostname(),
-                ApplicationType.DUBBO,
-                ConfigManager.getInstance().getApplication().map(ApplicationConfig::getName).orElse(configurationProperties.getService()),
-                serializationProtocol);
-
-        response.setBody(body.encode());
-        return response;
-    }
-
-    @Override
-    public boolean rejectRequest() {
-        return false;
-    }
+  @Override
+  public boolean rejectRequest() {
+    return false;
+  }
 }
