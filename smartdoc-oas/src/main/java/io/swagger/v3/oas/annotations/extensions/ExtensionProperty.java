@@ -14,24 +14,24 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ExtensionProperty {
 
-    /**
-     * The name of the property.
-     *
-     * @return the name of the property
-     */
-    String name();
+  /**
+   * The name of the property.
+   *
+   * @return the name of the property
+   */
+  String name();
 
-    /**
-     * The value of the property.
-     *
-     * @return the value of the property
-     */
-    String value();
+  /**
+   * The value of the property.
+   *
+   * @return the value of the property
+   */
+  String value();
 
-    /**
-     * If set to true, field `value` will be parsed and serialized as JSON/YAML
-     *
-     * @return the value of `parseValue` annotation field
-     */
-    boolean parseValue() default false;
+  /**
+   * If set to true, field `value` will be parsed and serialized as JSON/YAML
+   *
+   * @return the value of `parseValue` annotation field
+   */
+  boolean parseValue() default false;
 }

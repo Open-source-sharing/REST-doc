@@ -6,32 +6,33 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 
 public class Yaml {
 
-    private static ObjectMapper mapper;
-    public static ObjectMapper mapper() {
-        if (mapper == null) {
-            mapper = ObjectMapperFactory.createYaml();
-        }
-        return mapper;
-    }
+  private static ObjectMapper mapper;
 
-    public static ObjectWriter pretty() {
-        return mapper().writer(new DefaultPrettyPrinter());
+  public static ObjectMapper mapper() {
+    if (mapper == null) {
+      mapper = ObjectMapperFactory.createYaml();
     }
+    return mapper;
+  }
 
-    public static String pretty(Object o) {
-        try {
-            return pretty().writeValueAsString(o);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+  public static ObjectWriter pretty() {
+    return mapper().writer(new DefaultPrettyPrinter());
+  }
 
-    public static void prettyPrint(Object o) {
-        try {
-            System.out.println(pretty().writeValueAsString(o));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+  public static String pretty(Object o) {
+    try {
+      return pretty().writeValueAsString(o);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return null;
     }
+  }
+
+  public static void prettyPrint(Object o) {
+    try {
+      System.out.println(pretty().writeValueAsString(o));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 }

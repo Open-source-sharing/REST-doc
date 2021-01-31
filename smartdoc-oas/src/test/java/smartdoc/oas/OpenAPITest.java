@@ -7,11 +7,10 @@ import io.swagger.v3.core.util.Yaml;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
-import org.junit.Test;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+import org.junit.Test;
 
 public class OpenAPITest {
 
@@ -19,7 +18,10 @@ public class OpenAPITest {
 
   @Test
   public void testReadFile() throws IOException {
-    JsonNode node = Yaml.mapper().readTree(new File("E:\\jw\\rest-doc\\smartdoc-oas\\src\\main\\resources\\openapi.yml"));
+    JsonNode node =
+        Yaml.mapper()
+            .readTree(
+                new File("E:\\jw\\rest-doc\\smartdoc-oas\\src\\main\\resources\\openapi.yml"));
     OpenAPI openAPI = Json.mapper().convertValue(node, OpenAPI.class);
     Components components = openAPI.getComponents();
 

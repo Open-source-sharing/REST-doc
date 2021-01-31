@@ -10,94 +10,93 @@ import com.fasterxml.jackson.databind.jsontype.NamedType;
 import io.swagger.v3.core.util.AnnotationsUtils;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import javax.xml.bind.annotation.XmlElement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javax.xml.bind.annotation.XmlElement;
 
 public class SwaggerAnnotationIntrospector extends AnnotationIntrospector {
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    @Override
-    public Version version() {
-        return PackageVersion.VERSION;
+  @Override
+  public Version version() {
+    return PackageVersion.VERSION;
+  }
+
+  @Override
+  public Boolean hasRequiredMarker(AnnotatedMember m) {
+    XmlElement elem = m.getAnnotation(XmlElement.class);
+    if (elem != null) {
+      if (elem.required()) {
+        return true;
+      }
+    }
+    JsonProperty jsonProperty = m.getAnnotation(JsonProperty.class);
+    if (jsonProperty != null) {
+      if (jsonProperty.required()) {
+        return true;
+      }
+    }
+    Schema ann = m.getAnnotation(Schema.class);
+    if (ann != null) {
+      if (ann.required()) {
+        return ann.required();
+      }
+    }
+    ArraySchema arraySchema = m.getAnnotation(ArraySchema.class);
+    if (arraySchema != null) {
+      if (arraySchema.arraySchema().required()) {
+        return arraySchema.arraySchema().required();
+      }
+      if (arraySchema.schema().required()) {
+        return arraySchema.schema().required();
+      }
+    }
+    return null;
+  }
+
+  @Override
+  public String findPropertyDescription(Annotated a) {
+    Schema model = a.getAnnotation(Schema.class);
+    if (model != null && !"".equals(model.description())) {
+      return model.description();
     }
 
-    @Override
-    public Boolean hasRequiredMarker(AnnotatedMember m) {
-        XmlElement elem = m.getAnnotation(XmlElement.class);
-        if (elem != null) {
-            if (elem.required()) {
-                return true;
-            }
-        }
-        JsonProperty jsonProperty = m.getAnnotation(JsonProperty.class);
-        if (jsonProperty != null) {
-            if (jsonProperty.required()) {
-                return true;
-            }
-        }
-        Schema ann = m.getAnnotation(Schema.class);
-        if (ann != null) {
-            if (ann.required()) {
-                return ann.required();
-            }
-        }
-        ArraySchema arraySchema = m.getAnnotation(ArraySchema.class);
-        if (arraySchema != null) {
-            if (arraySchema.arraySchema().required()) {
-                return arraySchema.arraySchema().required();
-            }
-            if (arraySchema.schema().required()) {
-                return arraySchema.schema().required();
-            }
-        }
-        return null;
+    return null;
+  }
+
+  @Override
+  public List<NamedType> findSubtypes(Annotated a) {
+    Schema schema = a.getAnnotation(Schema.class);
+    if (schema == null) {
+      final ArraySchema arraySchema = a.getAnnotation(ArraySchema.class);
+      if (arraySchema != null) {
+        schema = arraySchema.schema();
+      }
     }
 
-    @Override
-    public String findPropertyDescription(Annotated a) {
-        Schema model = a.getAnnotation(Schema.class);
-        if (model != null && !"".equals(model.description())) {
-            return model.description();
-        }
-
-        return null;
+    if (AnnotationsUtils.hasSchemaAnnotation(schema)) {
+      final Class<?>[] classes = schema.subTypes();
+      final List<NamedType> names = new ArrayList<>(classes.length);
+      for (Class<?> subType : classes) {
+        names.add(new NamedType(subType));
+      }
+      if (!names.isEmpty()) {
+        return names;
+      }
     }
 
-    @Override
-    public List<NamedType> findSubtypes(Annotated a) {
-        Schema schema = a.getAnnotation(Schema.class);
-        if (schema == null) {
-            final ArraySchema arraySchema = a.getAnnotation(ArraySchema.class);
-            if (arraySchema != null) {
-                schema = arraySchema.schema();
-            }
-        }
+    return Collections.emptyList();
+  }
 
-        if (AnnotationsUtils.hasSchemaAnnotation(schema)) {
-            final Class<?>[] classes = schema.subTypes();
-            final List<NamedType> names = new ArrayList<>(classes.length);
-            for (Class<?> subType : classes) {
-                names.add(new NamedType(subType));
-            }
-            if (!names.isEmpty()) {
-                return names;
-            }
-        }
-
-        return Collections.emptyList();
+  @Override
+  public String findTypeName(AnnotatedClass ac) {
+    io.swagger.v3.oas.annotations.media.Schema mp = AnnotationsUtils.getSchemaAnnotation(ac);
+    // allow override of name from annotation
+    if (mp != null && !mp.name().isEmpty()) {
+      return mp.name();
     }
 
-    @Override
-    public String findTypeName(AnnotatedClass ac) {
-        io.swagger.v3.oas.annotations.media.Schema mp = AnnotationsUtils.getSchemaAnnotation(ac);
-        // allow override of name from annotation
-        if (mp != null && !mp.name().isEmpty()) {
-            return mp.name();
-        }
-
-        return null;
-    }
+    return null;
+  }
 }

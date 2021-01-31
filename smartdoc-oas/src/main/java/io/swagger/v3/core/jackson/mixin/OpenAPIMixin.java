@@ -9,12 +9,12 @@ import java.util.Map;
 
 public abstract class OpenAPIMixin {
 
-    @JsonAnyGetter
-    public abstract Map<String, Object> getExtensions();
+  @JsonAnyGetter
+  public abstract Map<String, Object> getExtensions();
 
-    @JsonAnySetter
-    public abstract void addExtension(String name, Object value);
+  @JsonAnySetter
+  public abstract void addExtension(String name, Object value);
 
-    @JsonSerialize(using = PathsSerializer.class)
-    public abstract Paths getPaths();
+  @JsonSerialize(using = PathsSerializer.class)
+  public abstract Paths getPaths();
 }

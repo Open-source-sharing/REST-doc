@@ -6,11 +6,11 @@ import com.fasterxml.jackson.core.util.VersionUtil;
 
 @Deprecated
 public final class PackageVersion implements Versioned {
-    public static final Version VERSION = VersionUtil.parseVersion(
-            "0.5.1-SNAPSHOT", "io.swagger", "swagger-core");
+  public static final Version VERSION =
+      VersionUtil.parseVersion("0.5.1-SNAPSHOT", "io.swagger", "swagger-core");
 
-    @Override
-    public Version version() {
-        return VERSION;
-    }
+  @Override
+  public Version version() {
+    return VERSION;
+  }
 }
