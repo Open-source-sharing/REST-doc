@@ -1,4 +1,3 @@
 package smartdoc.remote;
 
-public interface ServiceConfig {
-}
+public interface ServiceConfig {}

@@ -1,4 +1,3 @@
 package smartdoc.remote;
 
-public class CommandDecoder {
-}
+public class CommandDecoder {}

@@ -1,7 +1,6 @@
 package smartdoc.remote;
 
 import io.netty.handler.ssl.SslContext;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

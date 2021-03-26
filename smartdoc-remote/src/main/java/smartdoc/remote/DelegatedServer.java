@@ -1,6 +1,3 @@
 package smartdoc.remote;
 
-public final class DelegatedServer {
-
-
-}
+public final class DelegatedServer {}

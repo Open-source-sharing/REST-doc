@@ -5,12 +5,12 @@ import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import restdoc.client.api.model.ClientInfo;
-import smartdoc.client.springmvc.AgentConfigurationProperties;
 import restdoc.remoting.common.RemotingUtil;
 import restdoc.remoting.netty.NettyRequestProcessor;
 import restdoc.remoting.protocol.RemotingCommand;
 import restdoc.remoting.protocol.RemotingSysResponseCode;
 import restdoc.rpc.client.common.model.ApplicationType;
+import smartdoc.client.springmvc.AgentConfigurationProperties;
 
 /** ReportClientInfoHandler */
 public class ReportClientInfoHandler implements NettyRequestProcessor {

@@ -9,10 +9,10 @@ import org.springframework.core.PriorityOrdered;
 import restdoc.client.api.Agent;
 import restdoc.client.api.AgentClientConfiguration;
 import restdoc.client.api.AgentImpl;
+import restdoc.remoting.netty.NettyRequestProcessor;
 import smartdoc.client.springmvc.handler.ExportApiHandler;
 import smartdoc.client.springmvc.handler.InvokerApiHandler;
 import smartdoc.client.springmvc.handler.ReportClientInfoHandler;
-import restdoc.remoting.netty.NettyRequestProcessor;
 
 /**
  * The class RestWebAgentClientConfiguration

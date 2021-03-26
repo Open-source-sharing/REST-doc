@@ -8,7 +8,8 @@ public abstract class AbstractURLCredentialFunction extends AbstractCredentialFu
   private String urlParamName;
 
   public AbstractURLCredentialFunction(String urlParamName) {
-    com.google.common.base.Verify.verify(!Strings.isNullOrEmpty(urlParamName), "headerKey must be set up  require non null");
+    com.google.common.base.Verify.verify(
+        !Strings.isNullOrEmpty(urlParamName), "headerKey must be set up  require non null");
     this.urlParamName = urlParamName;
   }
 

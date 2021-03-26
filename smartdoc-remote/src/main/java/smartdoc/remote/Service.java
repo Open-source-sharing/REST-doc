@@ -12,5 +12,3 @@ public interface Service {
 
   Map<String, Handler> getHandlerTable();
 }
-
-

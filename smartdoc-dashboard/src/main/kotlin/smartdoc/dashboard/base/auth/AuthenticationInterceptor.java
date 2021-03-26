@@ -1,21 +1,20 @@
 package smartdoc.dashboard.base.auth;
 
+import static org.springframework.web.servlet.HandlerMapping.LOOKUP_PATH;
+
 import com.google.common.collect.ImmutableMap;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.util.UrlPathHelper;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static org.springframework.web.servlet.HandlerMapping.LOOKUP_PATH;
 
 public class AuthenticationInterceptor extends BaseInterceptor {
 
@@ -64,7 +63,8 @@ public class AuthenticationInterceptor extends BaseInterceptor {
    * @return {@link Boolean} if true pass else throw a new RuntimeException
    * @see org.springframework.web.util.pattern.PathPattern
    */
-  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+  public boolean preHandle(
+      HttpServletRequest request, HttpServletResponse response, Object handler) {
     Verify verify = super.getApiServiceAnnotation(Verify.class, handler);
     if (verify != null) {
       boolean require = verify.require();

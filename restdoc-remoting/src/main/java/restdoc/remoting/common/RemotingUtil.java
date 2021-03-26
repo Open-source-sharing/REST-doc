@@ -5,7 +5,6 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.InternalLoggerFactory;
-
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.*;
@@ -18,8 +17,7 @@ import java.util.Enumeration;
 public class RemotingUtil {
   public static final String OS_NAME = System.getProperty("os.name");
 
-  private static final InternalLogger log =
-      InternalLoggerFactory.getInstance(RemotingUtil.class);
+  private static final InternalLogger log = InternalLoggerFactory.getInstance(RemotingUtil.class);
   private static boolean isLinuxPlatform = false;
   private static boolean isWindowsPlatform = false;
 

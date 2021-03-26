@@ -1,4 +1,3 @@
 package smartdoc.remote;
 
-public class ServiceException extends Exception {
-}
+public class ServiceException extends Exception {}

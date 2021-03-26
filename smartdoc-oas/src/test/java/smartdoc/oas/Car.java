@@ -1,8 +1,6 @@
 package smartdoc.oas;
 
-/**
- *
- */
+/** */
 public class Car {
 
   private String make;
@@ -39,5 +37,5 @@ public class Car {
     this.type = type;
   }
 
-  //constructor, getters, setters etc.
+  // constructor, getters, setters etc.
 }

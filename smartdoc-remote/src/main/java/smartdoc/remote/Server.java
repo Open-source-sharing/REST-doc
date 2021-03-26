@@ -11,7 +11,6 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.concurrent.DefaultEventExecutorGroup;
 import io.netty.util.concurrent.DefaultThreadFactory;
-
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +57,8 @@ public abstract class Server extends AbstractService {
                   @Override
                   public void initChannel(SocketChannel ch) throws Exception {
                     ch.pipeline()
-                        .addLast(defaultEventExecutorGroup, HANDSHAKE_HANDLER_NAME, handshakeHandler)
+                        .addLast(
+                            defaultEventExecutorGroup, HANDSHAKE_HANDLER_NAME, handshakeHandler)
                         .addLast(
                             defaultEventExecutorGroup,
                             encoder,
@@ -106,18 +106,22 @@ public abstract class Server extends AbstractService {
 
   private void setupConfig() {
     bootstrap = new ServerBootstrap();
-    defaultEventExecutorGroup = new DefaultEventExecutorGroup(cfg.getServerWorkerThreads(),
-        new DefaultThreadFactory("NettyServerCodecThread_%d"));
+    defaultEventExecutorGroup =
+        new DefaultEventExecutorGroup(
+            cfg.getServerWorkerThreads(), new DefaultThreadFactory("NettyServerCodecThread_%d"));
 
     int selectorThreadNumber = cfg.getServerSelectorThreads();
 
     if (cfg.useEpoll()) {
       eventLoopGroupBoss = new EpollEventLoopGroup(1, new DefaultThreadFactory("EPOLLBoss_%d"));
-      eventLoopGroupSelector = new EpollEventLoopGroup(selectorThreadNumber,
-          new DefaultThreadFactory("EPOLLBoss_" + selectorThreadNumber));
+      eventLoopGroupSelector =
+          new EpollEventLoopGroup(
+              selectorThreadNumber, new DefaultThreadFactory("EPOLLBoss_" + selectorThreadNumber));
     } else {
       eventLoopGroupBoss = new NioEventLoopGroup(1, new DefaultThreadFactory("NettyNIOBoss_%d"));
-      eventLoopGroupSelector = new NioEventLoopGroup(selectorThreadNumber, new DefaultThreadFactory("NettyServerNIOSelector_%d"));
+      eventLoopGroupSelector =
+          new NioEventLoopGroup(
+              selectorThreadNumber, new DefaultThreadFactory("NettyServerNIOSelector_%d"));
     }
   }
 
