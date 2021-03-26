@@ -55,13 +55,10 @@
                     * [Response](https://github.com/TheAlgorithms/Java/blob/master/restdoc-client-test/restdoc-client-web-test/src/main/java/restdoc/client/web/model/vo/Response.java)
                 * [WebApplication](https://github.com/TheAlgorithms/Java/blob/master/restdoc-client-test/restdoc-client-web-test/src/main/java/restdoc/client/web/WebApplication.java)
 
-## restdoc-dependencies-bom
+## restdoc-remoting
   * src
     * main
       * java
-        * [JavadocSample](https://github.com/TheAlgorithms/Java/blob/master/restdoc-dependencies-bom/src/main/java/JavadocSample.java)
-
-## restdoc-remoting
         * restdoc
           * remoting
             * annotation
@@ -197,13 +194,18 @@
                       * [SpringCloudApiPayload](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/restdoc-rpc-client-common/src/main/java/restdoc/rpc/client/common/model/springcloud/SpringCloudApiPayload.java)
                   * util
                     * [MD5Util](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/restdoc-rpc-client-common/src/main/java/restdoc/rpc/client/common/util/MD5Util.java)
+  * restdoc-sparkjava-client
+      * test
+          * sparkjava
+            * [SparkJavaSample](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/restdoc-sparkjava-client/src/test/java/sparkjava/SparkJavaSample.java)
   * restdoc-springmvc-client
+      * main
+          * restdoc
             * client
               * restweb
                 * [AgentConfigurationProperties](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/restdoc-springmvc-client/src/main/java/restdoc/client/restweb/AgentConfigurationProperties.java)
                 * context
                   * [CookieValueResolver](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/restdoc-springmvc-client/src/main/java/restdoc/client/restweb/context/CookieValueResolver.java)
-                  * [EndpointsListener](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/restdoc-springmvc-client/src/main/java/restdoc/client/restweb/context/EndpointsListener.java)
                   * [MatrixVariableResolver](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/restdoc-springmvc-client/src/main/java/restdoc/client/restweb/context/MatrixVariableResolver.java)
                   * [PathVariableResolver](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/restdoc-springmvc-client/src/main/java/restdoc/client/restweb/context/PathVariableResolver.java)
                   * [RequestBodyResolver](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/restdoc-springmvc-client/src/main/java/restdoc/client/restweb/context/RequestBodyResolver.java)
@@ -216,10 +218,31 @@
                 * [EnvConfiguration](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/restdoc-springmvc-client/src/main/java/restdoc/client/restweb/EnvConfiguration.java)
                 * handler
                   * [ExportApiHandler](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/restdoc-springmvc-client/src/main/java/restdoc/client/restweb/handler/ExportApiHandler.java)
-                  * [InvokerApiHandler](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/restdoc-springmvc-client/src/main/java/restdoc/client/restweb/handler/InvokerApiHandler.java)
                   * [ReportClientInfoHandler](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/restdoc-springmvc-client/src/main/java/restdoc/client/restweb/handler/ReportClientInfoHandler.java)
                 * [RestWebAgentClientConfiguration](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/restdoc-springmvc-client/src/main/java/restdoc/client/restweb/RestWebAgentClientConfiguration.java)
-                * [RestWebInvokerImpl](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/restdoc-springmvc-client/src/main/java/restdoc/client/restweb/RestWebInvokerImpl.java)
+  * smartdoc-springmvc-client
+          * smartdoc
+              * springmvc
+                * [AgentConfigurationProperties](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/smartdoc-springmvc-client/src/main/java/smartdoc/client/springmvc/AgentConfigurationProperties.java)
+                * context
+                  * [CookieValueResolver](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/smartdoc-springmvc-client/src/main/java/smartdoc/client/springmvc/context/CookieValueResolver.java)
+                  * [EndpointsListener](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/smartdoc-springmvc-client/src/main/java/smartdoc/client/springmvc/context/EndpointsListener.java)
+                  * [MatrixVariableResolver](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/smartdoc-springmvc-client/src/main/java/smartdoc/client/springmvc/context/MatrixVariableResolver.java)
+                  * [PathVariableResolver](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/smartdoc-springmvc-client/src/main/java/smartdoc/client/springmvc/context/PathVariableResolver.java)
+                  * [RequestBodyResolver](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/smartdoc-springmvc-client/src/main/java/smartdoc/client/springmvc/context/RequestBodyResolver.java)
+                  * [RequestHeaderResolver](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/smartdoc-springmvc-client/src/main/java/smartdoc/client/springmvc/context/RequestHeaderResolver.java)
+                  * [RequestParamResolver](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/smartdoc-springmvc-client/src/main/java/smartdoc/client/springmvc/context/RequestParamResolver.java)
+                  * [RequestPartResolver](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/smartdoc-springmvc-client/src/main/java/smartdoc/client/springmvc/context/RequestPartResolver.java)
+                  * [Resolver](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/smartdoc-springmvc-client/src/main/java/smartdoc/client/springmvc/context/Resolver.java)
+                  * [ResolverProxy](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/smartdoc-springmvc-client/src/main/java/smartdoc/client/springmvc/context/ResolverProxy.java)
+                  * [ResolverUtil](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/smartdoc-springmvc-client/src/main/java/smartdoc/client/springmvc/context/ResolverUtil.java)
+                * [EnvConfiguration](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/smartdoc-springmvc-client/src/main/java/smartdoc/client/springmvc/EnvConfiguration.java)
+                * handler
+                  * [ExportApiHandler](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/smartdoc-springmvc-client/src/main/java/smartdoc/client/springmvc/handler/ExportApiHandler.java)
+                  * [InvokerApiHandler](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/smartdoc-springmvc-client/src/main/java/smartdoc/client/springmvc/handler/InvokerApiHandler.java)
+                  * [ReportClientInfoHandler](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/smartdoc-springmvc-client/src/main/java/smartdoc/client/springmvc/handler/ReportClientInfoHandler.java)
+                * [RestWebAgentClientConfiguration](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/smartdoc-springmvc-client/src/main/java/smartdoc/client/springmvc/RestWebAgentClientConfiguration.java)
+                * [RestWebInvokerImpl](https://github.com/TheAlgorithms/Java/blob/master/restdoc-rpc-client/smartdoc-springmvc-client/src/main/java/smartdoc/client/springmvc/RestWebInvokerImpl.java)
 
 ## smartdoc-dashboard
   * src
@@ -300,3 +323,217 @@
             * util
               * [JsonDeProjectorTest](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-dashboard/src/test/kotlin/smartdoc/dashboard/util/JsonDeProjectorTest.java)
               * [JsonProjectorTest](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-dashboard/src/test/kotlin/smartdoc/dashboard/util/JsonProjectorTest.java)
+
+## smartdoc-oas
+    * main
+      * java
+        * io
+          * swagger
+            * v3
+              * core
+                * converter
+                  * [AnnotatedType](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/converter/AnnotatedType.java)
+                  * [ModelConverter](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/converter/ModelConverter.java)
+                  * [ModelConverterContext](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/converter/ModelConverterContext.java)
+                  * [ModelConverterContextImpl](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/converter/ModelConverterContextImpl.java)
+                  * [ModelConverters](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/converter/ModelConverters.java)
+                  * [ResolvedSchema](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/converter/ResolvedSchema.java)
+                * filter
+                  * [AbstractSpecFilter](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/filter/AbstractSpecFilter.java)
+                  * [OpenAPISpecFilter](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/filter/OpenAPISpecFilter.java)
+                  * [SpecFilter](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/filter/SpecFilter.java)
+                * jackson
+                  * [AbstractModelConverter](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/jackson/AbstractModelConverter.java)
+                  * [ApiResponsesSerializer](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/jackson/ApiResponsesSerializer.java)
+                  * [CallbackSerializer](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/jackson/CallbackSerializer.java)
+                  * [JAXBAnnotationsHelper](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/jackson/JAXBAnnotationsHelper.java)
+                  * mixin
+                    * [ComponentsMixin](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/jackson/mixin/ComponentsMixin.java)
+                    * [DateSchemaMixin](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/jackson/mixin/DateSchemaMixin.java)
+                    * [ExtensionsMixin](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/jackson/mixin/ExtensionsMixin.java)
+                    * [OpenAPIMixin](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/jackson/mixin/OpenAPIMixin.java)
+                    * [OperationMixin](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/jackson/mixin/OperationMixin.java)
+                    * [SchemaMixin](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/jackson/mixin/SchemaMixin.java)
+                  * [ModelResolver](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/jackson/ModelResolver.java)
+                  * [PackageVersion](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/jackson/PackageVersion.java)
+                  * [PathsSerializer](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/jackson/PathsSerializer.java)
+                  * [SchemaSerializer](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/jackson/SchemaSerializer.java)
+                  * [SwaggerAnnotationIntrospector](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/jackson/SwaggerAnnotationIntrospector.java)
+                  * [SwaggerModule](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/jackson/SwaggerModule.java)
+                  * [TypeNameResolver](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/jackson/TypeNameResolver.java)
+                * model
+                  * [ApiDescription](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/model/ApiDescription.java)
+                * util
+                  * [AnnotationsUtils](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/util/AnnotationsUtils.java)
+                  * [ApiResponsesDeserializer](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/util/ApiResponsesDeserializer.java)
+                  * [CallbackDeserializer](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/util/CallbackDeserializer.java)
+                  * [Constants](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/util/Constants.java)
+                  * [DeserializationModule](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/util/DeserializationModule.java)
+                  * [EncodingPropertyStyleEnumDeserializer](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/util/EncodingPropertyStyleEnumDeserializer.java)
+                  * [EncodingStyleEnumDeserializer](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/util/EncodingStyleEnumDeserializer.java)
+                  * [HeaderStyleEnumDeserializer](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/util/HeaderStyleEnumDeserializer.java)
+                  * [Json](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/util/Json.java)
+                  * [ModelDeserializer](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/util/ModelDeserializer.java)
+                  * [ObjectMapperFactory](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/util/ObjectMapperFactory.java)
+                  * [OptionalUtils](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/util/OptionalUtils.java)
+                  * [ParameterDeserializer](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/util/ParameterDeserializer.java)
+                  * [ParameterProcessor](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/util/ParameterProcessor.java)
+                  * [PathsDeserializer](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/util/PathsDeserializer.java)
+                  * [PathUtils](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/util/PathUtils.java)
+                  * [PrimitiveType](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/util/PrimitiveType.java)
+                  * [ReflectionUtils](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/util/ReflectionUtils.java)
+                  * [RefUtils](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/util/RefUtils.java)
+                  * [SecuritySchemeDeserializer](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/util/SecuritySchemeDeserializer.java)
+                  * [Yaml](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/core/util/Yaml.java)
+              * oas
+                * annotations
+                  * callbacks
+                    * [Callback](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/callbacks/Callback.java)
+                    * [Callbacks](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/callbacks/Callbacks.java)
+                  * enums
+                    * [Explode](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/enums/Explode.java)
+                    * [ParameterIn](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/enums/ParameterIn.java)
+                    * [ParameterStyle](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/enums/ParameterStyle.java)
+                    * [SecuritySchemeIn](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/enums/SecuritySchemeIn.java)
+                    * [SecuritySchemeType](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/enums/SecuritySchemeType.java)
+                  * extensions
+                    * [Extension](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/extensions/Extension.java)
+                    * [ExtensionProperty](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/extensions/ExtensionProperty.java)
+                    * [Extensions](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/extensions/Extensions.java)
+                  * [ExternalDocumentation](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/ExternalDocumentation.java)
+                  * headers
+                    * [Header](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/headers/Header.java)
+                  * [Hidden](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/Hidden.java)
+                  * info
+                    * [Contact](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/info/Contact.java)
+                    * [Info](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/info/Info.java)
+                    * [License](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/info/License.java)
+                  * links
+                    * [Link](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/links/Link.java)
+                    * [LinkParameter](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/links/LinkParameter.java)
+                  * media
+                    * [ArraySchema](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/media/ArraySchema.java)
+                    * [Content](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/media/Content.java)
+                    * [DiscriminatorMapping](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/media/DiscriminatorMapping.java)
+                    * [Encoding](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/media/Encoding.java)
+                    * [ExampleObject](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/media/ExampleObject.java)
+                    * [Schema](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/media/Schema.java)
+                  * [OpenAPIDefinition](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/OpenAPIDefinition.java)
+                  * [Operation](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/Operation.java)
+                  * [package-info](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/package-info.java)
+                  * [Parameter](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/Parameter.java)
+                  * [Parameters](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/Parameters.java)
+                  * parameters
+                    * [RequestBody](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/parameters/RequestBody.java)
+                  * responses
+                    * [ApiResponse](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/responses/ApiResponse.java)
+                    * [ApiResponses](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/responses/ApiResponses.java)
+                  * security
+                    * [OAuthFlow](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/security/OAuthFlow.java)
+                    * [OAuthFlows](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/security/OAuthFlows.java)
+                    * [OAuthScope](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/security/OAuthScope.java)
+                    * [SecurityRequirement](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/security/SecurityRequirement.java)
+                    * [SecurityRequirements](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/security/SecurityRequirements.java)
+                    * [SecurityScheme](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/security/SecurityScheme.java)
+                    * [SecuritySchemes](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/security/SecuritySchemes.java)
+                  * servers
+                    * [Server](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/servers/Server.java)
+                    * [Servers](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/servers/Servers.java)
+                    * [ServerVariable](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/servers/ServerVariable.java)
+                  * tags
+                    * [Tag](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/tags/Tag.java)
+                    * [Tags](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/annotations/tags/Tags.java)
+                * models
+                  * callbacks
+                    * [Callback](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/callbacks/Callback.java)
+                  * [Components](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/Components.java)
+                  * examples
+                    * [Example](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/examples/Example.java)
+                  * [ExternalDocumentation](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/ExternalDocumentation.java)
+                  * headers
+                    * [Header](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/headers/Header.java)
+                  * info
+                    * [Contact](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/info/Contact.java)
+                    * [Info](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/info/Info.java)
+                    * [License](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/info/License.java)
+                  * links
+                    * [Link](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/links/Link.java)
+                    * [LinkParameter](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/links/LinkParameter.java)
+                  * media
+                    * [ArraySchema](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/media/ArraySchema.java)
+                    * [BinarySchema](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/media/BinarySchema.java)
+                    * [BooleanSchema](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/media/BooleanSchema.java)
+                    * [ByteArraySchema](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/media/ByteArraySchema.java)
+                    * [ComposedSchema](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/media/ComposedSchema.java)
+                    * [Content](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/media/Content.java)
+                    * [DateSchema](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/media/DateSchema.java)
+                    * [DateTimeSchema](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/media/DateTimeSchema.java)
+                    * [Discriminator](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/media/Discriminator.java)
+                    * [EmailSchema](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/media/EmailSchema.java)
+                    * [Encoding](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/media/Encoding.java)
+                    * [EncodingProperty](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/media/EncodingProperty.java)
+                    * [FileSchema](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/media/FileSchema.java)
+                    * [IntegerSchema](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/media/IntegerSchema.java)
+                    * [MapSchema](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/media/MapSchema.java)
+                    * [MediaType](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/media/MediaType.java)
+                    * [NumberSchema](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/media/NumberSchema.java)
+                    * [ObjectSchema](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/media/ObjectSchema.java)
+                    * [PasswordSchema](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/media/PasswordSchema.java)
+                    * [Schema](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/media/Schema.java)
+                    * [StringSchema](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/media/StringSchema.java)
+                    * [UUIDSchema](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/media/UUIDSchema.java)
+                    * [XML](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/media/XML.java)
+                  * [OpenAPI](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/OpenAPI.java)
+                  * [Operation](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/Operation.java)
+                  * parameters
+                    * [CookieParameter](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/parameters/CookieParameter.java)
+                    * [HeaderParameter](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/parameters/HeaderParameter.java)
+                    * [Parameter](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/parameters/Parameter.java)
+                    * [PathParameter](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/parameters/PathParameter.java)
+                    * [QueryParameter](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/parameters/QueryParameter.java)
+                    * [RequestBody](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/parameters/RequestBody.java)
+                  * [PathItem](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/PathItem.java)
+                  * [Paths](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/Paths.java)
+                  * responses
+                    * [ApiResponse](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/responses/ApiResponse.java)
+                    * [ApiResponses](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/responses/ApiResponses.java)
+                  * security
+                    * [OAuthFlow](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/security/OAuthFlow.java)
+                    * [OAuthFlows](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/security/OAuthFlows.java)
+                    * [Scopes](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/security/Scopes.java)
+                    * [SecurityRequirement](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/security/SecurityRequirement.java)
+                    * [SecurityScheme](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/security/SecurityScheme.java)
+                  * servers
+                    * [Server](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/servers/Server.java)
+                    * [ServerVariable](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/servers/ServerVariable.java)
+                    * [ServerVariables](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/servers/ServerVariables.java)
+                  * tags
+                    * [Tag](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/main/java/io/swagger/v3/oas/models/tags/Tag.java)
+    * test
+        * smartdoc
+          * oas
+            * [Car](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/test/java/smartdoc/oas/Car.java)
+            * [CarDto](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/test/java/smartdoc/oas/CarDto.java)
+            * [CarMapper](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/test/java/smartdoc/oas/CarMapper.java)
+            * [CarType](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/test/java/smartdoc/oas/CarType.java)
+            * [OpenAPITest](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-oas/src/test/java/smartdoc/oas/OpenAPITest.java)
+
+## smartdoc-remote
+    * main
+          * remote
+            * [AbstractService](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-remote/src/main/java/smartdoc/remote/AbstractService.java)
+            * [CallbackException](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-remote/src/main/java/smartdoc/remote/CallbackException.java)
+            * [Client](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-remote/src/main/java/smartdoc/remote/Client.java)
+            * [ClientConfig](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-remote/src/main/java/smartdoc/remote/ClientConfig.java)
+            * [Command](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-remote/src/main/java/smartdoc/remote/Command.java)
+            * [CommandDecoder](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-remote/src/main/java/smartdoc/remote/CommandDecoder.java)
+            * [CommandEncoder](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-remote/src/main/java/smartdoc/remote/CommandEncoder.java)
+            * [DelegatedServer](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-remote/src/main/java/smartdoc/remote/DelegatedServer.java)
+            * [Handler](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-remote/src/main/java/smartdoc/remote/Handler.java)
+            * [Server](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-remote/src/main/java/smartdoc/remote/Server.java)
+            * [ServerConfig](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-remote/src/main/java/smartdoc/remote/ServerConfig.java)
+            * [Service](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-remote/src/main/java/smartdoc/remote/Service.java)
+            * [ServiceConfig](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-remote/src/main/java/smartdoc/remote/ServiceConfig.java)
+            * [ServiceException](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-remote/src/main/java/smartdoc/remote/ServiceException.java)
+            * [Status](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-remote/src/main/java/smartdoc/remote/Status.java)
+            * [TlsMode](https://github.com/TheAlgorithms/Java/blob/master/smartdoc-remote/src/main/java/smartdoc/remote/TlsMode.java)
