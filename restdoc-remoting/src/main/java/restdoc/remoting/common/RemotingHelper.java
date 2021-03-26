@@ -3,21 +3,21 @@ package restdoc.remoting.common;
 import io.netty.channel.Channel;
 import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.InternalLoggerFactory;
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.SocketAddress;
-import java.nio.ByteBuffer;
-import java.nio.channels.SocketChannel;
 import restdoc.remoting.exception.RemotingConnectException;
 import restdoc.remoting.exception.RemotingSendRequestException;
 import restdoc.remoting.exception.RemotingTimeoutException;
 import restdoc.remoting.protocol.RemotingCommand;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
+import java.nio.ByteBuffer;
+import java.nio.channels.SocketChannel;
+
 public class RemotingHelper {
   public static final String ROCKETMQ_REMOTING = "RocketmqRemoting";
-  public static final String DEFAULT_CHARSET = "UTF-8";
 
-  private static final InternalLogger log = InternalLoggerFactory.getInstance(ROCKETMQ_REMOTING);
+  private static final InternalLogger log = InternalLoggerFactory.getInstance(RemotingHelper.class);
 
   public static String exceptionSimpleDesc(final Throwable e) {
     StringBuffer sb = new StringBuffer();

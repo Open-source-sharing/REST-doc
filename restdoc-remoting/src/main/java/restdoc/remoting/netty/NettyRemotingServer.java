@@ -12,16 +12,6 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.concurrent.DefaultEventExecutorGroup;
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.security.cert.CertificateException;
-import java.util.NoSuchElementException;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.atomic.AtomicInteger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import restdoc.remoting.ChannelEventListener;
@@ -36,6 +26,17 @@ import restdoc.remoting.exception.RemotingSendRequestException;
 import restdoc.remoting.exception.RemotingTimeoutException;
 import restdoc.remoting.exception.RemotingTooMuchRequestException;
 import restdoc.remoting.protocol.RemotingCommand;
+
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.security.cert.CertificateException;
+import java.util.NoSuchElementException;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class NettyRemotingServer extends NettyRemotingAbstract implements RemotingServer {
 
@@ -490,20 +491,7 @@ public class NettyRemotingServer extends NettyRemotingAbstract implements Remoti
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-      // Not Handler
 
-      /*if (evt instanceof IdleStateEvent) {
-          IdleStateEvent event = (IdleStateEvent) evt;
-          if (event.state().equals(IdleState.ALL_IDLE)) {
-              final String remoteAddress = RemotingHelper.parseChannelRemoteAddr(ctx.channel());
-              log.warn("NETTY SERVER PIPELINE: IDLE exception [{}]", remoteAddress);
-              RemotingUtil.closeChannel(ctx.channel());
-              if (NettyRemotingServer.this.channelEventListener != null) {
-                  NettyRemotingServer.this
-                          .putNettyEvent(new NettyEvent(NettyEventType.IDLE, remoteAddress, ctx.channel()));
-              }
-          }
-      }*/
 
       ctx.fireUserEventTriggered(evt);
     }

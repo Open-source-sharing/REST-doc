@@ -6,10 +6,6 @@ import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslHandler;
-import java.net.SocketAddress;
-import java.util.*;
-import java.util.Map.Entry;
-import java.util.concurrent.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import restdoc.remoting.ChannelEventListener;
@@ -24,6 +20,11 @@ import restdoc.remoting.exception.RemotingTimeoutException;
 import restdoc.remoting.exception.RemotingTooMuchRequestException;
 import restdoc.remoting.protocol.RemotingCommand;
 import restdoc.remoting.protocol.RemotingSysResponseCode;
+
+import java.net.SocketAddress;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.concurrent.*;
 
 public abstract class NettyRemotingAbstract {
 
@@ -41,7 +42,9 @@ public abstract class NettyRemotingAbstract {
    */
   protected final Semaphore semaphoreAsync;
 
-  /** This map caches all on-going requests. */
+  /**
+   * This map caches all on-going requests.
+   */
   protected final ConcurrentMap<Integer /* opaque */, ResponseFuture> responseTable =
       new ConcurrentHashMap<Integer, ResponseFuture>(256);
 
@@ -52,7 +55,9 @@ public abstract class NettyRemotingAbstract {
   protected final HashMap<Integer /* request code */, Pair<NettyRequestProcessor, ExecutorService>>
       processorTable = new HashMap<Integer, Pair<NettyRequestProcessor, ExecutorService>>(64);
 
-  /** Executor to feed netty events to user defined {@link ChannelEventListener}. */
+  /**
+   * Executor to feed netty events to user defined {@link ChannelEventListener}.
+   */
   protected final NettyEventExecutor nettyEventExecutor = new NettyEventExecutor();
 
   /**
@@ -61,17 +66,21 @@ public abstract class NettyRemotingAbstract {
    */
   protected Pair<NettyRequestProcessor, ExecutorService> defaultRequestProcessor;
 
-  /** SSL context via which to create {@link SslHandler}. */
+  /**
+   * SSL context via which to create {@link SslHandler}.
+   */
   protected volatile SslContext sslContext;
 
-  /** custom rpc hooks */
+  /**
+   * custom rpc hooks
+   */
   protected List<RPCHook> rpcHooks = new ArrayList<RPCHook>();
 
   /**
    * Constructor, specifying capacity of one-way and asynchronous semaphores.
    *
    * @param permitsOneway Number of permits for one-way requests.
-   * @param permitsAsync Number of permits for asynchronous requests.
+   * @param permitsAsync  Number of permits for asynchronous requests.
    */
   public NettyRemotingAbstract(final int permitsOneway, final int permitsAsync) {
     this.semaphoreOneway = new Semaphore(permitsOneway, true);
@@ -306,7 +315,9 @@ public abstract class NettyRemotingAbstract {
     }
   }
 
-  /** Custom RPC hook. Just be compatible with the previous version, use getRPCHooks instead. */
+  /**
+   * Custom RPC hook. Just be compatible with the previous version, use getRPCHooks instead.
+   */
   @Deprecated
   protected RPCHook getRPCHook() {
     if (rpcHooks.size() > 0) {
@@ -328,11 +339,13 @@ public abstract class NettyRemotingAbstract {
    * This method specifies thread pool to use while invoking callback methods.
    *
    * @return Dedicated thread pool instance if specified; or null if the callback is supposed to be
-   *     executed in the netty event-loop thread.
+   * executed in the netty event-loop thread.
    */
   public abstract ExecutorService getCallbackExecutor();
 
-  /** This method is periodically invoked to scan and expire deprecated request. */
+  /**
+   * This method is periodically invoked to scan and expire deprecated request.
+   */
   public void scanResponseTable() {
     final List<ResponseFuture> rfList = new LinkedList<ResponseFuture>();
     Iterator<Entry<Integer, ResponseFuture>> it = this.responseTable.entrySet().iterator();
@@ -414,7 +427,7 @@ public abstract class NettyRemotingAbstract {
       final long timeoutMillis,
       final InvokeCallback invokeCallback)
       throws InterruptedException, RemotingTooMuchRequestException, RemotingTimeoutException,
-          RemotingSendRequestException {
+      RemotingSendRequestException {
     long beginStartTime = System.currentTimeMillis();
     final int opaque = request.getOpaque();
     boolean acquired = this.semaphoreAsync.tryAcquire(timeoutMillis, TimeUnit.MILLISECONDS);
@@ -508,7 +521,7 @@ public abstract class NettyRemotingAbstract {
   public void invokeOnewayImpl(
       final Channel channel, final RemotingCommand request, final long timeoutMillis)
       throws InterruptedException, RemotingTooMuchRequestException, RemotingTimeoutException,
-          RemotingSendRequestException {
+      RemotingSendRequestException {
     request.markOnewayRPC();
     boolean acquired = this.semaphoreOneway.tryAcquire(timeoutMillis, TimeUnit.MILLISECONDS);
     if (acquired) {
@@ -579,28 +592,24 @@ public abstract class NettyRemotingAbstract {
           NettyEvent event = this.eventQueue.poll(3000, TimeUnit.MILLISECONDS);
           if (event != null && listener != null) {
             switch (event.getType()) {
-              case IDLE:
-                {
-                  listener.onChannelIdle(event.getRemoteAddr(), event.getChannel());
-                  break;
-                }
-              case CLOSE:
-                {
-                  listener.onChannelClose(event.getRemoteAddr(), event.getChannel());
-                  break;
-                }
-              case CONNECT:
-                {
-                  listener.onChannelConnect(event.getRemoteAddr(), event.getChannel());
-                  break;
-                }
-              case EXCEPTION:
-                {
-                  NettyExceptionEvent nee = (NettyExceptionEvent) event;
-                  listener.onChannelException(
-                      nee.getRemoteAddr(), nee.getChannel(), nee.getCause());
-                  break;
-                }
+              case IDLE: {
+                listener.onChannelIdle(event.getRemoteAddr(), event.getChannel());
+                break;
+              }
+              case CLOSE: {
+                listener.onChannelClose(event.getRemoteAddr(), event.getChannel());
+                break;
+              }
+              case CONNECT: {
+                listener.onChannelConnect(event.getRemoteAddr(), event.getChannel());
+                break;
+              }
+              case EXCEPTION: {
+                NettyExceptionEvent nee = (NettyExceptionEvent) event;
+                listener.onChannelException(
+                    nee.getRemoteAddr(), nee.getChannel(), nee.getCause());
+                break;
+              }
               default:
                 break;
             }

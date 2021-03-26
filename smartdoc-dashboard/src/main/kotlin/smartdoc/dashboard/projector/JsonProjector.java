@@ -1,22 +1,23 @@
 package smartdoc.dashboard.projector;
 
-import static java.util.regex.Pattern.compile;
-import static smartdoc.dashboard.core.StandardKt.throwError;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import smartdoc.dashboard.core.Status;
 import smartdoc.dashboard.util.FieldType;
 import smartdoc.dashboard.util.Node;
 import smartdoc.dashboard.util.PathValue;
+
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static java.util.regex.Pattern.compile;
+import static smartdoc.dashboard.core.StandardKt.throwError;
 
 /**
  * The JsonProjector provided project the flatten json descriptor to json object
@@ -126,6 +127,7 @@ public class JsonProjector extends BaseProjector<ObjectNode> {
     for (Node child : children) {
       ObjectNode childNode = new ChildJsonBuilder(child).getObjectNode();
       List<Map.Entry<String, JsonNode>> entries = Lists.newArrayList(childNode.fields());
+
       if (!entries.isEmpty()) {
         String key = entries.get(0).getKey();
         JsonNode value = entries.get(0).getValue();
@@ -162,18 +164,15 @@ public class JsonProjector extends BaseProjector<ObjectNode> {
             int lastIndex = indexes.get(indexes.size() - 1);
             ((ArrayNode) dn).insertPOJO(lastIndex, pn.getValue());
           }
-        } else {
+        } else
           throwError(Status.INTERNAL_SERVER_ERROR);
-        }
       } else {
         FieldType pnType = FieldType.OBJECT;
 
         if (children.stream()
             .allMatch(
                 node ->
-                    node.getPath()
-                        .matches(
-                            String.format("^%s\\[\\d*\\]$", BaseProjector.escape(pn.getPath()))))) {
+                    node.getPath().matches(String.format("^%s\\[\\d*\\]$", BaseProjector.escape(pn.getPath()))))) {
           pnType = FieldType.ARRAY;
         }
 

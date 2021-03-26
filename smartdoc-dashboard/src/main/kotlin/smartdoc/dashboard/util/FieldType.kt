@@ -4,6 +4,7 @@ package smartdoc.dashboard.util
  * @sample JSON
  * @since 1.0
  */
+@Deprecated(message = "FieldType")
 enum class FieldType {
 
     STRING {

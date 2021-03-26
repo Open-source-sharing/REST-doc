@@ -1,4 +1,4 @@
-package smartdoc.dashboard.controller.console.model
+ package smartdoc.dashboard.controller.console.model
 
 import smartdoc.dashboard.model.doc.DocType
 

@@ -1,10 +1,11 @@
 package restdoc.client.api.model;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import java.beans.ConstructorProperties;
-import java.util.Objects;
 import restdoc.remoting.protocol.RemotingSerializable;
 import restdoc.rpc.client.common.model.ApplicationType;
+
+import java.beans.ConstructorProperties;
+import java.util.Objects;
 
 @JsonPropertyOrder(value = {"osname", "hostname", "type", "service", "serializationProtocol"})
 public class ClientInfo extends RemotingSerializable {
@@ -76,7 +77,7 @@ public class ClientInfo extends RemotingSerializable {
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (o == null || getClass() != o.getClass()) {return false;}
     ClientInfo that = (ClientInfo) o;
     return Objects.equals(osname, that.osname)
         && Objects.equals(hostname, that.hostname)

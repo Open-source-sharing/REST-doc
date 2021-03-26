@@ -1,15 +1,18 @@
 package smartdoc.dashboard.base.auth;
 
 import com.google.common.base.Strings;
+
 import javax.servlet.http.HttpServletRequest;
 
-/** @author Maple */
+/**
+ * @author Maple
+ */
 public abstract class AbstractHeaderCredentialFunction extends AbstractCredentialFunction {
 
-  /** headerKey */
   private String headerKey;
 
-  public AbstractHeaderCredentialFunction() {}
+  public AbstractHeaderCredentialFunction() {
+  }
 
   public AbstractHeaderCredentialFunction(String headerKey) {
     com.google.common.base.Verify.verify(
@@ -25,9 +28,8 @@ public abstract class AbstractHeaderCredentialFunction extends AbstractCredentia
 
   /**
    * @param headerValue restdoc.web.base on {@link org.springframework.http.HttpHeaders} map to
-   *     CREDENTIAL object instance
+   *                    CREDENTIAL object instance
    * @return auth Credential
    */
-  public abstract Credential mapHeaderValueToCredential(
-      HttpServletRequest request, String headerValue);
+  public abstract Credential mapHeaderValueToCredential(HttpServletRequest request, String headerValue);
 }

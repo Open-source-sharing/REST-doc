@@ -1,14 +1,13 @@
 package smartdoc.dashboard.base.auth;
 
 import com.google.common.base.Strings;
-import java.util.stream.Stream;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.stream.Stream;
 
-/** @author Maple */
 public abstract class AbstractCookieCredentialFunction extends AbstractCredentialFunction {
 
-  /** {@link Cookie} */
   private String cookieName;
 
   public AbstractCookieCredentialFunction(String cookieName) {
