@@ -1,39 +1,17 @@
 package restdoc.remoting.common;
 
-/**
- * The RequestCode is constant
- */
+/** The RequestCode is constant */
 public interface RequestCode {
 
-    /**
-     * Client execute http request task
-     */
-    @Deprecated
-    int SUBMIT_HTTP_PROCESS = 0;
+  /** acknowledge version */
+  int AcknowledgeVersion = 1;
 
-    /**
-     * Return the http request execute result
-     */
-    @Deprecated
-    int POST_EXECUTE_RESULT = 1;
+  /** */
+  int CollectClientInfo = 2;
 
-    /**
-     *
-     */
-    int REPORT_CLIENT_INFO = 2;
+  /** */
+  int CollectApi = 4;
 
-    /**
-     *
-     */
-    int GET_EMPTY_API_TEMPLATES = 3;
-
-    /**
-     *
-     */
-    int REPORT_EXPOSED_API = 4;
-
-    /**
-     *
-     */
-    int INVOKE_API = 5;
+  /** */
+  int InvokeApi = 5;
 }

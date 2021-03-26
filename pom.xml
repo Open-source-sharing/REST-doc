@@ -7,14 +7,15 @@
     <groupId>com.github.open-source-sharing</groupId>
     <artifactId>rest-doc</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.RELEASE</version>
+    <version>2.0.RELEASE</version>
 
     <modules>
-        <module>restdoc-web</module>
+        <module>smartdoc-dashboard</module>
         <module>restdoc-remoting</module>
         <module>restdoc-rpc-client</module>
         <module>restdoc-client-test</module>
-        <module>restdoc-dependencies-bom</module>
+        <module>smartdoc-oas</module>
+        <module>smartdoc-remote</module>
     </modules>
 
     <parent>

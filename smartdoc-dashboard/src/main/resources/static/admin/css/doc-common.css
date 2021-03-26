@@ -1,0 +1,75 @@
+
+table{
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+}
+
+ul{
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+}
+
+ol{
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+}
+
+p{
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+}
+
+
+textarea{
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+}
+
+
+.dtree-nav-div cite {
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+}
+.code-block {
+    background-color: #283142;
+    color: white;
+    font-size: 15px;
+    font-family: Roboto, serif;
+}
+.layui-table td  {
+    color: #0C0C0C;
+    font-size: 14px;
+}
+.layui-table th{
+    color: black;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: left;
+}
+
+
+#urlSpan:hover {
+    cursor: pointer;
+}
+
+#editDocDescriptionBtn:hover {
+    cursor: pointer;
+}
+
+tr:hover {
+    cursor: pointer;
+}
+
+body {
+    background-color: white;
+}
+
+.line-row-block {
+    margin-top: 40px;
+}
+
+.edit-state {
+    color: #FF5722;
+    font-weight: bold;
+}
+

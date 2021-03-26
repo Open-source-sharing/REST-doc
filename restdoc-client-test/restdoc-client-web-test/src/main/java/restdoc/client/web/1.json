@@ -1,0 +1,104 @@
+{
+  "name": "createOrder",
+  "method": "POST",
+  "pattern": "/mch/order/{oid}",
+  "endpoint": "createOrder",
+  "packageName": "restdoc.client.web.controller",
+  "responseType": null,
+  "requestHeaderParameters": {
+    "Set-Cookie": [
+      {
+        "name": "restdoc_console_access_token",
+        "require": true,
+        "defaultValue": "\n\t\t\n\t\t\n\n\t\t\t\t\n",
+        "supplementary": null,
+        "type": null
+      }
+    ],
+    "Content-Type": [
+      {
+        "name": null,
+        "require": true,
+        "defaultValue": "text/plain",
+        "supplementary": null,
+        "type": null
+      },
+      {
+        "name": null,
+        "require": true,
+        "defaultValue": "application/*",
+        "supplementary": null,
+        "type": null
+      }
+    ]
+  },
+  "queryParamParameters": [
+    {
+      "name": "key",
+      "require": true,
+      "defaultValue": "\n\t\t\n\t\t\n\n\t\t\t\t\n",
+      "supplementary": null,
+      "type": "java.lang.String"
+    }
+  ],
+  "matrixVariableParameters": [
+    {
+      "name": "a",
+      "require": true,
+      "defaultValue": "\n\t\t\n\t\t\n\n\t\t\t\t\n",
+      "supplementary": "oid",
+      "type": "int"
+    }
+  ],
+  "pathVariableParameters": [
+    {
+      "name": "oid",
+      "require": true,
+      "defaultValue": null,
+      "supplementary": null,
+      "type": "java.lang.String"
+    }
+  ],
+  "requestBodyParameters": [
+    {
+      "name": null,
+      "require": true,
+      "defaultValue": null,
+      "supplementary": {
+        "type": "",
+        "money": 0.0
+      },
+      "type": "java.lang.Object"
+    }
+  ],
+  "responseBodyDescriptor": {
+    "name": null,
+    "require": true,
+    "defaultValue": null,
+    "supplementary": {
+      "code": "",
+      "data": null,
+      "message": ""
+    },
+    "type": "java.lang.Object"
+  },
+  "responseHeaderParameters": {
+    "Content-Type": [
+      {
+        "name": null,
+        "require": true,
+        "defaultValue": "text/plain",
+        "supplementary": null,
+        "type": null
+      },
+      {
+        "name": null,
+        "require": true,
+        "defaultValue": "application/*",
+        "supplementary": null,
+        "type": null
+      }
+    ]
+  },
+  "controller": "restdoc.client.web.controller.OrderController"
+}

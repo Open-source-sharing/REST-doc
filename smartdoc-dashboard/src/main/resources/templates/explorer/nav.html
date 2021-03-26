@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>API治理中心</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" th:href="@{/admin/images/restdoc-logo-notag.png}">
+    <link rel="stylesheet" th:href="@{/admin/css/fangge-style.css}"/>
+    <link rel="stylesheet" th:href="@{/admin/css/doc-common.css}"/>
+    <link rel="stylesheet" th:href="@{/admin/css/nav.css}"/>
+    <link rel="stylesheet" th:href="@{/admin/css/pear-tree/dtree.css}"/>
+    <link rel="stylesheet" th:href="@{/admin/css/pear-tree/font/dtreefont.css}"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/1.13.1/css/OverlayScrollbars.min.css"
+          integrity="sha512-jN4O0AUkRmE6Jwc8la2I5iBmS+tCDcfUd1eq8nrZIBnDKTmCp5YxxNN1/aetnAH32qT+dDbk1aGhhoaw5cJNlw=="
+          crossorigin="anonymous"/>
+    <script th:src="@{/admin/js/jquery.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/1.13.1/js/jquery.overlayScrollbars.min.js"
+            integrity="sha512-3Ofi0j25Ar6Hyqk2sdvfuoVCvvN6nE6Dh/eoMc8RQ/bnCvO8wpE+M5KyJz6T08T7pl/x82I/3Y5Amz9n3T9Esw=="
+            crossorigin="anonymous"></script>
+
+    <script type="application/ld+json">
+
+        {
+            "@context": "http://schema.org",
+            "@type": "SoftwareSourceCode",
+            "url": "https://kingsora.github.io/OverlayScrollbars",
+            "name": "Overlay Scrollbars",
+            "description": "A javascript scrollbar plugin which hides the native scrollbars and provides custom styleable overlay scrollbars, but keeps the native functionality and feeling.",
+            "disambiguatingDescription": "javascript overlay scrollbars plugin",
+            "license": "https://en.wikipedia.org/wiki/MIT_License",
+            "keywords": "js,javascript,OverlayScrollbars,overlay,scrollbars,custom,scrollbar,plugin,jquery,scrollbars,polyfill",
+            "isAccessibleForFree": true,
+            "image": "https://kingsora.github.io/OverlayScrollbars/img/logo.png",
+            "codeRepository": "https://github.com/KingSora/OverlayScrollbars",
+            "programmingLanguage": {
+                "@type": "ComputerLanguage",
+                "name": "javascript",
+                "alternateName": "js"
+            }
+        }
+
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-side layui-bg-black" style="top: 0">
+        <div class="layui-row" style="text-align: center">
+            <img th:src="@{/admin/images/restdoc-logo.png}" alt="" width="60%"/>
+        </div>
+        <div class="layui-row" style="margin-top: 5px">
+            <div class="layui-side-scroll">
+                <ul class="layui-nav layui-nav-tree" lay-filter="menu">
+                    <li class="layui-nav-item layui-this">
+                        <a href="javascript:void(0)" id="apiDocument">
+                            <i class="layui-icon layui-icon-template-1" style="font-size: 20px; color: #1E9FFF;"></i>
+                            <span style="font-size: 16px">&nbsp;&nbsp;文档</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:void(0)" id="devapp">
+                            <i class="layui-icon layui-icon-app"
+                               style="font-size: 20px; color: #1E9FFF;"></i>
+                            <span style="font-size: 16px">&nbsp;&nbsp;开发者应用</span>
+                        </a>
+                    </li>
+               <!--     <li class="layui-nav-item">
+                        <a href="javascript:void(0)" id="devApplication">
+                            <i class="layui-icon layui-icon-component"
+                               style="font-size: 20px; color: #1E9FFF;"></i>
+                            <span style="font-size: 16px">&nbsp;&nbsp;功能</span>
+                        </a>
+                    </li>-->
+                    <li class="layui-nav-item">
+                        <a href="javascript:void(0)" id="projectSettings">
+                            <i class="layui-icon layui-icon-set-fill" style="font-size: 20px; color: #1E9FFF;"></i>
+                            <span style="font-size: 16px">&nbsp;&nbsp;设置</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <div class="layui-body" style="top: 20px" id="apiDocDiv">
+        <div class="layui-fluid">
+            <iframe src="" id="docContentFrame" frameborder="0" height="1000px" style="width: 100%; "
+                    onload="window.osiFrame = OverlayScrollbars(document.getElementById('docContentFrame').contentWindow.document.body, { autoUpdate : false, resize: 'both' })"
+            >
+            </iframe>
+        </div>
+    </div>
+
+</div>
+
+
+<input type="hidden" id="projectId" th:value="${projectId}">
+
+<script th:src="@{/layui/layui.js}"></script>
+
+<script th:src="@{/admin/js/util.js}"></script>
+<script th:src="@{/admin/js/api_navigation.js}"></script>
+<script>
+    NProgress.configure({easing: 'ease', speed: 300});
+
+    $("body").show();
+    NProgress.start();
+    setTimeout(function () {
+        NProgress.done();
+        $(".fade").removeClass("out");
+    }, 1000);
+
+</script>
+<script>
+
+    $('#apiDocDiv').overlayScrollbars({ /* your options */});
+    layui.config({
+        base: '/restdoc/layui/lay/extends/'
+    }).use([
+        'util',
+        'layer',
+        'element',
+        'jquery',
+        'tree'], function () {
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        var element = layui.element;
+        var projectId = $("#projectId").val();
+
+        $("#docContentFrame").attr("src", "/restdoc/project/" + projectId + "/navigation/view");
+
+        element.on('nav(menu)', function (elem) {
+            if ('apiDocument' === elem[0].id) {
+                NProgress.start();
+                $('#docContentFrame').attr("src", "/restdoc/project/" + projectId + "/navigation/view");
+                setTimeout(function () {
+                    NProgress.done();
+                    $(".fade").removeClass("out");
+                }, 1000);
+            } else if ('projectSettings' === elem[0].id) {
+                NProgress.start();
+                $("#docContentFrame").attr("src", '/restdoc/project/' + projectId + '/settings/view');
+                setTimeout(function () {
+                    NProgress.done();
+                    $(".fade").removeClass("out");
+                }, 50);
+            } else if ('devapp' === elem[0].id) {
+                NProgress.start();
+                $("#docContentFrame").attr("src", '/restdoc/devapp/view/list?projectId='+projectId);
+                setTimeout(function () {
+                    NProgress.done();
+                    $(".fade").removeClass("out");
+                }, 50);
+            }
+
+        });
+    });
+    $('#restweb-project-nav').addClass("layui-this");
+</script>
+</body>
+</html>

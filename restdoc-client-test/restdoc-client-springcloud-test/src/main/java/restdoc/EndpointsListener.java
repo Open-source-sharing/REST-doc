@@ -1,5 +1,6 @@
 package restdoc;
 
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
@@ -9,8 +10,6 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import java.util.Map;
-
 /**
  * The EndpointsListener provided report client api list info to server
  *
@@ -18,23 +17,22 @@ import java.util.Map;
  */
 public class EndpointsListener implements ApplicationListener<ContextRefreshedEvent> {
 
-    private static Logger log = LoggerFactory.getLogger(EndpointsListener.class);
+  private static Logger log = LoggerFactory.getLogger(EndpointsListener.class);
 
+  private final Environment environment;
 
-    private final Environment environment;
+  public EndpointsListener(Environment environment) {
+    this.environment = environment;
+  }
 
-    public EndpointsListener(Environment environment) {
-        this.environment = environment;
-    }
+  @Override
+  public void onApplicationEvent(ContextRefreshedEvent event) {
+    Map<RequestMappingInfo, HandlerMethod> handlerMethods =
+        event
+            .getApplicationContext()
+            .getBean(RequestMappingHandlerMapping.class)
+            .getHandlerMethods();
 
-    @Override
-    public void onApplicationEvent(ContextRefreshedEvent event) {
-        Map<RequestMappingInfo, HandlerMethod> handlerMethods = event.getApplicationContext()
-                .getBean(RequestMappingHandlerMapping.class)
-                .getHandlerMethods();
-
-
-        System.err.println(handlerMethods);
-    }
-
+    System.err.println(handlerMethods);
+  }
 }
