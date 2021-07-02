@@ -8,8 +8,8 @@ import org.springframework.data.mongodb.core.query.Query
 import org.springframework.web.bind.annotation.*
 import smartdoc.dashboard.controller.console.model.CreateProjectDto
 import smartdoc.dashboard.controller.console.model.UpdateProjectDto
-import smartdoc.dashboard.core.Result
-import smartdoc.dashboard.core.Status
+import smartdoc.dashboard.core.ApiResponse
+import smartdoc.dashboard.core.ApiStandard
 import smartdoc.dashboard.core.ok
 import smartdoc.dashboard.model.ANY_ROLE
 import smartdoc.dashboard.model.Project
@@ -38,26 +38,26 @@ class ProjectController {
     fun list(@RequestParam(required = false, defaultValue = "0") page: Int,
              @RequestParam(required = false, defaultValue = "12") size: Int,
              @RequestParam type: ProjectType
-    ): Result {
+    ): ApiResponse {
         return ok(projectRepository.page(Query().addCriteria(Criteria("type").`is`(type)), PageRequest.of(page, size)))
     }
 
 
     @GetMapping("/{id}")
     @smartdoc.dashboard.base.auth.Verify(role = [ANY_ROLE])
-    fun get(@PathVariable id: String): Result = ok(mongoTemplate.findById(id, Project::class.java))
+    fun get(@PathVariable id: String): ApiResponse = ok(mongoTemplate.findById(id, Project::class.java))
 
     @DeleteMapping("/{id}")
     @smartdoc.dashboard.base.auth.Verify(role = [SYS_ADMIN])
-    fun delete(@PathVariable id: String): Result {
+    fun delete(@PathVariable id: String): ApiResponse {
         val deleteResult = projectRepository.delete(Query().addCriteria(Criteria("_id").`is`(id)))
         return ok(deleteResult)
     }
 
     @PostMapping("")
     @smartdoc.dashboard.base.auth.Verify(role = [SYS_ADMIN])
-    fun create(@RequestBody dto: CreateProjectDto): Result {
-        if (dto.type == ProjectType.SPRINGCLOUD) Status.BAD_REQUEST.error("暂不支持SpringCloud项目")
+    fun create(@RequestBody dto: CreateProjectDto): ApiResponse {
+        if (dto.type == ProjectType.SPRINGCLOUD) ApiStandard.BAD_REQUEST.error("暂不支持SpringCloud项目")
         val projectId = smartdoc.dashboard.util.IDUtil.id()
         val project = Project(
                 id = projectId,
@@ -73,7 +73,7 @@ class ProjectController {
 
     @PatchMapping("")
     @smartdoc.dashboard.base.auth.Verify(role = [SYS_ADMIN])
-    fun update(@RequestBody @Valid dto: UpdateProjectDto): Result {
+    fun update(@RequestBody @Valid dto: UpdateProjectDto): ApiResponse {
         projectRepository.update(Project(
                 id = dto.id,
                 name = dto.name,

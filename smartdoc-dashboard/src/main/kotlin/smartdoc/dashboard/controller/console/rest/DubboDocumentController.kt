@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import smartdoc.dashboard.controller.console.model.UpdateDubboDocumentDto
-import smartdoc.dashboard.core.Result
-import smartdoc.dashboard.core.Status
+import smartdoc.dashboard.core.ApiResponse
+import smartdoc.dashboard.core.ApiStandard
 import smartdoc.dashboard.core.ok
 import smartdoc.dashboard.repository.DubboDocumentRepository
 
@@ -23,9 +23,9 @@ class DubboDocumentController {
 
     @PatchMapping("/dubboDocument/{id}")
     fun patch(@PathVariable id: String,
-              @RequestBody dto: UpdateDubboDocumentDto): Result {
+              @RequestBody dto: UpdateDubboDocumentDto): ApiResponse {
 
-        val oldDocument = dubboDocumentRepository.findById(id).orElseThrow { Status.BAD_REQUEST.instanceError("id参数错误") }
+        val oldDocument = dubboDocumentRepository.findById(id).orElseThrow { ApiStandard.BAD_REQUEST.instanceError("id参数错误") }
 
         dto.description?.let {
             oldDocument.desc = it

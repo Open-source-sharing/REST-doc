@@ -1,17 +1,18 @@
 package smartdoc.dashboard.projector;
 
-import static java.lang.String.format;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.*;
+import org.springframework.util.Assert;
+import smartdoc.dashboard.core.ApiStandard;
+import smartdoc.dashboard.model.doc.http.BodyFieldDescriptor;
+import smartdoc.dashboard.util.FieldType;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.util.Assert;
-import smartdoc.dashboard.core.Status;
-import smartdoc.dashboard.model.doc.http.BodyFieldDescriptor;
-import smartdoc.dashboard.util.FieldType;
+
+import static java.lang.String.format;
 
 /**
  * The JsonDeProjector provided deProject json string content to bodyDescriptor
@@ -96,7 +97,7 @@ public class JsonDeProjector implements DeProjector {
       this.translateArray(
           new Node("root[0]", "root", FieldType.ARRAY, FieldType.MISSING), (ArrayNode) jsonNode);
     else {
-      Status.BAD_REQUEST.error();
+      ApiStandard.BAD_REQUEST.error();
     }
   }
 

@@ -2,6 +2,7 @@ package smartdoc.dashboard
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.context.annotation.Import
 
 /**
  *
@@ -10,6 +11,7 @@ import org.springframework.boot.runApplication
  * @since 1.0
  */
 @SpringBootApplication
+@Import()
 open class SmartDocApplication
 
 /**

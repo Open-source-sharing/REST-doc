@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestParam
 import smartdoc.dashboard.controller.console.model.*
-import smartdoc.dashboard.core.Status
+import smartdoc.dashboard.core.ApiStandard
 import smartdoc.dashboard.model.doc.DocType
 import smartdoc.dashboard.model.doc.http.HttpDocument
 import smartdoc.dashboard.repository.HttpDocumentRepository
@@ -149,7 +149,7 @@ class RestWebDocumentViewController {
                 requestHeader?.description
             }
             else -> {
-                Status.INTERNAL_SERVER_ERROR.error()
+                ApiStandard.INTERNAL_SERVER_ERROR.error()
             }
         }
 

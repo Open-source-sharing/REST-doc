@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service
 import restdoc.rpc.client.common.model.ApplicationType
 import restdoc.rpc.client.common.model.FieldType
 import restdoc.rpc.client.common.model.http.HttpApiDescriptor
-import smartdoc.dashboard.core.Status
+import smartdoc.dashboard.core.ApiStandard
 import smartdoc.dashboard.distributelock.LockKey
 import smartdoc.dashboard.model.Resource
 import smartdoc.dashboard.model.doc.http.*
@@ -85,7 +85,7 @@ open class HttpDocumentServiceImpl(val mongoTemplate: MongoTemplate,
                                        user: String): Map<Resource, Map<Resource, List<HttpDocument>>> {
 
         val project = projectRepository.findById(projectId)
-                .orElseThrow { Status.INVALID_REQUEST.instanceError("invalid projectId") }
+                .orElseThrow { ApiStandard.INVALID_REQUEST.instanceError("invalid projectId") }
 
         val emptyApiTemplates = apiManager.list(clientId, ApplicationType.valueOf(project.type.name)) as List<HttpApiDescriptor>
         val ret = emptyApiTemplates

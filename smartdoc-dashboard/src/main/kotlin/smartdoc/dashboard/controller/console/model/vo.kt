@@ -203,7 +203,7 @@ internal fun transformRestDocumentToVO(doc: HttpDocument): RestWebDocumentVO {
             curlCodeSample = codeSample.curlCode(),
             javaCodeSample = codeSample.javaCode(),
             pythonCodeSample = codeSample.pythonCode(),
-            requestFakeCodeSample =codeSample.fakeRequestCode(),
+            requestFakeCodeSample = codeSample.fakeRequestCode(),
             responseFakeCodeSample = codeSample.fakeResponseCode(),
             lastUpdateTime = doc.lastUpdateTime
     )
@@ -223,21 +223,31 @@ internal data class TestDubboMicroserviceResult(
 
 internal data class SyncDocumentResultVo(val totalQuantity: Int, val savedQuantity: Int)
 
-data class DTreeVO(val id: String,
-                   val title: String,
-                   val parentId: String,
-                   var children: MutableList<Any> = mutableListOf(),
-                   var type: NodeType = NodeType.RESOURCE,
-                   val checkArr: List<Any> = listOf(
-                           mapOf("type" to 0, "checked" to 0)
-                   ),
-                   var iconClass: String? = null,
-                   val spread: Boolean = false)
+data class DTreeNodeVO(val id: String,
+                       val title: String,
+                       val parentId: String,
+                       var children: MutableList<Any> = mutableListOf(),
+                       var nodeType: NodeType = NodeType.RESOURCE,
+                       var iconClass: String? = null,
+                       val spread: Boolean = false
+)
 
+@Deprecated(message = "DTreeResVO")
 data class DTreeResVO(
         val status: Map<String, Any> = mutableMapOf("code" to "200", "message" to "操作成功"),
         val data: List<Any>
 )
+
+data class DTreeApiResponse(
+        val status: DTreeApiResponseStatus = DTreeApiResponseStatus(),
+        val data: MutableList<DTreeNodeVO> = mutableListOf()
+)
+
+data class DTreeApiResponseStatus(
+        val code: Int = 200,
+        val message: String = "操作成功"
+)
+
 
 data class HttpApiTestLogDeProjectVO(
         val method: HttpMethod,

@@ -8,15 +8,15 @@ import restdoc.remoting.netty.NettyRequestProcessor;
 import restdoc.remoting.protocol.RemotingCommand;
 import restdoc.remoting.protocol.RemotingSerializable;
 import restdoc.remoting.protocol.RemotingSysResponseCode;
-import smartdoc.client.springmvc.RestWebInvokerImpl;
+import smartdoc.client.springmvc.SpringMVCInvokerImpl;
 
 /** InvokerAPIHandler */
 public class InvokerApiHandler implements NettyRequestProcessor {
 
-  private final RestWebInvokerImpl invoker;
+  private final SpringMVCInvokerImpl invoker;
 
   @Autowired
-  public InvokerApiHandler(RestWebInvokerImpl invoker) {
+  public InvokerApiHandler(SpringMVCInvokerImpl invoker) {
     this.invoker = invoker;
   }
 

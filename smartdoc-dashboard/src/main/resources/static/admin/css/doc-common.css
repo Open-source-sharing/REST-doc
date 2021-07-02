@@ -41,10 +41,10 @@ textarea{
     font-size: 14px;
 }
 .layui-table th{
-    color: black;
+    /*color: black;*/
     font-size: 15px;
-    font-weight: bold;
-    text-align: left;
+    /*font-weight: bold;*/
+    /*text-align: left;*/
 }
 
 

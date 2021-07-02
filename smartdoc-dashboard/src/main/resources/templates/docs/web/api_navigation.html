@@ -24,27 +24,6 @@
             integrity="sha512-3Ofi0j25Ar6Hyqk2sdvfuoVCvvN6nE6Dh/eoMc8RQ/bnCvO8wpE+M5KyJz6T08T7pl/x82I/3Y5Amz9n3T9Esw=="
             crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
-    <script type="application/ld+json">
-
-        {
-            "@context": "http://schema.org",
-            "@type": "SoftwareSourceCode",
-            "url": "https://kingsora.github.io/OverlayScrollbars",
-            "name": "Overlay Scrollbars",
-            "description": "A javascript scrollbar plugin which hides the native scrollbars and provides custom styleable overlay scrollbars, but keeps the native functionality and feeling.",
-            "disambiguatingDescription": "javascript overlay scrollbars plugin",
-            "license": "https://en.wikipedia.org/wiki/MIT_License",
-            "keywords": "js,javascript,OverlayScrollbars,overlay,scrollbars,custom,scrollbar,plugin,jquery,scrollbars,polyfill",
-            "isAccessibleForFree": true,
-            "image": "https://kingsora.github.io/OverlayScrollbars/img/logo.png",
-            "codeRepository": "https://github.com/KingSora/OverlayScrollbars",
-            "programmingLanguage": {
-                "@type": "ComputerLanguage",
-                "name": "javascript",
-                "alternateName": "js"
-            }
-        }
-    </script>
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -84,12 +63,11 @@
 </head>
 <body>
 <input id="projectId" type="hidden" th:value="${projectId}">
-<div class="layui-fluid">
+<div class="layui-fluid" id="pageContainer">
     <div class="layui-row layui-col-space30">
-        <div class="layui-col-md2">
-            <div class="layui-row" style="margin-top: 20px">
-                <div class="layui-col-md1"></div>
-                <div class="layui-col-md8">
+        <div class="layui-col-md3">
+            <div class="layui-row" >
+                <div class="layui-col-md10">
                     <input type="text" id="searchInput" name="title" required lay-verify="required" placeholder="关键字"
                            autocomplete="off"
                            class="layui-input">
@@ -99,21 +77,18 @@
                         <i class="layui-icon layui-icon-search"></i>
                     </button>
                 </div>
-                <div class="layui-col-md1"></div>
             </div>
-            <div class="layui-row layui-bg-gray" style="margin-top: 20px; height: 350px;overflow: auto; "
+            <div class="layui-row layui-bg-gray" style="height: 100%;overflow: auto; "
                  id="tableContentDiv">
                 <ul id="dtreeTableContent" class="dtree" data-id="0"></ul>
             </div>
         </div>
-        <div class="layui-col-md9">
-            <iframe id="apiDocFrame" src="" style="width: 100%;" scrolling="no" frameborder="no" border="0"
+        <div class="layui-col-md9" id="apiDocDiv" style="height: 100%;top: 0;bottom: 0;">
+            <iframe id="apiDocFrame" src="" style="width: 100%;height: 100%;top: 0;bottom: 0;left: 0;right: 0" frameborder="no" border="0"
                     marginwidth="0"
                     marginheight="0"
 
-                    onload="window.osiFrame = OverlayScrollbars(document.getElementById('apiDocFrame').contentWindow.document.body, { autoUpdate : false, resize: 'both' })"
-            >
-
+                    onload="window.osiFrame = OverlayScrollbars(document.getElementById('apiDocFrame').contentWindow.document.body, { autoUpdate : false, resize: 'both' })">
             </iframe>
         </div>
     </div>
@@ -156,6 +131,10 @@
 <script th:src="@{/admin/js/api_navigation.js}"></script>
 
 <script th:inline="javascript">
+
+    // setup height
+   // $("#pageContainer").css('height',$(document.body).height());
+
     $('#tableContentDiv').overlayScrollbars({ /* your options */});
     var projectId = $("#projectId").val();
     var lay = null;
@@ -173,50 +152,20 @@
             util = layui.util;
             lay = layer;
 
-            var dtreeData = null;
-
-            function setDTreeData(async) {
-                if (async == null) async = false;
-                $.ajax({
-                    type: 'GET',
-                    url: "/restdoc/" + projectId + "/resource/dtree?at=REST_WEB",
-                    async: async,
-                    success: function (data) {
-                        if (data['code'] === 0) {
-                            dtreeData = data['data'];
-                        } else {
-                            layer.msg(data['msg']);
-                        }
-                    },
-                    error: function () {
-                        layer.msg("网络异常")
-                    }
-                });
-            }
-
-            setDTreeData();
-
             var dtreeOptions = {
-                // checkbar: true,
                 elem: "#dtreeTableContent",
-                data: dtreeData,
-                dataFormat: "list",
+                url: "/restdoc/" + projectId + "/resource/dtree?at=REST_WEB",
                 initLevel: 1,
-                skin: "zdy",
-                iconfont: ["dtreefont", "layui-icon", "iconfont"],
-                ficon: ["1", "-1"],
+                iconfont: ["dtreefont", "layui-icon"],
+                line: true,// 开启竖线
+                icon: -1,
                 height: "900",
+                width: "100%",
                 scroll: "#tableContentDiv",
-                iconfontStyle: {
-                    fnode: {
-                        node: {
-                            open: "dtree-icon-xiangxia1",
-                            close: "dtree-icon-xiangyou"
-                        }
-                    }
-                },
+                none: "SmartDoc无法加载目录数据，可能是网络存在问题",
+                record: true,// 开启数据记录模式
                 done: function (data, obj, first) {
-                }
+                },
             };
 
             if (readOnly === null) {
@@ -249,8 +198,8 @@
                                     type: 1,
                                     scrollbar: false,
                                     content: $('#create'),
-                                    area: ['800px', '400px'],
-                                    shade:0,
+                                    area: ['600px', '400px'],
+                                    shade: 0,
                                     title: '新建目录',
                                     btn: ['确定', '取消'],
                                     yes: function (ix, layero) {
@@ -280,10 +229,10 @@
                                                             "id": res.data.id,
                                                             "title": res.data.name,
                                                             "parentId": node.nodeId,
-                                                            "iconClass": "dtree-icon-weibiaoti5"
+                                                            "iconClass": "dtree-icon-weibiaoti5",
+                                                            "nodeType": "RESOURCE"
                                                         };
                                                         DemoTree.partialRefreshAdd($div, json);
-                                                        setDTreeData(false);
                                                     } else {
                                                         layer.msg(res.message);
                                                     }
@@ -324,13 +273,13 @@
                         title: "删除",
                         icon: "dtree-icon-delete1",
                         handler: function (node, $div) {
-                            deleteNode(node);
+                            deleteNode(node, $div);
                         }
                     }
                 ];
                 dtreeOptions['toolbarFun'] = {
                     loadToolbarBefore: function (buttons, param, $div) {
-                        if (nodeIsResource(param.nodeId)) {
+                        if (param.recordData.nodeType === "RESOURCE") {
                             buttons.copyDoc = "";
                             if (param.nodeId === 'root') {
                                 buttons.del = "";
@@ -349,19 +298,18 @@
             var DemoTree = dtree.render(dtreeOptions);
 
             function editNode(node, $div) {
-
                 commonToolHandler(node, node.parentId, function () {
                     $("#name").val(node.context);
                     layer.open({
                         type: 1,
                         scrollbar: false,
                         content: $('#create'),
-                        area: ['800px', '400px'],
-                        shade:0,
+                        area: ['600px', '400px'],
+                        shade: 0,
                         title: '编辑',
                         btn: ['确定', '取消'],
                         yes: function (ix, layero) {
-                            var url = nodeIsResource(node.nodeId) ? "/restdoc/resource" : "/restdoc/document/baseinfo";
+                            var url = node.recordData.nodeType === "RESOURCE" ? "/restdoc/resource" : "/restdoc/document/baseinfo";
                             var text = $("#name").val();
                             $.ajax({
                                 method: "PATCH",
@@ -376,7 +324,6 @@
                                 }),
                                 success: function (res) {
                                     if (res.code === '200') {
-                                        setDTreeData();
                                         DemoTree.partialRefreshEdit($div, text);
                                     } else {
                                         layer.msg(res.message);
@@ -392,52 +339,58 @@
                 })
             }
 
-            function deleteNode(node) {
-                layer.confirm('删除后不可恢复! 确认删除' + node.context + '?', {icon: 3, title: '提示'},
-                    function (index) {
-                        if (nodeIsResource(node.nodeId)) {
-                            var hasChildren = false;
-                            for (var i = 0; i < dtreeData.length; i++) {
-                                if (dtreeData[i].parentId === node.nodeId) {
-                                    hasChildren = true;
-                                    break;
-                                }
-                            }
-                            if (hasChildren) {
-                                layer.alert("该目录下还存在文档，不可删除");
-                                return;
+            function deleteNode(node, $div) {
+
+                var delFunc = function (url) {
+                    var returnVal = null;
+                    $.ajax({
+                        method: "DELETE",
+                        url: url,
+                        async: false,
+
+                        success: function (res) {
+                            returnVal = res;
+                        }
+                    });
+
+                    return returnVal;
+                };
+
+                if (node.recordData.nodeType === "RESOURCE") {
+                    var param = dtree.getChildParam(DemoTree, node.nodeId);
+                    if (param === undefined || param.length === 0) {
+                        layer.confirm('删除后不可恢复! 确认删除' + node.context + '?', {icon: 3, title: '警告'}, function (index) {
+                            var delRes = delFunc("/restdoc/" + projectId + "/resource/" + node.nodeId)
+                            if (delRes.code === "200") {
+                                layer.msg('操作成功！');
+                                DemoTree.partialRefreshDel($div);
                             } else {
-                                $.ajax({
-                                    method: "DELETE",
-                                    url: "/restdoc/" + projectId + "/resource/" + node.nodeId,
-                                    async: false,
-                                    success: function (res) {
-                                        if (res.code === '200') {
-                                            layer.msg("操作成功");
-                                            reloadNavTree();
-                                        } else layer.msg(res.message);
-                                    }
-                                });
+                                layer.msg(delRes.message)
                             }
+                            layer.close(index);
+                        })
+                    } else {
+                        layer.msg('该目录下还存在目录或者文档，不可删除!')
+                    }
+                } else {
+                    layer.confirm('删除后不可恢复! 确认删除' + node.context + '?', {icon: 3, title: '警告'}, function (index) {
+                        var delRes = delFunc("/restdoc/document/" + node.nodeId)
+                        if (delRes.code === "200") {
+                            layer.msg('操作成功！');
+                            if ($("#apiDocFrame").attr("src").includes(node.nodeId)) {
+
+                                //
+                                parent.location.reload();
+                            } else {
+                                DemoTree.partialRefreshDel($div);
+                            }
+
                         } else {
-                            $.ajax({
-                                method: "DELETE",
-                                url: "/restdoc/document/" + node.nodeId,
-                                async: false,
-                                success: function (res) {
-                                    if (res.code === '200') {
-                                        if ($("#apiDocFrame").attr("src").includes(node.nodeId)) {
-                                            layer.msg("操作成功");
-                                            parent.location.reload();
-                                        } else {
-                                            reloadNavTree();
-                                        }
-                                    } else layer.msg(res.message);
-                                }
-                            });
+                            layer.msg(delRes.message)
                         }
                         layer.close(index);
                     });
+                }
             }
 
             function resetCreateDiv() {
@@ -445,10 +398,8 @@
             }
 
             function reloadNavTree() {
-                setDTreeData();
                 dtree.reload(DemoTree, {
-                    data: dtreeData,
-                    dataFormat: "list"
+                    url: "/restdoc/" + projectId + "/resource/dtree?at=REST_WEB",
                 })
             }
 
@@ -458,9 +409,9 @@
                     layer.open({
                         type: 1,
                         scrollbar: false,
-                        shade:0,
+                        shade: 0,
                         content: $('#create'),
-                        area: ['800px', '400px'],
+                        area: ['600px', '400px'],
                         title: '拷贝文档',
                         btn: ['确定', '取消'],
                         yes: function (ix, layero) {
@@ -500,8 +451,8 @@
                     type: 1,
                     scrollbar: false,
                     content: $('#create'),
-                    area: ['800px', '400px'],
-                    shade:0,
+                    area: ['600px', '400px'],
+                    shade: 0,
                     title: windowTitle,
                     btn: ['确定', '取消'],
                     yes: function (ix, layero) {
@@ -528,11 +479,12 @@
                                 success: function (res) {
                                     if (res.code === '200') {
                                         resetCreateDiv();
-                                        setDTreeData(false);
 
                                         var json = {
-                                            "id": res.data.id, "title": res.data.name, "parentId": node.nodeId,
-                                            "iconClass": "dtree-icon-normal-file"
+                                            "id": res.data.id,
+                                            "title": res.data.name,
+                                            "parentId": node.nodeId,
+                                            "nodeType": docType
                                         };
                                         DemoTree.partialRefreshAdd($div, json);
 
@@ -557,38 +509,17 @@
             }
 
             function commonToolHandler(node, initNodeId, doneFunc) {
-                var resources = filterResources();
                 hideSelectNavTree = dtree.renderSelect({
                     elem: "#parentResourceSelect",
                     width: "100%",
-                    data: resources,
-                    dataFormat: "list",
-                    skin: "zdy",
-                    iconfont: ["dtreefont", "layui-icon", "iconfont"],
-                    ficon: ["1", "-1"],
-                    iconfontStyle: {
-                        fnode: {
-                            node: {
-                                open: "dtree-icon-xiangxia1",
-                                close: "dtree-icon-xiangyou"
-                            }
-                        }
-                    },
+                    url: "/restdoc/" + projectId + "/resource/dtree",
+                    line: true,
+                    request: {"at": "REST_WEB", "onlyQueryResource": true},
+                    iconfont: ["dtreefont", "layui-icon"],
+                    icon: -1,
                     selectInitVal: initNodeId,
                     done: doneFunc
                 });
-            }
-
-            function filterResources() {
-                var resources = [];
-                if (dtreeData !== null) {
-                    for (var i = 0; i < dtreeData.length; i++) {
-                        if (dtreeData[i].type === "RESOURCE") {
-                            resources.push(dtreeData[i]);
-                        }
-                    }
-                }
-                return resources;
             }
 
             function searchNode() {
@@ -611,32 +542,17 @@
             });
 
             dtree.on("node('dtreeTableContent')", function (obj) {
+                var recordData = obj.param.recordData;  // 取出
                 if (obj.param.leaf) {
-                    if (!nodeIsResource(obj.param.nodeId)) {
+                    if (recordData.nodeType !== "RESOURCE") {
                         $("#apiDocFrame").attr("src", '/restdoc/' + projectId + '/document/' + obj.param.nodeId + '/view');
-                        setIframeHeight("apiDocFrame");
+                        // setIframeHeight("apiDocFrame");
                     }
+
                 } else {
                     DemoTree.clickSpread(obj.dom);
                 }
             });
-            var docId = getFirstDocument(dtreeData);
-            if (null != docId) {
-                $("#apiDocFrame").attr("src", '/restdoc/' + projectId + '/document/' + docId + '/view');
-                setIframeHeight("apiDocFrame");
-            }
-
-            function nodeIsResource(nodeId) {
-                for (var i = 0; i < dtreeData.length; i++) {
-                    if (dtreeData[i].id === nodeId) {
-                        if (dtreeData[i].type == "WIKI" || dtreeData[i].type == "API") {
-                            return false;
-                        }
-                        break;
-                    }
-                }
-                return true;
-            }
         });
 </script>
 </body>

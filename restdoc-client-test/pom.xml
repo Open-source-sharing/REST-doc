@@ -14,9 +14,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>restdoc-client-dubbo-test</module>
-        <module>restdoc-client-springcloud-test</module>
         <module>restdoc-client-web-test</module>
-        <module>restdoc-client-springfu-test</module>
     </modules>
 
 

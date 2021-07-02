@@ -7,7 +7,8 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 import smartdoc.dashboard.base.auth.Token.ACCESS_TOKEN
 import smartdoc.dashboard.controller.show.model.AuthDTO
-import smartdoc.dashboard.core.Status
+import smartdoc.dashboard.core.ApiResponse
+import smartdoc.dashboard.core.ApiStandard
 import smartdoc.dashboard.core.failure
 import smartdoc.dashboard.core.ok
 import smartdoc.dashboard.model.ProjectType
@@ -18,7 +19,6 @@ import java.util.concurrent.TimeUnit
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
-import smartdoc.dashboard.core.Result
 
 @Controller(value = "showReadOnlyController")
 @RequestMapping("/or")
@@ -40,7 +40,7 @@ class ShowReadOnlyController {
     @smartdoc.dashboard.base.auth.Verify(require = false, role = [VIEWER])
     fun routeEntrance(@PathVariable projectId: String, model: Model): String {
         val project = projectRepository.findById(projectId)
-                .orElseThrow {  Status.INVALID_REQUEST.instanceError("id不存在") }
+                .orElseThrow {  ApiStandard.INVALID_REQUEST.instanceError("id不存在") }
 
         model.addAttribute("projectId", project.id)
         model.addAttribute("readOnly", true)
@@ -54,9 +54,9 @@ class ShowReadOnlyController {
 
     @PostMapping("/auth")
     @ResponseBody
-    fun auth(@RequestBody dto: AuthDTO, request: HttpServletRequest, response: HttpServletResponse, model: Model): Result {
+    fun auth(@RequestBody dto: AuthDTO, request: HttpServletRequest, response: HttpServletResponse, model: Model): ApiResponse {
         val project = projectRepository.findById(dto.projectId)
-                .orElseThrow {  Status.INVALID_REQUEST.instanceError("id不存在") }
+                .orElseThrow {  ApiStandard.INVALID_REQUEST.instanceError("id不存在") }
         val encryptPassword = smartdoc.dashboard.util.MD5Util.encryptPassword(dto.password, project.id, 1024)
 
         return if (encryptPassword == project.accessPassword) {
@@ -72,7 +72,7 @@ class ShowReadOnlyController {
 
             ok()
         } else {
-            failure(Status.INVALID_REQUEST, "访问密码错误")
+            failure(ApiStandard.INVALID_REQUEST, "访问密码错误")
         }
     }
 

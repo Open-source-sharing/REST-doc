@@ -13,8 +13,8 @@ import smartdoc.dashboard.controller.console.model.BatchDeleteDto
 import smartdoc.dashboard.controller.console.model.HttpApiTestLogDeProjectVO
 import smartdoc.dashboard.controller.console.model.LayuiPageDto
 import smartdoc.dashboard.controller.console.model.layuiTableOK
-import smartdoc.dashboard.core.Result
-import smartdoc.dashboard.core.Status
+import smartdoc.dashboard.core.ApiResponse
+import smartdoc.dashboard.core.ApiStandard
 import smartdoc.dashboard.core.ok
 import smartdoc.dashboard.repository.HttpApiTestLogRepository
 
@@ -38,9 +38,9 @@ class HttpApiTestLogController {
 
     @smartdoc.dashboard.base.auth.Verify(role = ["*"])
     @PostMapping("/document/httpapitestlog/{id}/deProject")
-    fun deProjectLogData(@PathVariable id: String): Result {
+    fun deProjectLogData(@PathVariable id: String): ApiResponse {
 
-        val log = httpApiTestLogRepository.findById(id).orElseThrow { Status.BAD_REQUEST.instanceError() }
+        val log = httpApiTestLogRepository.findById(id).orElseThrow { ApiStandard.BAD_REQUEST.instanceError() }
 
         val responseBodyParameters =
                 if (log.responseBody != null)
@@ -64,22 +64,22 @@ class HttpApiTestLogController {
      */
     @smartdoc.dashboard.base.auth.Verify(role = ["SYS_ADMIN"])
     @DeleteMapping("/document/httpapitestlog/batch")
-    fun batchDelete(@RequestBody dto: BatchDeleteDto): Result {
+    fun batchDelete(@RequestBody dto: BatchDeleteDto): ApiResponse {
         val deleteResult = httpApiTestLogRepository.delete(Query(Criteria("id").`in`(dto.ids)))
         return ok()
     }
 
     @smartdoc.dashboard.base.auth.Verify(role = ["SYS_ADMIN"])
     @DeleteMapping("/document/httpapitestlog/{id}")
-    fun delete(@PathVariable id: String): Result {
+    fun delete(@PathVariable id: String): ApiResponse {
         httpApiTestLogRepository.deleteById(id)
         return ok()
     }
 
     @smartdoc.dashboard.base.auth.Verify(role = ["*"])
     @PostMapping("/document/httpapitestlog/{id}/log2testresult")
-    fun log2TestResult(@PathVariable id: String): Result {
-        val log = httpApiTestLogRepository.findById(id).orElseThrow { Status.BAD_REQUEST.instanceError() }
+    fun log2TestResult(@PathVariable id: String): ApiResponse {
+        val log = httpApiTestLogRepository.findById(id).orElseThrow { ApiStandard.BAD_REQUEST.instanceError() }
 
         val invocationResult = HttpInvocationResult()
         invocationResult.apply {

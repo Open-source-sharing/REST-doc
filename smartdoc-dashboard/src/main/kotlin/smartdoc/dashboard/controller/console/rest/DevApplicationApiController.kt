@@ -3,11 +3,8 @@ package smartdoc.dashboard.controller.console.rest
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 import restdoc.rpc.client.common.model.ApplicationType
-import smartdoc.dashboard.controller.console.model.DTreeResVO
-import smartdoc.dashboard.controller.console.model.DTreeVO
-import smartdoc.dashboard.controller.console.model.ImportApiDto
-import smartdoc.dashboard.controller.console.model.NodeType
-import smartdoc.dashboard.core.Status
+import smartdoc.dashboard.controller.console.model.*
+import smartdoc.dashboard.core.ApiStandard
 import smartdoc.dashboard.core.ok
 import smartdoc.dashboard.model.ProjectType
 import smartdoc.dashboard.model.SYS_ADMIN
@@ -30,16 +27,16 @@ class DevApplicationApiController(val apiManager: ApiManager,
              @RequestParam at: ApplicationType,
              @RequestParam projectId: String): Any {
 
-        val rootNode = DTreeVO(
+        val rootNode = DTreeNodeVO(
                 id = "root",
                 title = "一级目录(虚拟)",
                 parentId = "0",
-                type = NodeType.RESOURCE,
+                nodeType = NodeType.RESOURCE,
                 spread = true)
 
         val tree = when (at) {
             ApplicationType.REST_WEB -> {
-                val res = mutableListOf<DTreeVO>()
+                val res = mutableListOf<DTreeNodeVO>()
 
                 val docTableContent =
                         httpDocumentService.transformToHttpApiDoc(clientId, projectId, holderKit.user.id)
@@ -51,17 +48,17 @@ class DevApplicationApiController(val apiManager: ApiManager,
                         val controller = it.key
 
                         val endpointDTreeVos = it.value.map {
-                            DTreeVO(
+                            DTreeNodeVO(
                                     id = it.id!!,
                                     title = it.url,
                                     iconClass = "dtree-icon-normal-file",
-                                    type = NodeType.API,
+                                    nodeType = NodeType.API,
                                     parentId = controller.id!!)
                         }
 
                         res.addAll(endpointDTreeVos)
 
-                        val classDTreeVo = DTreeVO(
+                        val classDTreeVo = DTreeNodeVO(
                                 id = controller.id!!,
                                 title = controller.name!! ,
                                 iconClass = "dtree-icon-weibiaoti5",
@@ -70,7 +67,7 @@ class DevApplicationApiController(val apiManager: ApiManager,
                         res.add(classDTreeVo)
                     }
 
-                    val pkDTreeVo = DTreeVO(
+                    val pkDTreeVo = DTreeNodeVO(
                             id = pk.id!!,
                             title = pk.name!!,
                             iconClass = "dtree-icon-weibiaoti5",
@@ -82,15 +79,17 @@ class DevApplicationApiController(val apiManager: ApiManager,
             }
             else -> throw NotImplementedError()
         }
+        //
 
         rootNode.children.add(
-                DTreeVO(
+                DTreeNodeVO(
                         id = "ID",
                         title = "it",
                         iconClass = "dtree-icon-weibiaoti5",
                         parentId = "root")
         )
         tree.add(rootNode)
+
         return DTreeResVO(data = tree)
     }
 
@@ -98,7 +97,7 @@ class DevApplicationApiController(val apiManager: ApiManager,
     fun importApi(@RequestBody dto: ImportApiDto): Any {
 
         val project = projectRepository.findById(dto.projectId)
-                .orElseThrow { Status.INVALID_REQUEST.instanceError("invalid projectId") }
+                .orElseThrow { ApiStandard.INVALID_REQUEST.instanceError("invalid projectId") }
 
         if (ProjectType.REST_WEB == project.type) {
             httpDocumentService.importApi(dto.clientId, dto.projectId, holderKit.user.id, dto.apiIds)

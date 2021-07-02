@@ -15,7 +15,6 @@
         <module>restdoc-rpc-client</module>
         <module>restdoc-client-test</module>
         <module>smartdoc-oas</module>
-        <module>smartdoc-remote</module>
     </modules>
 
     <parent>

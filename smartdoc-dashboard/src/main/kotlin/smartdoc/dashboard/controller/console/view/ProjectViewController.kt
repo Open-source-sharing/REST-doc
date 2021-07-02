@@ -7,7 +7,7 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestParam
-import smartdoc.dashboard.core.Status
+import smartdoc.dashboard.core.ApiStandard
 import smartdoc.dashboard.model.Project
 import smartdoc.dashboard.model.ProjectType
 import smartdoc.dashboard.repository.ProjectRepository
@@ -54,7 +54,7 @@ class ProjectViewController {
     @GetMapping("/project/{id}/navigation/view")
     fun apiNavigationPage(@PathVariable id: String, model: Model): String {
         model.addAttribute("projectId", id)
-        val project = projectRepository.findById(id).orElseThrow {  Status.INVALID_REQUEST.instanceError("id不存在") }
+        val project = projectRepository.findById(id).orElseThrow {  ApiStandard.INVALID_REQUEST.instanceError("id不存在") }
         return if (project.type == ProjectType.REST_WEB)
             "docs/web/api_navigation"
         else ""
@@ -62,7 +62,7 @@ class ProjectViewController {
 
     @GetMapping("/project/{id}/settings/view")
     fun projectSettings(@PathVariable id: String, model: Model): String {
-        val project = projectRepository.findById(id).orElseThrow {  Status.INVALID_REQUEST.instanceError("id不存在") }
+        val project = projectRepository.findById(id).orElseThrow {  ApiStandard.INVALID_REQUEST.instanceError("id不存在") }
         model.addAttribute("project", project)
         return if (project.type == ProjectType.REST_WEB) "project/settings/web_detail" else ""
     }

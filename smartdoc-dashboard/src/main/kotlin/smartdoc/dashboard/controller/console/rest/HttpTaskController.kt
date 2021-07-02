@@ -13,7 +13,7 @@ import restdoc.client.api.model.HttpInvocationResult
 import restdoc.client.api.model.InvocationResult
 import smartdoc.dashboard.controller.console.model.RequestDto
 import smartdoc.dashboard.controller.console.model.RestWebInvocationResultVO
-import smartdoc.dashboard.core.Status
+import smartdoc.dashboard.core.ApiStandard
 import smartdoc.dashboard.core.ok
 import smartdoc.dashboard.model.HttpApiTestLog
 import smartdoc.dashboard.model.HttpTaskExecutor
@@ -48,7 +48,7 @@ class HttpTaskController {
             result
         } else {
             if (!dto.url.startsWith("http") && !dto.url.startsWith("https"))
-                Status.BAD_REQUEST.error("请填写完整的API请求地址")
+                ApiStandard.BAD_REQUEST.error("请填写完整的API请求地址")
             val result = publicNetExecuteTask(dto)
             log.testMode = TestMode.PUBLIC_NET
             val url = URL(dto.url)

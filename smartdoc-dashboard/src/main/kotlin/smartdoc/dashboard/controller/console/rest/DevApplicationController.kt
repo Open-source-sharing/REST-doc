@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import smartdoc.dashboard.controller.console.model.DevApplicationVO
 import smartdoc.dashboard.controller.console.model.layuiTableOK
-import smartdoc.dashboard.core.Status
+import smartdoc.dashboard.core.ApiStandard
 import smartdoc.dashboard.repository.ProjectRepository
 import smartdoc.dashboard.schedule.ClientManager
 
@@ -18,7 +18,7 @@ class DevApplicationController(val clientManager: ClientManager, val projectRepo
     fun list(@RequestParam(required = false, defaultValue = "") projectId: String): Any {
         var ap = ""
         if (projectId.isNotBlank()) {
-            val project = projectRepository.findById(projectId).orElseThrow {  Status.INVALID_REQUEST.instanceError() }
+            val project = projectRepository.findById(projectId).orElseThrow {  ApiStandard.INVALID_REQUEST.instanceError() }
             ap = project.type.name
         }
         val adapters = clientManager.list()

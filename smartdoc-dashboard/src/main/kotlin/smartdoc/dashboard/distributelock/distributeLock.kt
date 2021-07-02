@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Component
+import smartdoc.dashboard.core.ApiStandard
 import smartdoc.dashboard.core.ServiceException
-import smartdoc.dashboard.core.Status
 import java.lang.reflect.Method
 
 /**
@@ -85,9 +85,9 @@ open class DistributeLockAspect(
         }
         val lockKey: String
         if (lockKeyIndex == -1 )
-            Status.INTERNAL_SERVER_ERROR.error("LockKey Error")
+            ApiStandard.INTERNAL_SERVER_ERROR.error("LockKey Error")
         if (args[lockKeyIndex] == null)
-             Status.INTERNAL_SERVER_ERROR.error("LockKey Error")
+             ApiStandard.INTERNAL_SERVER_ERROR.error("LockKey Error")
 
         lockKey = args[lockKeyIndex].toString()
 
@@ -102,6 +102,6 @@ open class DistributeLockAspect(
             val result: Any? = point.proceed(args)
             lockTool.unlock(lockKey)
             return result
-        } else throw ServiceException(Status.INVALID_REQUEST)
+        } else throw ServiceException(ApiStandard.INVALID_REQUEST)
     }
 }

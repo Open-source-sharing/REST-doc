@@ -571,3 +571,4 @@ function updateDocumentTable(type, data) {
     return returnValue;
 }
 
+

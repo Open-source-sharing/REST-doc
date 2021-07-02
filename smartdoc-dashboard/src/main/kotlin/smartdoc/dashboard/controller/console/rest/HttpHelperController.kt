@@ -8,8 +8,8 @@ import smartdoc.dashboard.controller.console.model.QueryParamKeyValueVO
 import smartdoc.dashboard.controller.console.model.SearchHeaderKeyVO
 import smartdoc.dashboard.controller.console.model.SearchHeaderValueVO
 import smartdoc.dashboard.controller.console.model.URLExtractDto
-import smartdoc.dashboard.core.Result
-import smartdoc.dashboard.core.Status
+import smartdoc.dashboard.core.ApiResponse
+import smartdoc.dashboard.core.ApiStandard
 import smartdoc.dashboard.core.failure
 import smartdoc.dashboard.core.ok
 import smartdoc.dashboard.model.SYS_ADMIN
@@ -76,7 +76,7 @@ class HttpHelperController {
     }
 
     @GetMapping("/headerkey/search")
-    fun searchStandardHeaderKey(@RequestParam(defaultValue = "") text: String): Result {
+    fun searchStandardHeaderKey(@RequestParam(defaultValue = "") text: String): ApiResponse {
         if (text.isBlank()) return ok(headers.map { SearchHeaderKeyVO(it) })
         return ok(headers.filter { it.contains(text) }.map { SearchHeaderKeyVO(it) })
     }
@@ -85,7 +85,7 @@ class HttpHelperController {
     fun searchValueByStandardHeaderKey(
             @RequestParam(defaultValue = "") headerKey: String,
             @RequestParam(defaultValue = "") text: String
-    ): Result {
+    ): ApiResponse {
 
         return if (headerKey.isBlank()) ok(mutableListOf<SearchHeaderValueVO>())
         else {
@@ -98,7 +98,7 @@ class HttpHelperController {
     }
 
     @PostMapping("/uri/var/extract")
-    fun extractURIVars(@RequestBody dto: URLExtractDto): Result {
+    fun extractURIVars(@RequestBody dto: URLExtractDto): ApiResponse {
         if (dto.url.isBlank()) return ok(mapOf<String, String>())
 
         return try {
@@ -106,12 +106,12 @@ class HttpHelperController {
             ok(uriTemplate.variableNames.map { it to "" }.toMap())
         } catch (e: Throwable) {
             e.printStackTrace()
-            failure(Status.INVALID_REQUEST)
+            failure(ApiStandard.INVALID_REQUEST)
         }
     }
 
     @PostMapping("/queryparam/var/extract")
-    fun extractQueryParamVars(@RequestBody dto: URLExtractDto): Result {
+    fun extractQueryParamVars(@RequestBody dto: URLExtractDto): ApiResponse {
         val si = dto.url.lastIndexOf("?")
         return if (si != -1) {
             val queryParamKvs = dto.url.substring(startIndex = si).split("&")

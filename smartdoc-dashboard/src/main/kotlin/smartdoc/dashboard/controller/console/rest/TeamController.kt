@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.query.Query
 import org.springframework.web.bind.annotation.*
 import smartdoc.dashboard.controller.console.model.CreateProjectDto
 import smartdoc.dashboard.controller.console.model.UpdateProjectDto
-import smartdoc.dashboard.core.Result
+import smartdoc.dashboard.core.ApiResponse
 import smartdoc.dashboard.core.ok
 import smartdoc.dashboard.model.Project
 import smartdoc.dashboard.model.SYS_ADMIN
@@ -31,17 +31,17 @@ class TeamController {
     lateinit var holderKit: smartdoc.dashboard.core.HolderKit
 
     @GetMapping("")
-    fun list(): Result {
+    fun list(): ApiResponse {
         val query = Query().addCriteria(Criteria("teamId").`is`(holderKit.user.teamId))
         query.with(by(desc("createTime")))
         return ok(projectRepository.list(query))
     }
 
     @GetMapping("/{id}")
-    fun get(@PathVariable id: String): Result = ok(mongoTemplate.findById(id, Project::class.java))
+    fun get(@PathVariable id: String): ApiResponse = ok(mongoTemplate.findById(id, Project::class.java))
 
     @PostMapping("")
-    fun create(@RequestBody dto: CreateProjectDto): Result {
+    fun create(@RequestBody dto: CreateProjectDto): ApiResponse {
 
         val project = Project(id = smartdoc.dashboard.util.IDUtil.id(),
                 name = dto.name,
@@ -52,7 +52,7 @@ class TeamController {
     }
 
     @PatchMapping("")
-    fun update(@RequestBody dto: UpdateProjectDto): Result {
+    fun update(@RequestBody dto: UpdateProjectDto): ApiResponse {
         projectRepository.update(Project(
                 id = dto.id,
                 name = dto.name,

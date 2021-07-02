@@ -61,14 +61,14 @@ public class EnvConfiguration {
 
   @Bean
   @ConditionalOnMissingBean
-  public InvokerApiHandler invokerApiHandler(RestWebInvokerImpl invoker) {
+  public InvokerApiHandler invokerApiHandler(SpringMVCInvokerImpl invoker) {
     return new InvokerApiHandler(invoker);
   }
 
   @Bean
   @ConditionalOnMissingBean
-  public RestWebInvokerImpl restWebInvoker(Environment environment, RestTemplate restTemplate) {
-    return new RestWebInvokerImpl(environment, restTemplate);
+  public SpringMVCInvokerImpl restWebInvoker(Environment environment, RestTemplate restTemplate) {
+    return new SpringMVCInvokerImpl(environment, restTemplate);
   }
 
   @Bean

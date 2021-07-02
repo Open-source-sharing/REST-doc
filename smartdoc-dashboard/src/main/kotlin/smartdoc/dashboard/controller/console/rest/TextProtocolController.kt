@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import smartdoc.dashboard.controller.console.model.XmlTextDto
+import smartdoc.dashboard.core.ApiResponse
 
-import smartdoc.dashboard.core.Result
 import smartdoc.dashboard.core.ok
 
 @RestController
@@ -23,17 +23,17 @@ class TextProtocolController {
     val xmlMapper: XmlMapper = XmlMapper()
 
     @PostMapping("/serialize2Xml")
-    fun serialize2Xml(@RequestBody param: Map<String, Any>): Result {
+    fun serialize2Xml(@RequestBody param: Map<String, Any>): ApiResponse {
         return ok(xmlMapper.writeValueAsString(smartdoc.dashboard.projector.XmlLinkedHashMap(param)))
     }
 
     @PostMapping("/serialize2Json")
-    fun serialize2Json(@RequestBody param: Map<String, Any>): Result {
+    fun serialize2Json(@RequestBody param: Map<String, Any>): ApiResponse {
         return ok(mapper.writeValueAsString(param))
     }
 
     @PostMapping("/xml2Json")
-    fun xml2Json(@RequestBody dto: XmlTextDto): Result {
+    fun xml2Json(@RequestBody dto: XmlTextDto): ApiResponse {
         return ok(mapper.writeValueAsString(xmlMapper.readValue(dto.text, smartdoc.dashboard.projector.XmlLinkedHashMap::class.java)))
     }
 

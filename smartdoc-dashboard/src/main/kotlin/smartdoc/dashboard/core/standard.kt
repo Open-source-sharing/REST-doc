@@ -6,9 +6,9 @@ package smartdoc.dashboard.core
  *
  * @since 1.0
  */
-enum class Status(val status: String,
-                  val code: String,
-                  var message: String?) {
+enum class ApiStandard(val status: String,
+                       val code: String,
+                       var message: String?) {
 
     /**
      * Process Success
@@ -89,9 +89,9 @@ enum class Status(val status: String,
  *
  * @since 1.0
  */
-data class Result(
-        val status: String = Status.OK.status,
-        val code: String = Status.OK.code,
+data class ApiResponse(
+        val status: String = ApiStandard.OK.status,
+        val code: String = ApiStandard.OK.code,
         val message: String? = null,
         val data: Any? = null
 )
@@ -99,33 +99,33 @@ data class Result(
 /**
  *@since 1.0
  */
-class ServiceException(override val message: String?, val status: Status) : RuntimeException(message) {
-    constructor(status: Status) : this(message = status.message, status = status)
+class ServiceException(override val message: String?, val apiStandard: ApiStandard) : RuntimeException(message) {
+    constructor(apiStandard: ApiStandard) : this(message = apiStandard.message, apiStandard = apiStandard)
 }
 
 /**
  * @since 1.0
  */
-fun throwError(status: Status, message: String): Unit = throw ServiceException(message, status)
+fun throwError(apiStandard: ApiStandard, message: String): Unit = throw ServiceException(message, apiStandard)
 
 /**
  *@since 1.0
  */
-fun throwError(status: Status): Unit = throw ServiceException(status)
+fun throwError(apiStandard: ApiStandard): Unit = throw ServiceException(apiStandard)
 
 /**
  *@since 1.0
  */
-fun ok(): Result = Result()
+fun ok(): ApiResponse = ApiResponse()
 
 /**
  *@since 1.0
  */
-fun ok(data: Any?): Result = Result(data = data)
+fun ok(data: Any?): ApiResponse = ApiResponse(data = data)
 
 /**
  *@since 1.0
  */
-fun failure(status: Status): Result = Result(status = status.status, code = status.code, message = status.message)
+fun failure(apiStandard: ApiStandard): ApiResponse = ApiResponse(status = apiStandard.status, code = apiStandard.code, message = apiStandard.message)
 
-fun failure(status: Status, message: String): Result = Result(status = status.status, code = status.code, message = message)
+fun failure(apiStandard: ApiStandard, message: String): ApiResponse = ApiResponse(status = apiStandard.status, code = apiStandard.code, message = message)

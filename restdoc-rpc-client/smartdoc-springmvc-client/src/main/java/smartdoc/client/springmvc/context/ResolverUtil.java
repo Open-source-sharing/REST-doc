@@ -1,16 +1,18 @@
 package smartdoc.client.springmvc.context;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.*;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.multipart.MultipartFile;
 import restdoc.rpc.client.common.model.FieldType;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.*;
+
+@Deprecated
 final class ResolverUtil {
 
   private static final Set<Class<?>> SIMPLE_TYPES =

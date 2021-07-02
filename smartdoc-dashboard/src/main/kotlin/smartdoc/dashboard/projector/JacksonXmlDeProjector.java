@@ -3,10 +3,11 @@ package smartdoc.dashboard.projector;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import smartdoc.dashboard.core.ApiStandard;
+import smartdoc.dashboard.model.doc.http.BodyFieldDescriptor;
+
 import java.util.ArrayList;
 import java.util.List;
-import smartdoc.dashboard.core.Status;
-import smartdoc.dashboard.model.doc.http.BodyFieldDescriptor;
 
 /**
  * The class {@link JacksonXmlDeProjector}
@@ -31,7 +32,7 @@ public class JacksonXmlDeProjector implements DeProjector {
       return new JsonDeProjector(om.convertValue(map, JsonNode.class)).deProject();
     } catch (Exception e) {
       e.printStackTrace();
-      Status.BAD_REQUEST.error(String.format("xml解析错误:%s", e.getMessage()));
+      ApiStandard.BAD_REQUEST.error(String.format("xml解析错误:%s", e.getMessage()));
       return new ArrayList<>();
     }
   }

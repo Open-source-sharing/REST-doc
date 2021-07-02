@@ -1,6 +1,5 @@
 package smartdoc.client.springmvc.context;
 
-import java.lang.annotation.Annotation;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -8,12 +7,14 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import restdoc.rpc.client.common.model.http.HttpApiDescriptor;
 
+import java.lang.annotation.Annotation;
+
 /**
  * CookieValueResolver
  *
  * @see org.springframework.web.bind.annotation.CookieValue
  */
-final class CookieValueResolver implements Resolver {
+final class CookieResolver implements Resolver {
 
   @Override
   public void resolve(

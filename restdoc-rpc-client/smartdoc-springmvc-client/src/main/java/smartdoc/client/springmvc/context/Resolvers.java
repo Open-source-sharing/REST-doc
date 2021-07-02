@@ -1,17 +1,17 @@
-package restdoc.client.restweb.context;
+package smartdoc.client.springmvc.context;
 
-import java.lang.annotation.Annotation;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import restdoc.rpc.client.common.model.http.HttpApiDescriptor;
 
-/** ResolverProxy */
-final class ResolverProxy {
+import java.lang.annotation.Annotation;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
+final class Resolvers {
 
   private static final Map<Class<? extends Annotation>, Resolver> RESOLVERS = new HashMap<>();
 
@@ -20,7 +20,7 @@ final class ResolverProxy {
     RESOLVERS.put(PathVariable.class, new PathVariableResolver());
     RESOLVERS.put(RequestBody.class, new RequestBodyResolver());
     RESOLVERS.put(RequestHeader.class, new RequestHeaderResolver());
-    RESOLVERS.put(CookieValue.class, new CookieValueResolver());
+    RESOLVERS.put(CookieValue.class, new CookieResolver());
     RESOLVERS.put(RequestParam.class, new RequestParamResolver());
     RESOLVERS.put(RequestPart.class, new RequestPartResolver());
   }

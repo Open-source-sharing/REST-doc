@@ -8,7 +8,7 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestParam
-import smartdoc.dashboard.core.Status
+import smartdoc.dashboard.core.ApiStandard
 import smartdoc.dashboard.repository.DubboDocumentRepository
 import smartdoc.dashboard.repository.ResourceRepository
 
@@ -27,7 +27,7 @@ class DubboDocumentViewController {
     @GetMapping("/{resourceId}/dubboDocument")
     fun getDocsByResources(@PathVariable resourceId: String, model: Model): String {
 
-        val resource = resourceRepository.findById(resourceId).orElseThrow(Status.BAD_REQUEST::instanceError)
+        val resource = resourceRepository.findById(resourceId).orElseThrow(ApiStandard.BAD_REQUEST::instanceError)
 
         val query = Query().addCriteria(Criteria("resource").`is`(resourceId))
         val docs = dubboDocumentRepository.list(query)
@@ -53,7 +53,7 @@ class DubboDocumentViewController {
                         model: Model): String {
 
         val document =
-                dubboDocumentRepository.findById(documentId).orElseThrow { Status.BAD_REQUEST.instanceError("documentId参数错误") }
+                dubboDocumentRepository.findById(documentId).orElseThrow { ApiStandard.BAD_REQUEST.instanceError("documentId参数错误") }
 
         return if (type == "in") {
             model.addAttribute("descriptor", document.paramDescriptors.first { it.name == paramName })
@@ -68,7 +68,7 @@ class DubboDocumentViewController {
     @GetMapping("/dubboDocument/{documentId}/param/fill/view")
     fun fillInParamPage(@PathVariable documentId: String, model: Model): String {
         val document =
-                dubboDocumentRepository.findById(documentId).orElseThrow { Status.BAD_REQUEST.instanceError("documentId参数错误") }
+                dubboDocumentRepository.findById(documentId).orElseThrow { ApiStandard.BAD_REQUEST.instanceError("documentId参数错误") }
 
         model.addAttribute("paramDescriptors", document.paramDescriptors)
 
@@ -78,7 +78,7 @@ class DubboDocumentViewController {
     @GetMapping("/dubboDocument/{documentId}/description/view")
     fun editDescriptionPage(@PathVariable documentId: String, model: Model): String{
         val document =
-                dubboDocumentRepository.findById(documentId).orElseThrow { Status.BAD_REQUEST.instanceError("documentId参数错误") }
+                dubboDocumentRepository.findById(documentId).orElseThrow { ApiStandard.BAD_REQUEST.instanceError("documentId参数错误") }
         model.addAttribute("field", document.desc)
         return "docs/edit_description"
     }

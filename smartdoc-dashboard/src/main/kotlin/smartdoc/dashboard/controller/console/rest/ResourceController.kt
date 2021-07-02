@@ -8,8 +8,8 @@ import org.springframework.data.mongodb.core.query.Update
 import org.springframework.web.bind.annotation.*
 import restdoc.rpc.client.common.model.ApplicationType
 import smartdoc.dashboard.controller.console.model.*
-import smartdoc.dashboard.core.Result
-import smartdoc.dashboard.core.Status
+import smartdoc.dashboard.core.ApiResponse
+import smartdoc.dashboard.core.ApiStandard
 import smartdoc.dashboard.core.ok
 import smartdoc.dashboard.model.HTTP_DOCUMENT_COLLECTION
 import smartdoc.dashboard.model.ProjectType
@@ -46,7 +46,7 @@ class ResourceController {
 
     @PostMapping("/{projectId}/resource")
     @smartdoc.dashboard.base.auth.Verify(role = ["SYS_ADMIN"])
-    fun create(@PathVariable projectId: String, @Valid @RequestBody dto: CreateResourceDto): Result {
+    fun create(@PathVariable projectId: String, @Valid @RequestBody dto: CreateResourceDto): ApiResponse {
         val resource = Resource(
                 id = IDUtil.id(),
                 tag = dto.tag,
@@ -59,14 +59,25 @@ class ResourceController {
         return ok(resource)
     }
 
-
     /**
+     * View Data Wrapper
      * @sample Resource
      */
     @RequestMapping("/{projectId}/resource/dtree")
     @smartdoc.dashboard.base.auth.Verify(role = ["*"])
     fun getResourceDTree(@PathVariable projectId: String,
-                         @RequestParam at: ApplicationType): Any {
+                         @RequestParam at: ApplicationType,
+                         @RequestParam(defaultValue = "false") onlyQueryResource: Boolean): DTreeApiResponse {
+
+        val project = projectRepository.findById(projectId).orElseThrow { ApiStandard.INVALID_REQUEST.instanceError() }
+
+        val rootNode = DTreeNodeVO(
+                id = "root",
+                title = project.name,
+                parentId = "0",
+                nodeType = NodeType.RESOURCE,
+                spread = true,
+                iconClass = "dtree-icon-weibiaoti5")
 
         val resourceQuery = Query(Criteria("projectId").`is`(projectId))
         val resources = resourceRepository.list(resourceQuery)
@@ -76,62 +87,62 @@ class ResourceController {
         resourceIds.add("root")
 
         val resourceNodes = resources.map {
-            DTreeVO(id = it.id!!,
+            DTreeNodeVO(id = it.id!!,
                     title = it.name!!,
                     parentId = it.pid!!,
-                    type = NodeType.RESOURCE,
+                    nodeType = NodeType.RESOURCE,
                     iconClass = "dtree-icon-weibiaoti5")
         }
 
-        val docQuery = Query(Criteria("projectId").`is`(projectId).and("resource").`in`(resourceIds))
+        val nodes = mutableListOf<DTreeNodeVO>()
+        nodes.addAll(resourceNodes)
 
-        val apiNodes = if (at == ApplicationType.REST_WEB) {
+        if (!onlyQueryResource) {
+            val docQuery = Query(Criteria("projectId").`is`(projectId).and("resource").`in`(resourceIds))
+            val apiNodes = if (at == ApplicationType.REST_WEB) {
+                docQuery.fields()
+                        .include("_id")
+                        .include("createTime")
+                        .include("name")
+                        .include("order")
+                        .include("docType")
+                        .include("resource")
 
-            docQuery.fields()
-                    .include("_id")
-                    .include("createTime")
-                    .include("name")
-                    .include("order")
-                    .include("docType")
-                    .include("resource")
+                val docs = mongoTemplate.find(docQuery, DocPojo::class.java, HTTP_DOCUMENT_COLLECTION)
+                        .sortedWith(compareBy({ it.order }, { it.createTime }))
 
-            val docs =
-                    mongoTemplate.find(docQuery, DocPojo::class.java, HTTP_DOCUMENT_COLLECTION)
-                            .sortedWith(compareBy({ it.order }, { it.createTime }))
-
-            docs.map {
-                DTreeVO(id = it._id,
-                        title = it.name,
-                        parentId = it.resource,
-                        type = if (it.docType == DocType.API) NodeType.API else NodeType.WIKI,
-                        iconClass = "dtree-icon-normal-file")
+                docs.map {
+                    DTreeNodeVO(id = it._id,
+                            title = it.name,
+                            parentId = it.resource,
+                            nodeType = if (it.docType == DocType.API) NodeType.API else NodeType.WIKI,iconClass = "dtree-icon-normal-file"
+                    )
+                }
+            } else {
+                docQuery.fields().exclude("paramDescriptors").exclude("returnValueDescriptor")
+                val dubboDocs = dubboDocumentRepository.list(docQuery)
+                dubboDocs.map {
+                    DTreeNodeVO(id = it.id,
+                            title = it.name,
+                            parentId = it.resource,
+                            nodeType = if (it.docType == DocType.API) NodeType.API else NodeType.WIKI)
+                }
             }
-        } else {
-            docQuery.fields().exclude("paramDescriptors").exclude("returnValueDescriptor")
-            val dubboDocs = dubboDocumentRepository.list(docQuery)
-            dubboDocs.map {
-                DTreeVO(id = it.id,
-                        title = it.name,
-                        parentId = it.resource,
-                        type = if (it.docType == DocType.API) NodeType.API else NodeType.WIKI,
-                        iconClass = "dtree-icon-normal-file")
+            nodes.addAll(apiNodes)
+        }
+        reverseCalTree(nodes, rootNode)
+
+        return DTreeApiResponse(data = mutableListOf(rootNode))
+    }
+
+    private fun reverseCalTree(nodes: MutableList<DTreeNodeVO>, pNode: DTreeNodeVO) {
+        val childNodes = nodes.filter { it.parentId == pNode.id }.toMutableList()
+        pNode.children.addAll(childNodes)
+        for (childNode in childNodes) {
+            if (childNode.nodeType == NodeType.RESOURCE) {
+                reverseCalTree(nodes, childNode)
             }
         }
-
-        val rootNode = DTreeVO(
-                id = "root",
-                title = "一级目录(虚拟)",
-                parentId = "0",
-                type = NodeType.RESOURCE,
-                spread = true,
-                iconClass = "dtree-icon-weibiaoti5")
-
-        val nodes = mutableListOf<DTreeVO>()
-        nodes.addAll(resourceNodes)
-        nodes.addAll(apiNodes)
-        nodes.add(rootNode)
-
-        return layuiTableOK(data = nodes, count = 1)
     }
 
     @GetMapping("/{projectId}/resource/flatten")
@@ -164,7 +175,7 @@ class ResourceController {
      * TODO   code review
      */
     @GetMapping("/{projectId}/resource/tree")
-    fun getTree(@PathVariable projectId: String, @RequestParam(required = false, defaultValue = "false") onlyResource: Boolean): Result {
+    fun getTree(@PathVariable projectId: String, @RequestParam(required = false, defaultValue = "false") onlyResource: Boolean): ApiResponse {
         val resources = resourceRepository.list(Query(Criteria("projectId").`is`(projectId)))
 
         val navNodes = resources.map {
@@ -225,9 +236,9 @@ class ResourceController {
 
     @smartdoc.dashboard.base.auth.Verify(role = ["SYS_ADMIN"])
     @DeleteMapping("/{projectId}/resource/{id}")
-    fun delete(@PathVariable id: String, @PathVariable projectId: String): Result {
+    fun delete(@PathVariable id: String, @PathVariable projectId: String): ApiResponse {
         val project = projectRepository.findById(projectId)
-                .orElseThrow { Status.BAD_REQUEST.instanceError("${projectId}项目不存在") }
+                .orElseThrow { ApiStandard.BAD_REQUEST.instanceError("${projectId}项目不存在") }
 
         val quantity = if (project.type == ProjectType.REST_WEB) {
             httpDocumentRepository.count(Query(Criteria("resource").`is`(id)))
@@ -235,14 +246,14 @@ class ResourceController {
             dubboDocumentRepository.count(Query(Criteria("resource").`is`(id)))
         } else 0
 
-        if (quantity != 0L) Status.BAD_REQUEST.error("当前目录下存在关联的文档，无法删除")
+        if (quantity != 0L) ApiStandard.BAD_REQUEST.error("当前目录下存在关联的文档，无法删除")
         resourceRepository.deleteById(id)
         return ok()
     }
 
     @PatchMapping("/resource")
     @smartdoc.dashboard.base.auth.Verify(role = ["SYS_ADMIN"])
-    fun patch(@RequestBody @Valid dto: UpdateNodeDto): Result {
+    fun patch(@RequestBody @Valid dto: UpdateNodeDto): ApiResponse {
         val updateResult = resourceRepository.update(Query().addCriteria(Criteria("_id").`is`(dto.id)),
                 Update().set("name", dto.name)
                         .set("order", dto.order)

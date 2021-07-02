@@ -9,3 +9,8 @@
 /restdoc-client-test/restdoc-client-springfu-test/target
 /restdoc-client-test/restdoc-client-web-test/target
 /restdoc-web/target
+restdoc-rpc-client/smartdoc-springmvc-client/target/
+smartdoc-oas/target/
+smartdoc-dashboard/target/
+.idea
+*.iml

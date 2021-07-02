@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
-import smartdoc.dashboard.core.Status
+import smartdoc.dashboard.core.ApiStandard
 import smartdoc.dashboard.model.ProjectType
 import smartdoc.dashboard.repository.ProjectRepository
 
@@ -24,7 +24,7 @@ class DocumentNavViewController {
         model.addAttribute("projectId", projectId)
 
         val project = projectRepository.findById(projectId)
-                .orElseThrow( Status.BAD_REQUEST::instanceError)
+                .orElseThrow( ApiStandard.BAD_REQUEST::instanceError)
 
         model.addAttribute("projectName", project.name)
 

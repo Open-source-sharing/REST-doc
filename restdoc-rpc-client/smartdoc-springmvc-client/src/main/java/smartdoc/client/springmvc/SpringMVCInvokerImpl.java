@@ -1,10 +1,5 @@
 package smartdoc.client.springmvc;
 
-import java.util.AbstractMap;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -19,8 +14,13 @@ import restdoc.client.api.model.HttpInvocation;
 import restdoc.client.api.model.HttpInvocationResult;
 import restdoc.client.api.model.InvocationResult;
 
-/** RestWebInvokerImpl */
-public class RestWebInvokerImpl implements Invoker<HttpInvocation> {
+import java.util.AbstractMap;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+public class SpringMVCInvokerImpl implements Invoker<HttpInvocation> {
 
   private final RestTemplate restTemplate;
 
@@ -28,7 +28,7 @@ public class RestWebInvokerImpl implements Invoker<HttpInvocation> {
 
   private final String contextPath;
 
-  public RestWebInvokerImpl(Environment environment, RestTemplate restTemplate) {
+  public SpringMVCInvokerImpl(Environment environment, RestTemplate restTemplate) {
     this.restTemplate = restTemplate;
     this.contextPath = environment.getProperty("server.servlet.context-path", "");
     this.port = Integer.parseInt(environment.getProperty("server.port", "8080"));

@@ -165,7 +165,7 @@ public class EndpointsListener implements ApplicationListener<ContextRefreshedEv
       Annotation[] annotations = parameter.getParameterAnnotations();
       if (annotations.length > 0) {
         for (Annotation annotation : annotations) {
-          ResolverProxy.resolve(
+          Resolvers.resolve(
               emptyTemplate, handlerMethod, requestMappingInfo, parameter, annotation);
         }
       }

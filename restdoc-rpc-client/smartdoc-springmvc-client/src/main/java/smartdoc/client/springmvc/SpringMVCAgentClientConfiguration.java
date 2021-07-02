@@ -14,15 +14,11 @@ import smartdoc.client.springmvc.handler.ExportApiHandler;
 import smartdoc.client.springmvc.handler.InvokerApiHandler;
 import smartdoc.client.springmvc.handler.ReportClientInfoHandler;
 
-/**
- * The class RestWebAgentClientConfiguration
- *
- * @author Maple
- */
+
 @Configuration
 @Import(value = {EnvConfiguration.class})
 @AutoConfigureBefore(value = {EnvConfiguration.class})
-public class RestWebAgentClientConfiguration
+public class SpringMVCAgentClientConfiguration
     implements AgentClientConfiguration, PriorityOrdered, CommandLineRunner {
 
   private final AgentImpl agentImpl;
@@ -34,7 +30,7 @@ public class RestWebAgentClientConfiguration
   private final InvokerApiHandler invokerApiHandler;
 
   @Autowired
-  public RestWebAgentClientConfiguration(
+  public SpringMVCAgentClientConfiguration(
       AgentImpl agentImpl,
       ReportClientInfoHandler reportClientInfoHandler,
       ExportApiHandler exportApiHandler,

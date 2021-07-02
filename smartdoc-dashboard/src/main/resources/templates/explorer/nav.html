@@ -21,28 +21,6 @@
             integrity="sha512-3Ofi0j25Ar6Hyqk2sdvfuoVCvvN6nE6Dh/eoMc8RQ/bnCvO8wpE+M5KyJz6T08T7pl/x82I/3Y5Amz9n3T9Esw=="
             crossorigin="anonymous"></script>
 
-    <script type="application/ld+json">
-
-        {
-            "@context": "http://schema.org",
-            "@type": "SoftwareSourceCode",
-            "url": "https://kingsora.github.io/OverlayScrollbars",
-            "name": "Overlay Scrollbars",
-            "description": "A javascript scrollbar plugin which hides the native scrollbars and provides custom styleable overlay scrollbars, but keeps the native functionality and feeling.",
-            "disambiguatingDescription": "javascript overlay scrollbars plugin",
-            "license": "https://en.wikipedia.org/wiki/MIT_License",
-            "keywords": "js,javascript,OverlayScrollbars,overlay,scrollbars,custom,scrollbar,plugin,jquery,scrollbars,polyfill",
-            "isAccessibleForFree": true,
-            "image": "https://kingsora.github.io/OverlayScrollbars/img/logo.png",
-            "codeRepository": "https://github.com/KingSora/OverlayScrollbars",
-            "programmingLanguage": {
-                "@type": "ComputerLanguage",
-                "name": "javascript",
-                "alternateName": "js"
-            }
-        }
-
-    </script>
     <link href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
 
@@ -69,13 +47,7 @@
                             <span style="font-size: 16px">&nbsp;&nbsp;开发者应用</span>
                         </a>
                     </li>
-               <!--     <li class="layui-nav-item">
-                        <a href="javascript:void(0)" id="devApplication">
-                            <i class="layui-icon layui-icon-component"
-                               style="font-size: 20px; color: #1E9FFF;"></i>
-                            <span style="font-size: 16px">&nbsp;&nbsp;功能</span>
-                        </a>
-                    </li>-->
+
                     <li class="layui-nav-item">
                         <a href="javascript:void(0)" id="projectSettings">
                             <i class="layui-icon layui-icon-set-fill" style="font-size: 20px; color: #1E9FFF;"></i>
@@ -87,11 +59,9 @@
         </div>
 
     </div>
-    <div class="layui-body" style="top: 20px" id="apiDocDiv">
-        <div class="layui-fluid">
-            <iframe src="" id="docContentFrame" frameborder="0" height="1000px" style="width: 100%; "
-                    onload="window.osiFrame = OverlayScrollbars(document.getElementById('docContentFrame').contentWindow.document.body, { autoUpdate : false, resize: 'both' })"
-            >
+    <div class="layui-body" id="apiDocDiv">
+        <div class="layui-fluid" style="height: 98%">
+            <iframe src="" scrolling="no" id="docContentFrame" frameborder="0" height="100%" style="width: 100%; overflow: hidden">
             </iframe>
         </div>
     </div>

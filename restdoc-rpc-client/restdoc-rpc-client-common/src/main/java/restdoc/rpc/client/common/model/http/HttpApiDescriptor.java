@@ -1,12 +1,14 @@
 package restdoc.rpc.client.common.model.http;
 
-import java.nio.charset.StandardCharsets;
-import java.util.*;
 import restdoc.rpc.client.common.model.ApiDescriptor;
 import restdoc.rpc.client.common.model.FieldType;
 import restdoc.rpc.client.common.util.MD5Util;
 
-/** HttpApiDescriptor */
+import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
+import java.util.Set;
+
+@Deprecated
 public class HttpApiDescriptor implements ApiDescriptor {
 
   private String id;

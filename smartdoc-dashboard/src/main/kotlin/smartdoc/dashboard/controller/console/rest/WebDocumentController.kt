@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.*
 import restdoc.rpc.client.common.model.ApplicationType
 import restdoc.rpc.client.common.model.http.HttpApiDescriptor
 import smartdoc.dashboard.controller.console.model.*
-import smartdoc.dashboard.core.Status
+import smartdoc.dashboard.core.ApiResponse
+import smartdoc.dashboard.core.ApiStandard
 import smartdoc.dashboard.core.failure
 import smartdoc.dashboard.core.ok
 import smartdoc.dashboard.model.ANY_ROLE
@@ -59,16 +60,16 @@ class WebDocumentController {
     private lateinit var resourceRepository: ResourceRepository
 
     @GetMapping("/list/{projectId}")
-    fun list(@PathVariable projectId: String): smartdoc.dashboard.core.Result {
+    fun list(@PathVariable projectId: String): ApiResponse {
         val query = Query().addCriteria(Criteria("projectId").`is`(projectId))
         query.with(by(desc("createTime")))
         return ok(projectRepository.list(query))
     }
 
     @GetMapping("/{id}")
-    fun get(@PathVariable id: String): smartdoc.dashboard.core.Result {
+    fun get(@PathVariable id: String): ApiResponse {
         val doc = httpDocumentRepository.findById(id)
-                .orElseThrow { Status.INVALID_REQUEST.instanceError("id参数错误") }
+                .orElseThrow { ApiStandard.INVALID_REQUEST.instanceError("id参数错误") }
         return ok(transformRestDocumentToVO(doc))
     }
 
@@ -86,7 +87,7 @@ class WebDocumentController {
 
     @PostMapping("")
     @smartdoc.dashboard.base.auth.Verify(role = [SYS_ADMIN])
-    fun create(@RequestBody @Valid dto: RequestDto): smartdoc.dashboard.core.Result {
+    fun create(@RequestBody @Valid dto: RequestDto): ApiResponse {
 
         dto.url = dto.lookupPath()
 
@@ -124,12 +125,12 @@ class WebDocumentController {
 
     @smartdoc.dashboard.base.auth.Verify(role = [SYS_ADMIN])
     @PutMapping("")
-    fun patch(@RequestBody @Valid dto: RequestDto): smartdoc.dashboard.core.Result {
+    fun patch(@RequestBody @Valid dto: RequestDto): ApiResponse {
 
-        if (dto.documentId == null) return failure(Status.INVALID_REQUEST, "缺少ID参数")
+        if (dto.documentId == null) return failure(ApiStandard.INVALID_REQUEST, "缺少ID参数")
 
         val oldDocument = httpDocumentRepository.findById(dto.documentId!!)
-                .orElseThrow { Status.BAD_REQUEST.instanceError("文档不存在") }
+                .orElseThrow { ApiStandard.BAD_REQUEST.instanceError("文档不存在") }
 
         dto.url = dto.lookupPath()
         val requestHeaderDescriptor = dto.mapToHeaderDescriptor()
@@ -208,22 +209,22 @@ class WebDocumentController {
 
     @GetMapping("/httpTask/{taskId}")
     @smartdoc.dashboard.base.auth.Verify(role = [ANY_ROLE])
-    fun execute(@PathVariable taskId: String): smartdoc.dashboard.core.Result {
-        val result = redisTemplate.opsForValue().get(taskId) ?: return failure(Status.INVALID_REQUEST, "请刷新页面重试")
+    fun execute(@PathVariable taskId: String): smartdoc.dashboard.core.ApiResponse {
+        val result = redisTemplate.opsForValue().get(taskId) ?: return failure(ApiStandard.INVALID_REQUEST, "请刷新页面重试")
         val map = result as LinkedHashMap<String, Any>
         return ok(map)
     }
 
     @smartdoc.dashboard.base.auth.Verify(role = [SYS_ADMIN])
     @DeleteMapping("/{id}")
-    fun delete(@PathVariable id: String): smartdoc.dashboard.core.Result {
+    fun delete(@PathVariable id: String): smartdoc.dashboard.core.ApiResponse {
         httpDocumentRepository.deleteById(id)
         return ok()
     }
 
     @PatchMapping("/{id}")
     @Deprecated(message = "patch")
-    fun patch(@PathVariable id: String, @RequestBody @Valid dto: UpdateNodeDto): smartdoc.dashboard.core.Result {
+    fun patch(@PathVariable id: String, @RequestBody @Valid dto: UpdateNodeDto): smartdoc.dashboard.core.ApiResponse {
         val updateResult = httpDocumentRepository.update(Query().addCriteria(Criteria("_id").`is`(id)),
                 Update().set("name", dto.name))
         return ok()
@@ -393,9 +394,9 @@ class WebDocumentController {
     @PatchMapping("/{id}/snippet/uri")
     @smartdoc.dashboard.base.auth.Verify(role = [SYS_ADMIN])
     fun patchURIVarsSnippet(@PathVariable id: String,
-                            @Valid @RequestBody dto: UpdateURIVarSnippetDto): smartdoc.dashboard.core.Result {
+                            @Valid @RequestBody dto: UpdateURIVarSnippetDto): smartdoc.dashboard.core.ApiResponse {
 
-        val doc = httpDocumentRepository.findById(id).orElseThrow(Status.BAD_REQUEST::instanceError)
+        val doc = httpDocumentRepository.findById(id).orElseThrow(ApiStandard.BAD_REQUEST::instanceError)
 
         doc.uriVarDescriptors?.filter { it.field == dto.field }
                 ?.forEach {
@@ -411,9 +412,9 @@ class WebDocumentController {
     @smartdoc.dashboard.base.auth.Verify(role = [SYS_ADMIN])
     @PatchMapping("/{id}/snippet/requestHeader")
     fun patchRequestHeaderSnippet(@PathVariable id: String,
-                                  @Valid @RequestBody dto: UpdateRequestHeaderSnippetDto): smartdoc.dashboard.core.Result {
+                                  @Valid @RequestBody dto: UpdateRequestHeaderSnippetDto): smartdoc.dashboard.core.ApiResponse {
 
-        val doc = httpDocumentRepository.findById(id).orElseThrow(Status.BAD_REQUEST::instanceError)
+        val doc = httpDocumentRepository.findById(id).orElseThrow(ApiStandard.BAD_REQUEST::instanceError)
 
         doc.requestHeaderDescriptor.filter { it.field == dto.field }
                 .forEach {
@@ -429,9 +430,9 @@ class WebDocumentController {
     @smartdoc.dashboard.base.auth.Verify(role = [SYS_ADMIN])
     @PatchMapping("/{id}/snippet/requestBody")
     fun patchRequestBodySnippet(@PathVariable id: String,
-                                @Valid @RequestBody dto: UpdateRequestBodySnippetDto): smartdoc.dashboard.core.Result {
+                                @Valid @RequestBody dto: UpdateRequestBodySnippetDto): smartdoc.dashboard.core.ApiResponse {
 
-        val doc = httpDocumentRepository.findById(id).orElseThrow(Status.BAD_REQUEST::instanceError)
+        val doc = httpDocumentRepository.findById(id).orElseThrow(ApiStandard.BAD_REQUEST::instanceError)
 
         doc.requestBodyDescriptor?.filter { it.path == dto.path }
                 ?.forEach {
@@ -447,9 +448,9 @@ class WebDocumentController {
     @smartdoc.dashboard.base.auth.Verify(role = [SYS_ADMIN])
     @PatchMapping("/{id}/snippet/responseBody")
     fun patchResponseBodySnippet(@PathVariable id: String,
-                                 @Valid @RequestBody dto: UpdateResponseBodySnippetDto): smartdoc.dashboard.core.Result {
+                                 @Valid @RequestBody dto: UpdateResponseBodySnippetDto): smartdoc.dashboard.core.ApiResponse {
 
-        val doc = httpDocumentRepository.findById(id).orElseThrow(Status.BAD_REQUEST::instanceError)
+        val doc = httpDocumentRepository.findById(id).orElseThrow(ApiStandard.BAD_REQUEST::instanceError)
 
         doc.responseBodyDescriptors?.filter { it.path == dto.path }
                 ?.forEach {
@@ -465,9 +466,9 @@ class WebDocumentController {
     @smartdoc.dashboard.base.auth.Verify(role = ["SYS_ADMIN"])
     @PatchMapping("/{id}/snippet/description")
     fun patchDescription(@PathVariable id: String,
-                         @Valid @RequestBody dto: UpdateDescriptionSnippetDto): smartdoc.dashboard.core.Result {
+                         @Valid @RequestBody dto: UpdateDescriptionSnippetDto): smartdoc.dashboard.core.ApiResponse {
 
-        val doc = httpDocumentRepository.findById(id).orElseThrow(Status.BAD_REQUEST::instanceError)
+        val doc = httpDocumentRepository.findById(id).orElseThrow(ApiStandard.BAD_REQUEST::instanceError)
 
         doc.description = dto.description
         doc.lastUpdateTime = Date().time
@@ -658,7 +659,7 @@ class WebDocumentController {
 
     @smartdoc.dashboard.base.auth.Verify(role = [SYS_ADMIN])
     @PostMapping("/emptydoc")
-    fun createEmptyApiDoc(@RequestBody dto: CreateEmptyDocDto): smartdoc.dashboard.core.Result {
+    fun createEmptyApiDoc(@RequestBody dto: CreateEmptyDocDto): smartdoc.dashboard.core.ApiResponse {
         val document = HttpDocument(
                 id = id(),
                 projectId = dto.projectId,
@@ -676,10 +677,10 @@ class WebDocumentController {
 
     @smartdoc.dashboard.base.auth.Verify(role = [SYS_ADMIN])
     @PostMapping("/copy")
-    fun copyDocument(@RequestBody dto: CopyDocumentDocDto): smartdoc.dashboard.core.Result {
+    fun copyDocument(@RequestBody dto: CopyDocumentDocDto): smartdoc.dashboard.core.ApiResponse {
 
         val originDocument = httpDocumentRepository.findById(dto.documentId)
-                .orElseThrow { Status.INVALID_REQUEST.instanceError() }
+                .orElseThrow { ApiStandard.INVALID_REQUEST.instanceError() }
 
         val newDocument = HttpDocument(
                 id = id(),
@@ -708,7 +709,7 @@ class WebDocumentController {
 
     @smartdoc.dashboard.base.auth.Verify(role = [SYS_ADMIN])
     @PatchMapping("/baseinfo")
-    fun updateBaseInfo(@RequestBody @Valid dto: UpdateNodeDto): smartdoc.dashboard.core.Result {
+    fun updateBaseInfo(@RequestBody @Valid dto: UpdateNodeDto): smartdoc.dashboard.core.ApiResponse {
         val updateResult = httpDocumentRepository.update(Query().addCriteria(Criteria("_id").`is`(dto.id)),
                 Update().set("name", dto.name)
                         .set("order", dto.order)
@@ -720,7 +721,7 @@ class WebDocumentController {
 
     @smartdoc.dashboard.base.auth.Verify(role = [SYS_ADMIN])
     @PatchMapping("/uridescriptor")
-    fun updateURIVarDescriptor(@RequestBody dto: BatchUpdateURIVarSnippetDto): smartdoc.dashboard.core.Result {
+    fun updateURIVarDescriptor(@RequestBody dto: BatchUpdateURIVarSnippetDto): smartdoc.dashboard.core.ApiResponse {
         val descriptor = dto.values.map { URIVarDescriptor(field = it.field, value = it.value, description = it.description) }
         val updateResult = httpDocumentRepository.update(Query().addCriteria(Criteria("_id").`is`(dto.documentId)), Update().set("uriVarDescriptors", descriptor))
         println(updateResult)
@@ -729,7 +730,7 @@ class WebDocumentController {
 
     @smartdoc.dashboard.base.auth.Verify(role = [SYS_ADMIN])
     @PatchMapping("/requestbodydescriptor")
-    fun updateRequestBodyDescriptor(@RequestBody dto: BatchUpdateRequestBodySnippetDto): smartdoc.dashboard.core.Result {
+    fun updateRequestBodyDescriptor(@RequestBody dto: BatchUpdateRequestBodySnippetDto): smartdoc.dashboard.core.ApiResponse {
         val descriptor = dto.values
                 .map {
                     BodyFieldDescriptor(
@@ -746,7 +747,7 @@ class WebDocumentController {
 
     @smartdoc.dashboard.base.auth.Verify(role = [SYS_ADMIN])
     @PatchMapping("/requestheaderdescriptor")
-    fun updateRequestBodyDescriptor(@RequestBody dto: BatchUpdateRequestHeaderSnippetDto): smartdoc.dashboard.core.Result {
+    fun updateRequestBodyDescriptor(@RequestBody dto: BatchUpdateRequestHeaderSnippetDto): smartdoc.dashboard.core.ApiResponse {
         val descriptor = dto.values
                 .map {
                     HeaderFieldDescriptor(
@@ -762,7 +763,7 @@ class WebDocumentController {
 
     @smartdoc.dashboard.base.auth.Verify(role = [SYS_ADMIN])
     @PatchMapping("/responsebodydescriptor")
-    fun updateResponseBodyDescriptor(@RequestBody dto: BatchUpdateResponseBodySnippetDto): smartdoc.dashboard.core.Result {
+    fun updateResponseBodyDescriptor(@RequestBody dto: BatchUpdateResponseBodySnippetDto): smartdoc.dashboard.core.ApiResponse {
         val descriptor = dto.values
                 .map {
                     BodyFieldDescriptor(
@@ -778,7 +779,7 @@ class WebDocumentController {
 
     @smartdoc.dashboard.base.auth.Verify(role = [SYS_ADMIN])
     @PatchMapping("/queryparamdescriptor")
-    fun updateQueryParamDescriptor(@RequestBody dto: BatchUpdateQueryParamSnippetDto): smartdoc.dashboard.core.Result {
+    fun updateQueryParamDescriptor(@RequestBody dto: BatchUpdateQueryParamSnippetDto): smartdoc.dashboard.core.ApiResponse {
         val descriptor = dto.values
                 .map {
                     QueryParamDescriptor(

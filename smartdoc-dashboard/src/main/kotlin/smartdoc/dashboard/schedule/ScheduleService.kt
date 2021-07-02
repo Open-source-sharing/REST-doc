@@ -101,7 +101,7 @@ class ScheduleServiceAdapterImpl(private val scheduleProperties: SchedulePropert
     private inner class ScheduleServiceChannelEventListener : ChannelEventListener {
         override fun onChannelConnect(remote: String, channel: Channel) {
 
-            if (channel.isActive && channel.isOpen && channel.isRegistered && channel.isWritable){
+            if (channel.isActive && channel.isOpen && channel.isRegistered && channel.isWritable) {
                 // Instance Client
                 clientManager.add(instanceClient(channel), remotingServer)
                 System.err.println("start client")
