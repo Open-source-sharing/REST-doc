@@ -49,13 +49,11 @@ enum class ProjectType {
     /**
      * Default
      */
-    @Deprecated(message = "REST_WEB")
     REST_WEB,
 
     /**
      *
      */
-    @Deprecated(message = "DUBBO")
     DUBBO,
 
     /**

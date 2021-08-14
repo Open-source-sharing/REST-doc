@@ -1,6 +1,7 @@
 package smartdoc.dashboard.core.code
 
 import com.fasterxml.jackson.databind.ObjectMapper
+
 import org.apache.commons.lang3.time.DateFormatUtils
 import org.apache.velocity.Template
 import org.apache.velocity.VelocityContext
@@ -18,16 +19,12 @@ import smartdoc.dashboard.base.getBean
 import smartdoc.dashboard.http.FIXED_BOUNDARY
 import smartdoc.dashboard.http.FIXED_FILE_PAIR
 import smartdoc.dashboard.http.HEADER_PARAM_DELIMITER
-import smartdoc.dashboard.http.HTTP1_1_VERSION
 import smartdoc.dashboard.model.doc.http.HttpDocument
+import smartdoc.dashboard.projector.JacksonXmlProjector
+import smartdoc.dashboard.projector.JsonProjector
 import smartdoc.dashboard.util.PathValue
 import java.io.StringWriter
 import java.util.*
-
-/**
- * @author Maple
- * @since 1.0
- */
 typealias CodeSampleMapper = (HttpDocument) -> String
 
 internal val VE =
@@ -225,13 +222,13 @@ open class NodeJsCodeSampleGenerator : CodeSampleMapper {
 @Component
 open class RequestFakeCodeSampleGenerator : CodeSampleMapper {
     override fun invoke(doc: HttpDocument): String {
-        val sb = StringBuilder()
+        val paragraphs = mutableListOf<MutableList<String>>()
 
         var url = doc.url
-
         // Matrix Vars
         for (matrixVariableDescriptor in doc.matrixVariableDescriptors) {
-            val value = if (matrixVariableDescriptor.defaultValue == null || ValueConstants.DEFAULT_NONE == matrixVariableDescriptor.defaultValue) {
+            val value = if (matrixVariableDescriptor.defaultValue == null
+                    || ValueConstants.DEFAULT_NONE == matrixVariableDescriptor.defaultValue) {
                 "{${matrixVariableDescriptor.field}}"
             } else {
                 matrixVariableDescriptor.defaultValue
@@ -245,86 +242,75 @@ open class RequestFakeCodeSampleGenerator : CodeSampleMapper {
             }
         }
 
-        sb.append(doc.method.name).append("  ").append(url)
-
         if (doc.queryParamDescriptors.isNotEmpty()) {
             val queryString = doc.queryParamDescriptors
                     .joinToString(separator = "&") {
                         if (it.value == ValueConstants.DEFAULT_NONE) "${it.field}={${it.field}}"
                         else "${it.field}=${it.value}"
                     }
-            sb.append("?$queryString").append("  ")
-        }else{
-            sb.append("  ")
+            url = "$url?$queryString  "
+        } else {
+            url = "$url  "
         }
 
-        sb.append(HTTP1_1_VERSION).append("\n")
+        paragraphs.add(mutableListOf(doc.method.name,"  ",url, "HTTP1_1_VERSION"))
 
-        val headers = doc.requestHeaderDescriptor.map { t -> t.field to t.value }.toMap().toMutableMap()
+        val headers = doc.requestHeaderDescriptor
+                .map { t -> t.field to t.value }
+                .toMap()
+                .toMutableMap()
+
         var mtp: String? = headers[HttpHeaders.CONTENT_TYPE]
+        if (mtp == null) mtp = MediaType.ALL.toString()
 
-        if (mtp == null) {
-            mtp = if (doc.method == HttpMethod.GET)
-                MediaType.TEXT_HTML.toString()
-            else MediaType.ALL.toString()
-        }
+        paragraphs.add(headers.map { "${it.key}: ${it.value}" }.toMutableList())
 
-        headers.forEach { t ->
-            sb.append(t.key).append(": ").append(t.value).append("\n")
-        }
-        sb.append("\n")
+
         if (doc.method == HttpMethod.GET) {
-            // TODO
         } else {
             doc.requestBodyDescriptor.apply {
-
+                var bodyParagraph = mutableListOf<String>()
                 when (mtp) {
-                    MediaType.APPLICATION_JSON_VALUE -> {
-                        val prettyString = smartdoc.dashboard.projector.JsonProjector(this.map { PathValue(it.path, it.value) })
-                                .project()
-                                .toPrettyString()
-
-                        sb.append(prettyString).append("\n")
-
-                    }
                     MediaType.APPLICATION_XML_VALUE -> {
-                        val prettyString = smartdoc.dashboard.projector.JacksonXmlProjector(this.map { PathValue(it.path, it.value) })
+                        val prettyString = JacksonXmlProjector(this.map { PathValue(it.path, it.value) })
                                 .project()
-
-                        sb.append(prettyString).append("\n")
+                        bodyParagraph.add(prettyString)
                     }
 
                     MediaType.MULTIPART_FORM_DATA_VALUE -> {
                         for (item in this) {
-                            sb.append(FIXED_BOUNDARY).append("\n")
-                            sb.append("Content-Disposition: form-data").append(HEADER_PARAM_DELIMITER)
-                            sb.append("name=").append(item.path)
+                            bodyParagraph.add(FIXED_BOUNDARY)
+                            bodyParagraph.add("Content-Disposition: form-data${HEADER_PARAM_DELIMITER}")
+                            bodyParagraph.add("name=${item.path}")
                             when (item.type) {
                                 // Content-Disposition: form-data; name="myFile"; filename="foo.txt"
                                 FieldType.FILE -> {
-                                    sb.append(HEADER_PARAM_DELIMITER).append(FIXED_FILE_PAIR)
-                                    sb.append("file content....")
+                                    bodyParagraph.add("${HEADER_PARAM_DELIMITER}${FIXED_FILE_PAIR}")
+                                    bodyParagraph.add("file content....")
                                 }
                                 // Content-Disposition: form-data; name="description"
                                 else -> {
-                                    sb.append(item.value)
+                                    bodyParagraph.add(if (item.value == null) "" else item.value.toString() )
                                 }
                             }
-                            sb.append(FIXED_BOUNDARY).append("\n")
+                            bodyParagraph.add(FIXED_BOUNDARY)
                         }
                     }
 
                     else -> {
-                        val prettyString = smartdoc.dashboard.projector.JsonProjector(this.map { PathValue(it.path, it.value) })
-                                .project()
-                                .toPrettyString()
+                        val prettyString =
+                                JsonProjector(this.map { PathValue(it.path, it.value) })
+                                        .project()
+                                        .toPrettyString()
 
-                        sb.append(prettyString).append("\n")
+                        bodyParagraph.add(prettyString)
                     }
                 }
             }
         }
-        return sb.toString()
+        return paragraphs.filter { it.isNotEmpty() }
+                .map { it.joinToString(separator = "\n") }
+                .joinToString  (separator = "\n")
     }
 }
 

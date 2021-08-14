@@ -8,10 +8,7 @@ import smartdoc.dashboard.model.ProjectType
 import smartdoc.dashboard.model.doc.DocType
 import smartdoc.dashboard.model.doc.dubbo.MethodParamDescriptor
 import smartdoc.dashboard.model.doc.dubbo.MethodReturnValueDescriptor
-import smartdoc.dashboard.model.doc.http.BodyFieldDescriptor
-import smartdoc.dashboard.model.doc.http.HeaderFieldDescriptor
-import smartdoc.dashboard.model.doc.http.QueryParamDescriptor
-import smartdoc.dashboard.model.doc.http.URIVarDescriptor
+import smartdoc.dashboard.model.doc.http.*
 import smartdoc.dashboard.util.FieldType
 import java.net.URI
 
@@ -44,9 +41,6 @@ data class RequestDto(
         }
     }
 
-    /**
-     *
-     */
     fun mapToHeaderDescriptor(): List<HeaderFieldDescriptor> {
         return if (!(headers == null || this.headers.isEmpty())) {
             headers
@@ -63,9 +57,6 @@ data class RequestDto(
         } else mutableListOf()
     }
 
-    /**
-     * Deduplication field path
-     */
     fun mapToRequestDescriptor(): List<BodyFieldDescriptor> {
         return if (!(requestFields == null || this.requestFields.isEmpty()))
             smartdoc.dashboard.projector.JsonDeProjector(getBean(ObjectMapper::class.java).convertValue(requestFields, JsonNode::class.java))
@@ -85,9 +76,6 @@ data class RequestDto(
         else mutableListOf()
     }
 
-    /**
-     * Deduplication field path
-     */
     fun mapToResponseDescriptor(): List<BodyFieldDescriptor> {
         return if (!(responseFields == null || this.responseFields.isEmpty())) {
             val jsonNode = getBean(ObjectMapper::class.java).convertValue(responseFields, JsonNode::class.java)
@@ -107,9 +95,6 @@ data class RequestDto(
         } else mutableListOf()
     }
 
-    /**
-     * mapToResponseHeaderDescriptor
-     */
     fun mapToResponseHeaderDescriptor(): List<HeaderFieldDescriptor> {
         return if (responseHeaders != null && !responseHeaders.isEmpty()) {
             responseHeaders.entries
@@ -176,11 +161,6 @@ data class UpdateWikiDto(
 
 data class UpdateNodeDto(val id: String, val name: String, val pid: String, val order: Int = 0)
 
-data class SyncApiEmptyTemplateDto(val remoteAddress: String,
-                                   val projectId: String,
-                                   val service: String)
-
-
 data class UpdateQueryParamSnippetDto(val field: String, val value: String, val description: String)
 data class UpdateURIVarSnippetDto(val field: String, val value: String, val description: String)
 data class UpdateRequestHeaderSnippetDto(val field: String, val value: String, val optional: Boolean, val description: String)
@@ -193,6 +173,29 @@ data class BatchUpdateRequestBodySnippetDto(val documentId: String, val values: 
 data class BatchUpdateRequestHeaderSnippetDto(val documentId: String, val values: List<UpdateRequestHeaderSnippetDto>)
 data class BatchUpdateResponseBodySnippetDto(val documentId: String, val values: List<UpdateResponseBodySnippetDto>)
 data class BatchUpdateQueryParamSnippetDto(val documentId: String, val values: List<UpdateQueryParamSnippetDto>)
+
+data class BatchDeleteDescriptorDto(val snippetType:SnippetType,val snippetIds:List<String>)
+enum class SnippetType{
+    URL,
+    URIVar,
+    RequestHeader,
+    ResponseHeader,
+    RequestBody,
+    ResponseBody,
+    MatrixVar,
+    QueryParam
+}
+
+enum class CreateSnippetDto(
+        val snippetType:SnippetType,
+        val matrixVariableDescriptor: MatrixVariableDescriptor?,
+        val requestHeaderFieldDescriptor: HeaderFieldDescriptor?,
+        val responseHeaderFieldDescriptor: HeaderFieldDescriptor?,
+        val responseBodyFieldDescriptor: BodyFieldDescriptor?,
+        val requestBodyFieldDescriptor: BodyFieldDescriptor?,
+        val queryParamDescriptor:QueryParamDescriptor?,
+        val uriVarDescriptor: URIVarDescriptor?
+);
 
 data class UpdateDubboDocumentDto(val description: String? = null, val paramDescriptor: MethodParamDescriptor? = null,
                                   val returnValueDescriptor: MethodReturnValueDescriptor? = null)

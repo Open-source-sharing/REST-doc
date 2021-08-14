@@ -1,13 +1,62 @@
 {
-  "sendDetail": {
-    "content": [
-      {
-        "name": "Kobe",
-        "recipient": "m17793873123@163.com",
-        "callback": false,
-        "state": "SUCCESS"
-      }
-    ],
-    "totalElements": 1
+  "config": {
+    "transformRequest": {},
+    "transformResponse": {},
+    "timeout": 10000,
+    "xsrfCookieName": "XSRF-TOKEN",
+    "xsrfHeaderName": "X-XSRF-TOKEN",
+    "maxContentLength": -1,
+    "headers": {
+      "Accept": "application/json, text/plain, */*",
+      "common-defined-key-b": "custom value: for all methods",
+      "restdoc_console_access_token": "fb3879928ec8445744f2c3029b25038f",
+      "Content-Type": "application/json;charset=utf-8",
+      "custom-defined-header-key": "custom-defined-header-value"
+    },
+    "withCredentials": true,
+    "method": "patch",
+    "url": "/restdoc/description/snippet/requestHeader",
+    "data": "{}"
+  },
+  "request": {},
+  "response": {
+    "data": {
+      "timestamp": "2021-08-14T10:17:21.756+00:00",
+      "status": 404,
+      "error": "Not Found",
+      "message": "",
+      "path": "/restdoc/description/snippet/requestHeader"
+    },
+    "status": 404,
+    "statusText": "Not Found",
+    "headers": {
+      "connection": "close",
+      "content-encoding": "gzip",
+      "content-type": "application/json",
+      "date": "Sat, 14 Aug 2021 10:17:21 GMT",
+      "transfer-encoding": "chunked",
+      "vary": "Origin, Access-Control-Request-Method, Access-Control-Request-Headers, Accept-Encoding",
+      "x-powered-by": "Express"
+    },
+    "config": {
+      "transformRequest": {},
+      "transformResponse": {},
+      "timeout": 10000,
+      "xsrfCookieName": "XSRF-TOKEN",
+      "xsrfHeaderName": "X-XSRF-TOKEN",
+      "maxContentLength": -1,
+      "headers": {
+        "Accept": "application/json, text/plain, */*",
+        "common-defined-key-b": "custom value: for all methods",
+        "restdoc_console_access_token": "fb3879928ec8445744f2c3029b25038f",
+        "Content-Type": "application/json;charset=utf-8",
+        "custom-defined-header-key": "custom-defined-header-value"
+      },
+      "withCredentials": true,
+      "method": "patch",
+      "url": "/restdoc/description/snippet/requestHeader",
+      "data": "{}"
+    },
+    "request": {}
   }
 }

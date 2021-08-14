@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.*
 import restdoc.rpc.client.common.model.ApplicationType
 import restdoc.rpc.client.common.model.http.HttpApiDescriptor
 import smartdoc.dashboard.controller.console.model.*
-import smartdoc.dashboard.core.ApiResponse
-import smartdoc.dashboard.core.ApiStandard
-import smartdoc.dashboard.core.failure
-import smartdoc.dashboard.core.ok
+import smartdoc.dashboard.core.*
 import smartdoc.dashboard.model.ANY_ROLE
 import smartdoc.dashboard.model.Resource
 import smartdoc.dashboard.model.SYS_ADMIN
@@ -34,12 +31,7 @@ import java.net.URL
 import java.util.*
 import javax.validation.Valid
 
-/**
- * WebDocumentController
- *
- * @author Maple
- * @see Project
- */
+
 @RestController
 @RequestMapping("/document")
 class WebDocumentController {
@@ -217,15 +209,15 @@ class WebDocumentController {
 
     @smartdoc.dashboard.base.auth.Verify(role = [SYS_ADMIN])
     @DeleteMapping("/{id}")
-    fun delete(@PathVariable id: String): smartdoc.dashboard.core.ApiResponse {
+    fun delete(@PathVariable id: String):  ApiResponse {
         httpDocumentRepository.deleteById(id)
         return ok()
     }
 
     @PatchMapping("/{id}")
     @Deprecated(message = "patch")
-    fun patch(@PathVariable id: String, @RequestBody @Valid dto: UpdateNodeDto): smartdoc.dashboard.core.ApiResponse {
-        val updateResult = httpDocumentRepository.update(Query().addCriteria(Criteria("_id").`is`(id)),
+    fun patch(@PathVariable id: String, @RequestBody @Valid dto: UpdateNodeDto):  ApiResponse {
+        httpDocumentRepository.update(Query().addCriteria(Criteria("_id").`is`(id)),
                 Update().set("name", dto.name))
         return ok()
     }
@@ -273,6 +265,7 @@ class WebDocumentController {
     /**
      * Get recommend field description
      */
+    @Deprecated(message = "getRecommendDescription")
     private fun getRecommendDescription(projectId: String,
                                         field: String,
                                         type: FieldDescType): String? {
@@ -289,14 +282,14 @@ class WebDocumentController {
     private fun optimization(projectId: String, doc: HttpDocument) {
 
         val fieldMap1 = doc.uriVarDescriptors
-                ?.filter { it.description != null && it.description!!.isNotEmpty() }
-                ?.map { it.field to it.description!! }
-                ?.toMap()
+                .filter { it.description != null && it.description!!.isNotEmpty() }
+                .map { it.field to it.description!! }
+                .toMap()
 
         val fieldMap2 = doc.requestBodyDescriptor
-                ?.filter { it.description != null && it.description!!.isNotEmpty() }
-                ?.map { it.path to it.description!! }
-                ?.toMap()
+                .filter { it.description != null && it.description!!.isNotEmpty() }
+                .map { it.path to it.description!! }
+                .toMap()
 
         val fieldMap3 = doc.responseBodyDescriptors
                 ?.filter { it.description != null && it.description!!.isNotEmpty() }
@@ -304,7 +297,7 @@ class WebDocumentController {
                 ?.toMap()
 
         val fieldMap4 = doc.requestHeaderDescriptor
-                ?.filter { it.description != null && it.description!!.isNotEmpty() }
+                .filter { it.description != null && it.description!!.isNotEmpty() }
                 ?.map { it.field to it.description!! }
                 ?.toMap()
 
@@ -312,10 +305,10 @@ class WebDocumentController {
         val responseFieldParamMap = mutableMapOf<String, String>()
         val headerFieldParamMap = mutableMapOf<String, String>()
 
-        fieldMap1?.let { requestFieldParamMap.putAll(it) }
-        fieldMap2?.let { requestFieldParamMap.putAll(it) }
-        fieldMap3?.let { responseFieldParamMap.putAll(it) }
-        fieldMap4?.let { headerFieldParamMap.putAll(it) }
+        fieldMap1.let { requestFieldParamMap.putAll(it) }
+        fieldMap2.let { requestFieldParamMap.putAll(it) }
+        fieldMap3.let { responseFieldParamMap.putAll(it) }
+        fieldMap4.let { headerFieldParamMap.putAll(it) }
 
         val requestFieldsDesc = requestFieldParamMap.let { map ->
             map.map {
@@ -375,6 +368,7 @@ class WebDocumentController {
 
     @GetMapping("/{id}/snippet")
     @smartdoc.dashboard.base.auth.Verify(role = [ANY_ROLE])
+    @Deprecated(message = "getSnippet")
     fun getSnippet(@PathVariable id: String, @RequestParam type: String): LayuiTable {
         val uriVars = httpDocumentRepository.findById(id)
                 .map {
@@ -394,12 +388,12 @@ class WebDocumentController {
     @PatchMapping("/{id}/snippet/uri")
     @smartdoc.dashboard.base.auth.Verify(role = [SYS_ADMIN])
     fun patchURIVarsSnippet(@PathVariable id: String,
-                            @Valid @RequestBody dto: UpdateURIVarSnippetDto): smartdoc.dashboard.core.ApiResponse {
+                            @Valid @RequestBody dto: UpdateURIVarSnippetDto): ApiResponse {
 
         val doc = httpDocumentRepository.findById(id).orElseThrow(ApiStandard.BAD_REQUEST::instanceError)
 
-        doc.uriVarDescriptors?.filter { it.field == dto.field }
-                ?.forEach {
+        doc.uriVarDescriptors.filter { it.field == dto.field }
+                .forEach {
                     it.value = dto.value
                     it.description = dto.description
                 }
@@ -412,7 +406,7 @@ class WebDocumentController {
     @smartdoc.dashboard.base.auth.Verify(role = [SYS_ADMIN])
     @PatchMapping("/{id}/snippet/requestHeader")
     fun patchRequestHeaderSnippet(@PathVariable id: String,
-                                  @Valid @RequestBody dto: UpdateRequestHeaderSnippetDto): smartdoc.dashboard.core.ApiResponse {
+                                  @Valid @RequestBody dto: UpdateRequestHeaderSnippetDto): ApiResponse {
 
         val doc = httpDocumentRepository.findById(id).orElseThrow(ApiStandard.BAD_REQUEST::instanceError)
 
@@ -430,12 +424,12 @@ class WebDocumentController {
     @smartdoc.dashboard.base.auth.Verify(role = [SYS_ADMIN])
     @PatchMapping("/{id}/snippet/requestBody")
     fun patchRequestBodySnippet(@PathVariable id: String,
-                                @Valid @RequestBody dto: UpdateRequestBodySnippetDto): smartdoc.dashboard.core.ApiResponse {
+                                @Valid @RequestBody dto: UpdateRequestBodySnippetDto):  ApiResponse {
 
         val doc = httpDocumentRepository.findById(id).orElseThrow(ApiStandard.BAD_REQUEST::instanceError)
 
-        doc.requestBodyDescriptor?.filter { it.path == dto.path }
-                ?.forEach {
+        doc.requestBodyDescriptor.filter { it.path == dto.path }
+                .forEach {
                     it.value = dto.value
                     it.description = dto.description
                 }
@@ -448,12 +442,12 @@ class WebDocumentController {
     @smartdoc.dashboard.base.auth.Verify(role = [SYS_ADMIN])
     @PatchMapping("/{id}/snippet/responseBody")
     fun patchResponseBodySnippet(@PathVariable id: String,
-                                 @Valid @RequestBody dto: UpdateResponseBodySnippetDto): smartdoc.dashboard.core.ApiResponse {
+                                 @Valid @RequestBody dto: UpdateResponseBodySnippetDto): ApiResponse {
 
         val doc = httpDocumentRepository.findById(id).orElseThrow(ApiStandard.BAD_REQUEST::instanceError)
 
-        doc.responseBodyDescriptors?.filter { it.path == dto.path }
-                ?.forEach {
+        doc.responseBodyDescriptors.filter { it.path == dto.path }
+                .forEach {
                     it.value = dto.value
                     it.description = dto.description
                 }
@@ -466,7 +460,7 @@ class WebDocumentController {
     @smartdoc.dashboard.base.auth.Verify(role = ["SYS_ADMIN"])
     @PatchMapping("/{id}/snippet/description")
     fun patchDescription(@PathVariable id: String,
-                         @Valid @RequestBody dto: UpdateDescriptionSnippetDto): smartdoc.dashboard.core.ApiResponse {
+                         @Valid @RequestBody dto: UpdateDescriptionSnippetDto): ApiResponse {
 
         val doc = httpDocumentRepository.findById(id).orElseThrow(ApiStandard.BAD_REQUEST::instanceError)
 
@@ -492,11 +486,6 @@ class WebDocumentController {
                 checked = true)
 
         if (ApplicationType.REST_WEB == ap) {
-
-//            val restwebAPIList =
-//                    this.clientRegistryCenter.getExposedAPIFilterApplicationType(
-//                            clientId, ApplicationType.REST_WEB) as Collection<HttpApiDescriptor>
-
             // TODO  API check
             val restwebAPIList = ArrayList<HttpApiDescriptor>()
 
@@ -571,31 +560,16 @@ class WebDocumentController {
             return ok(rootNav.children)
 
         } else if (ApplicationType.DUBBO == ap) {
-            /*    val restwebAPIList = this.clientRegistryCenter.getExposedAPIFilterApplicationTypeByRemote(clientId, ApplicationType.DUBBO)
-                        as Collection<DubboApiDescriptor>*/
             throw RuntimeException("Not support application type $ap")
         } else {
             throw RuntimeException("Not support application type $ap")
         }
-
-        return ok()
     }
 
     @smartdoc.dashboard.base.auth.Verify(role = [SYS_ADMIN])
     @PostMapping("/serviceClient/{clientId}/syncApi")
     fun syncServiceInstanceApi(@PathVariable clientId: String, @RequestBody dto: SyncRestApiDto): Any {
-//        val apiList =
-//                clientRegistryCenter.getExposedAPIFilterApplicationType(clientId, ApplicationType.REST_WEB)
-//                        as Collection<HttpApiDescriptor>
-
         val apiList = ArrayList<HttpApiDescriptor>()
-
-        val map = apiList.groupBy { it.packageName }
-                .entries
-                .map {
-                    it.key to it.value.groupBy { t -> t.controller }
-                }
-                .toMap()
 
         val groupByResourceAPIList = apiList.groupBy { it.controller }.toMap()
 
@@ -659,7 +633,7 @@ class WebDocumentController {
 
     @smartdoc.dashboard.base.auth.Verify(role = [SYS_ADMIN])
     @PostMapping("/emptydoc")
-    fun createEmptyApiDoc(@RequestBody dto: CreateEmptyDocDto): smartdoc.dashboard.core.ApiResponse {
+    fun createEmptyApiDoc(@RequestBody dto: CreateEmptyDocDto):  ApiResponse {
         val document = HttpDocument(
                 id = id(),
                 projectId = dto.projectId,
@@ -671,7 +645,6 @@ class WebDocumentController {
 
         mongoTemplate.save(document)
 
-        // var json = {"id":data.field.addId,"title": data.field.addNodeName,"parentId": node.nodeId};
         return ok(document)
     }
 
@@ -709,7 +682,7 @@ class WebDocumentController {
 
     @smartdoc.dashboard.base.auth.Verify(role = [SYS_ADMIN])
     @PatchMapping("/baseinfo")
-    fun updateBaseInfo(@RequestBody @Valid dto: UpdateNodeDto): smartdoc.dashboard.core.ApiResponse {
+    fun updateBaseInfo(@RequestBody @Valid dto: UpdateNodeDto): ApiResponse {
         val updateResult = httpDocumentRepository.update(Query().addCriteria(Criteria("_id").`is`(dto.id)),
                 Update().set("name", dto.name)
                         .set("order", dto.order)
@@ -721,7 +694,7 @@ class WebDocumentController {
 
     @smartdoc.dashboard.base.auth.Verify(role = [SYS_ADMIN])
     @PatchMapping("/uridescriptor")
-    fun updateURIVarDescriptor(@RequestBody dto: BatchUpdateURIVarSnippetDto): smartdoc.dashboard.core.ApiResponse {
+    fun updateURIVarDescriptor(@RequestBody dto: BatchUpdateURIVarSnippetDto):  ApiResponse {
         val descriptor = dto.values.map { URIVarDescriptor(field = it.field, value = it.value, description = it.description) }
         val updateResult = httpDocumentRepository.update(Query().addCriteria(Criteria("_id").`is`(dto.documentId)), Update().set("uriVarDescriptors", descriptor))
         println(updateResult)
@@ -779,7 +752,7 @@ class WebDocumentController {
 
     @smartdoc.dashboard.base.auth.Verify(role = [SYS_ADMIN])
     @PatchMapping("/queryparamdescriptor")
-    fun updateQueryParamDescriptor(@RequestBody dto: BatchUpdateQueryParamSnippetDto): smartdoc.dashboard.core.ApiResponse {
+    fun updateQueryParamDescriptor(@RequestBody dto: BatchUpdateQueryParamSnippetDto):  ApiResponse {
         val descriptor = dto.values
                 .map {
                     QueryParamDescriptor(
@@ -788,11 +761,93 @@ class WebDocumentController {
                             description = it.description
                     )
                 }
-        val updateResult = httpDocumentRepository.update(Query().addCriteria(Criteria("_id").`is`(dto.documentId)),
+       httpDocumentRepository.update(Query().addCriteria(Criteria("_id").`is`(dto.documentId)),
                 Update().set("queryParamDescriptors", descriptor))
-        println(updateResult)
         return ok(descriptor)
     }
 
+    @smartdoc.dashboard.base.auth.Verify(role = [SYS_ADMIN])
+    @DeleteMapping("/{id}/snippet/batch")
+    fun batchDeleteRows(
+            @PathVariable id:String,
+            @RequestBody dto:BatchDeleteDescriptorDto ):ApiResponse{
+
+        val doc = httpDocumentRepository.findById(id)
+                .orElseThrow { ApiStandard.INVALID_REQUEST.instanceError() }
+        when(dto.snippetType){
+            SnippetType.MatrixVar->{
+               doc.matrixVariableDescriptors=
+                       doc.matrixVariableDescriptors.filter { !dto.snippetIds.contains(it.field) }.toMutableList()
+            }
+            SnippetType.QueryParam -> {
+                doc.queryParamDescriptors=
+                        doc.queryParamDescriptors.filter { !dto.snippetIds.contains(it.field) }.toMutableList()
+            }
+            SnippetType.RequestBody ->{
+                doc.requestBodyDescriptor=
+                        doc.requestBodyDescriptor.filter { !dto.snippetIds.contains(it.path) }.toMutableList()
+            }
+            SnippetType.ResponseBody ->{
+                doc.responseBodyDescriptors=
+                        doc.responseBodyDescriptors.filter { !dto.snippetIds.contains(it.path) }.toMutableList()
+            }
+            SnippetType.URIVar ->{
+                doc.uriVarDescriptors=
+                        doc.uriVarDescriptors.filter { !dto.snippetIds.contains(it.field) }.toMutableList()
+            }
+
+            SnippetType.RequestHeader ->{
+                doc.requestHeaderDescriptor=
+                        doc.requestHeaderDescriptor.filter { !dto.snippetIds.contains(it.field) }.toMutableList()
+            }
+            SnippetType.ResponseHeader ->{
+                doc.responseHeaderDescriptor=
+                        doc.responseHeaderDescriptor.filter { !dto.snippetIds.contains(it.field) }.toMutableList()
+            }
+            else -> throwError(apiStandard = ApiStandard.INVALID_REQUEST)
+        }
+        doc.lastUpdateTime = now()
+        httpDocumentRepository.updateById(id,doc)
+
+        return ok()
+    }
+
+    @smartdoc.dashboard.base.auth.Verify(role = [SYS_ADMIN])
+    @PostMapping("/{id}/snippet")
+    fun createSnippet(  @PathVariable id:String,
+                         @RequestBody dto:CreateSnippetDto) :ApiResponse{
+
+        val doc = httpDocumentRepository.findById(id)
+                .orElseThrow { ApiStandard.INVALID_REQUEST.instanceError() }
+
+        when(dto.snippetType){
+            SnippetType.RequestHeader ->{
+                doc.requestHeaderDescriptor.add(dto.requestHeaderFieldDescriptor!!)
+            }
+            SnippetType.ResponseHeader ->{
+                doc.responseHeaderDescriptor.add(dto.responseHeaderFieldDescriptor!!)
+            }
+            SnippetType.QueryParam ->{
+                doc.queryParamDescriptors.add(dto.queryParamDescriptor!!)
+            }
+            SnippetType.URIVar ->{
+                doc.uriVarDescriptors.add(dto.uriVarDescriptor!!)
+            }
+            SnippetType.MatrixVar ->{
+                doc.matrixVariableDescriptors.add(dto.matrixVariableDescriptor!!)
+            }
+            SnippetType.RequestBody ->{
+                doc.requestBodyDescriptor.add(dto.requestBodyFieldDescriptor!!)
+            }
+            SnippetType.ResponseBody ->{
+                doc.responseBodyDescriptors.add(dto.responseBodyFieldDescriptor!!)
+            }
+            else -> throwError(apiStandard = ApiStandard.INVALID_REQUEST)
+        }
+        doc.lastUpdateTime = now()
+        httpDocumentRepository.updateById(id,doc)
+
+        return ok()
+    }
 }
 

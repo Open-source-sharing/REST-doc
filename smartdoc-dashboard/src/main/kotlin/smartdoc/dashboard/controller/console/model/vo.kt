@@ -8,11 +8,6 @@ import smartdoc.dashboard.model.doc.http.*
 import smartdoc.dashboard.schedule.ClientState
 import java.util.*
 
-/**
- * findChild
- *
- * @author Maple
- */
 fun findChild(parentNode: NavNode, navNodes: List<NavNode>) {
     val children: MutableList<NavNode> = navNodes.filter { it.pid == parentNode.id }.toMutableList()
     parentNode.children = children
@@ -38,26 +33,14 @@ data class NavNode(var id: String,
 
 )
 
-
-/**
- * Layui data format
- *
- * {
-"code": 0,
-"msg": "",
-"count": 1000,
-"data": [{}, {}]
-}
- *
- */
 fun layuiTableOK(data: Any, count: Int): LayuiTable = LayuiTable(code = 0, count = count, data = data, msg = null)
 
 data class LayuiTable(val code: Int, var msg: String?, val count: Int = 0, val data: Any? = null)
 
-data class HeaderFieldDescriptorVO(val field: String, val value: String, val optional: String = "是", val description: String = "")
+data class HeaderFieldDescriptorVO(val field: String, val value: String, val optional: Boolean = true, val description: String = "")
 
 data class BodyFieldDescriptorVO(val path: String, val value: Any = "",
-                                 val optional: String = "是", val description: String = "",
+                                 val optional: Boolean = true, val description: String = "",
                                  val type: String = "Object")
 
 data class URIVarDescriptorVO(val field: String, val value: String, val description: String)
@@ -161,15 +144,21 @@ internal data class RestWebDocumentVO(
 
 internal fun transformHeaderToVO(headers: List<HeaderFieldDescriptor>) =
         headers.map {
-            HeaderFieldDescriptorVO(field = it.field, value = it.value, description = it.description
-                    ?: "", optional = if (it.optional) "是" else "否")
+            HeaderFieldDescriptorVO(
+                    field = it.field,
+                    value = it.value,
+                    description = it.description ?: "",
+                    optional = it.optional)
         }.toMutableList()
 
 internal fun transformNormalParamToVO(params: List<BodyFieldDescriptor>) =
         params.map {
-            BodyFieldDescriptorVO(path = it.path, value = it.value
-                    ?: "", optional = if (it.optional) "是" else "否", type = it.type.name.toLowerCase(), description = it.description
-                    ?: "")
+            BodyFieldDescriptorVO(
+                    path = it.path,
+                    value = it.value ?: "",
+                    optional = it.optional,
+                    type = it.type.name.toLowerCase(),
+                    description = it.description ?: "")
         }.toMutableList()
 
 
@@ -194,12 +183,12 @@ internal fun transformRestDocumentToVO(doc: HttpDocument): RestWebDocumentVO {
             resource = doc.resource,
             url = doc.url,
             description = if (doc.description == null || doc.description!!.isBlank()) "API说明" else doc.description!!,
-            requestHeaderDescriptor = transformHeaderToVO(doc.requestHeaderDescriptor ?: listOf()),
-            responseBodyDescriptors = transformNormalParamToVO(doc.responseBodyDescriptors ?: listOf()),
-            requestBodyDescriptor = transformNormalParamToVO(doc.requestBodyDescriptor ?: listOf()),
-            uriVarDescriptors = transformURIFieldToVO(doc.uriVarDescriptors ?: listOf()),
-            responseHeaderDescriptors = transformHeaderToVO(doc.responseHeaderDescriptor ?: listOf()),
-            queryParamDescriptors = if (doc.queryParamDescriptors != null) doc.queryParamDescriptors!! else listOf(),
+            requestHeaderDescriptor = transformHeaderToVO(doc.requestHeaderDescriptor),
+            responseBodyDescriptors = transformNormalParamToVO(doc.responseBodyDescriptors),
+            requestBodyDescriptor = transformNormalParamToVO(doc.requestBodyDescriptor),
+            uriVarDescriptors = transformURIFieldToVO(doc.uriVarDescriptors),
+            responseHeaderDescriptors = transformHeaderToVO(doc.responseHeaderDescriptor),
+            queryParamDescriptors = doc.queryParamDescriptors,
             curlCodeSample = codeSample.curlCode(),
             javaCodeSample = codeSample.javaCode(),
             pythonCodeSample = codeSample.pythonCode(),
@@ -210,16 +199,6 @@ internal fun transformRestDocumentToVO(doc: HttpDocument): RestWebDocumentVO {
 }
 
 internal data class ResourcePath(val path: String, val id: String)
-
-internal data class TestDubboMicroserviceResult(
-        val method: String,
-        val paramTypes: String,
-        val success: Boolean,
-        val errorMessage: String? = "",
-        val returnValue: Any? = "",
-        val returnType: String = "void",
-        val time: Long = 0L
-)
 
 internal data class SyncDocumentResultVo(val totalQuantity: Int, val savedQuantity: Int)
 

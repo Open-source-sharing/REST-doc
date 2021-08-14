@@ -2,12 +2,13 @@ package smartdoc.dashboard.base.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableSet;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import org.springframework.data.redis.core.RedisTemplate;
 import smartdoc.dashboard.model.User;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Collection;
+import java.util.LinkedHashMap;
 
 /**
  * The class RestDocAuthImpl
@@ -38,7 +39,7 @@ public class RestDocAuthImpl implements AuthMetadata {
         AuthRegistration.builder()
             .group("Default")
             .addAuthPathPattern("/**")
-            .setupCredentialFunction(new DefaultBaseCookieVerify())
+            .setupCredentialFunction(new DefaultBaseHeaderVerify())
             .build();
 
     /*       AuthRegistration viewPageAuthRule = AuthRegistration.builder()
@@ -67,6 +68,26 @@ public class RestDocAuthImpl implements AuthMetadata {
           .roles(user.getRole())
           .userInfo(user)
           .build();
+    }
+  }
+
+  private class DefaultBaseHeaderVerify extends AbstractHeaderCredentialFunction {
+    DefaultBaseHeaderVerify() {
+      super(Token.ACCESS_TOKEN);
+    }
+
+    @Override
+    public Credential mapHeaderValueToCredential(HttpServletRequest request, String headerValue) {
+      LinkedHashMap<String, Object> map =
+              (LinkedHashMap<String, Object>) redisTemplate.opsForValue().get(headerValue);
+      User user = mapper.convertValue(map, User.class);
+      if (user == null) return Credential.INVALID_CREDENTIAL;
+
+      return Credential.builder(true)
+              .identity(user.getId())
+              .roles(user.getRole())
+              .userInfo(user)
+              .build();
     }
   }
 }

@@ -137,6 +137,7 @@ class ResourceController {
 
     private fun reverseCalTree(nodes: MutableList<DTreeNodeVO>, pNode: DTreeNodeVO) {
         val childNodes = nodes.filter { it.parentId == pNode.id }.toMutableList()
+
         pNode.children.addAll(childNodes)
         for (childNode in childNodes) {
             if (childNode.nodeType == NodeType.RESOURCE) {

@@ -30,9 +30,6 @@ class ProjectController {
     @Autowired
     lateinit var projectRepository: ProjectRepository
 
-    /**
-     * Add Search
-     */
     @GetMapping("/list")
     @smartdoc.dashboard.base.auth.Verify(role = [SYS_ADMIN])
     fun list(@RequestParam(required = false, defaultValue = "0") page: Int,
@@ -41,7 +38,6 @@ class ProjectController {
     ): ApiResponse {
         return ok(projectRepository.page(Query().addCriteria(Criteria("type").`is`(type)), PageRequest.of(page, size)))
     }
-
 
     @GetMapping("/{id}")
     @smartdoc.dashboard.base.auth.Verify(role = [ANY_ROLE])
